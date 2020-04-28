@@ -171,18 +171,18 @@ class TaskSet {
 	}
 
     drawTaskSet(ctx, basex, basey) {
-	var xval = basex;
-	defcoords(xval, basey);
-	for (var i = 0; i < this.ntasks; i++) {
-	    if (i != 0) {
-		TaskSet.drawLineArrow(ctx, xval, this.arrow_y, xval+10, this.arrow_y);
-		xval += 10;
-	    }
-	    Task.drawTextBox(ctx, this.tasks[i], xval, this.start_y);
-	    xval += this.tasks[i].maxwidth;
-	}
-	TaskSet.drawTimeMarker(ctx, this.timeline_text, basex, this.timeline_y, xval, this.timeline_y);
-	this.end_x = xval;
+        var xval = basex;
+        this.defcoords(xval, basey);
+        for (var i = 0; i < this.ntasks; i++) {
+            if (i != 0) {
+                TaskSet.drawLineArrow(ctx, xval, this.arrow_y, xval+10, this.arrow_y);
+                xval += 10;
+            }
+            Task.drawTextBox(ctx, this.tasks[i], xval, this.start_y);
+            xval += this.tasks[i].maxwidth;
+        }
+        TaskSet.drawTimeMarker(ctx, this.timeline_text, basex, this.timeline_y, xval, this.timeline_y);
+        this.end_x = xval;
         return xval;
     }
 
