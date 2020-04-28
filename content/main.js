@@ -20,6 +20,7 @@ function drawTaskGraph() {
     for (i = 0; i < taskgraph.length; i++) {
         nextx = taskgraph[i].drawTaskSet(ctx, nextx, basey);
         taskgraph[i].drawPredecessorConnections(ctx);
+        nextx += 20;
     }
 }
 
