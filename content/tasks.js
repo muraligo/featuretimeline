@@ -181,7 +181,9 @@ class TaskSet {
             Task.drawTextBox(ctx, this.tasks[i], xval, this.start_y);
             xval += this.tasks[i].maxwidth;
         }
-        TaskSet.drawTimeMarker(ctx, this.timeline_text, basex, this.timeline_y, xval, this.timeline_y);
+        if (this.timeline_text != null) {
+            TaskSet.drawTimeMarker(ctx, this.timeline_text, basex, this.timeline_y, xval, this.timeline_y);
+	}
         this.end_x = xval;
         return xval;
     }
