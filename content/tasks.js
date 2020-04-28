@@ -1,32 +1,26 @@
 tasksmap = new Map();
 
 class Task {
-	name;
-	txtlines;
+    constructor(name, txtlines) {
+	this.name = name;
+	this.txtlines = txtlines;
 	// calculated and set fields
-	maxwidth = -1;
-	nlines = -1;
-	height = -1;
-
-	constructor(name, txtlines) {
-		this.name = name;
-		this.txtlines = txtlines;
-		this.nlines = txtlines.length;
-		this.maxwidth = Task.calcMaxWidth(txtlines, this.nlines);
-		this.height = 15 * this.nlines + 5
-	}
+	this.nlines = txtlines.length;
+	this.maxwidth = Task.calcMaxWidth(txtlines, this.nlines);
+	this.height = 15 * this.nlines + 5
+    }
 
     static calcMaxWidth(txtlines, nlines) {
-		// calculate rectangle width based on text width
-		var totallen = 0;
-		var width = 0;
-		for (i = 0; i < nlines; i++) {
-			var currw = txtlines[i].length * 8;
-			if (width < currw) {
-				width = currw;
-			}
-		}
-		return width;
+	// calculate rectangle width based on text width
+	var totallen = 0;
+	var width = 0;
+	for (i = 0; i < nlines; i++) {
+	    var currw = txtlines[i].length * 8;
+	    if (width < currw) {
+		width = currw;
+	    }
+	}
+	return width;
     }
 
 	static drawTextBox(ctx, task, startx, starty) {
@@ -53,60 +47,58 @@ class Task {
 		Task.drawUnboxedText(ctx, task.txtlines, task.nlines, xpos, ypos);
 	}
 
-	static drawUnboxedText(ctx, txtlines, nlines, startx, starty) {
-		// do a for loop to draw text snippets line by line
-		ctx.fillStyle = "black";
-		ctx.font = "10pt sans-serif";
-		var ypos = starty;
-		for (i = 0; i < nlines; i++) {
-			ctx.fillText(txtlines[i], startx, ypos);
-			ypos += 15;
-		}
+    static drawUnboxedText(ctx, txtlines, nlines, startx, starty) {
+	// do a for loop to draw text snippets line by line
+	ctx.fillStyle = "black";
+	ctx.font = "10pt sans-serif";
+	var ypos = starty;
+	for (i = 0; i < nlines; i++) {
+	    ctx.fillText(txtlines[i], startx, ypos);
+	    ypos += 15;
 	}
+    }
 }
 
 class TaskSet {
-	name;
-	myrow = -1;
-	kind = 'SERVICE';
-	timeline_text = null;
-	tasks;
-	start_x = -1;
+    constructor(jsonobj) {
+	this.name = jsonobj.name;
+	this.myrow = jsonobj.row;
+	this.kind = jsonobj.kind;
+	this.timeline_text = null;
+	if (jsonobj.hasOwnProperty('timeline') {
+	    this.timeline_text = jsonobj.timeline;
+        }
+	this.ntasks = jsonobj.tasks.length;
+	this.tasks = [];
+	for (i = 0; i < this.ntasks; i++) {
+	    var atask = new Task(jsonobj.tasks[i].name, jsonobj.tasks[i].textlines);
+	    this.tasks.push(atask);
+	}
+	var npreds = jsonobj.predecessors.length;
+	this.predecessors = [];
+	if (jsonobj.hasOwnProperty('predecessors') {
+	    this.timeline_text = jsonobj.timeline;
+            for (i = 0; i < npreds; i++) {
+                this.predecessors.push(tasksmap.get(jsonobj.predecessors[i]));
+            }
+        }
+	tasksmap.set(this.name, this);
 	// calculated and set fields
-	start_y = -1;
-	end_x = -1;
-	end_y = -1;
-	arrow_y = -1;
-	timeline_y = -1;
-	maxtxtlen = -1;
-	ntasks = -1;
-	predecessors;
+	this.start_x = -1;
+	this.start_y = -1;
+	this.end_x = -1;
+	this.end_y = -1;
+	this.arrow_y = -1;
+	this.timeline_y = -1;
+	this.maxtxtlen = -1;
+    }
 
-	constructor(jsonobj) {
-		this.name = jsonobj.name;
-		this.myrow = jsonobj.row;
-		this.kind = jsonobj.kind;
-		this.timeline_text = jsonobj.timeline;
-		this.ntasks = jsonobj.tasks.length;
-		this.tasks = [];
-		for (i = 0; i < this.ntasks; i++) {
-			var atask = new Task(jsonobj.tasks[i].name, jsonobj.tasks[i].textlines);
-			this.tasks.push(atask);
-		}
-		var npreds = jsonobj.predecessors.length;
-		this.predecessors = [];
-		for (i = 0; i < npreds; i++) {
-			this.predecessors.push(tasksmap.get(jsonobj.predecessors[i]));
-		}
-		tasksmap.set(this.name, this);
-	}
-
-	defcoords(xval, basey) {
-		this.start_x = xval;
-		this.timeline_y = basey + this.myrow * 100;
-		this.start_y = this.timeline_y + 10;
-		this.arrow_y = this.start_y + 10;
-	}
+    defcoords(xval, basey) {
+	this.start_x = xval;
+	this.timeline_y = basey + this.myrow * 100;
+	this.start_y = this.timeline_y + 10;
+	this.arrow_y = this.start_y + 10;
+    }
 
 	static drawArrowHead(ctx, endx, endy) {
 		var arrowx = endx - 5;
@@ -177,26 +169,27 @@ class TaskSet {
 		ctx.stroke();
 	}
 
-	drawTaskSet(ctx, basex, basey) {
-		var xval = basex;
-		defcoords(xval, basey);
-		for (i = 0; i < this.ntasks; i++) {
-			if (i != 0) {
-				TaskSet.drawLineArrow(ctx, xval, this.arrow_y, xval+10, this.arrow_y);
-				xval += 10;
-			}
-			Task.drawTextBox(ctx, this.tasks[i], xval, this.start_y);
-			xval += this.tasks[i].maxwidth;
-		}
-		TaskSet.drawTimeMarker(ctx, this.timeline_text, basex, this.timeline_y, xval, this.timeline_y);
-		this.end_x = xval;
+    drawTaskSet(ctx, basex, basey) {
+	var xval = basex;
+	defcoords(xval, basey);
+	for (i = 0; i < this.ntasks; i++) {
+	    if (i != 0) {
+		TaskSet.drawLineArrow(ctx, xval, this.arrow_y, xval+10, this.arrow_y);
+		xval += 10;
+	    }
+	    Task.drawTextBox(ctx, this.tasks[i], xval, this.start_y);
+	    xval += this.tasks[i].maxwidth;
 	}
+	TaskSet.drawTimeMarker(ctx, this.timeline_text, basex, this.timeline_y, xval, this.timeline_y);
+	this.end_x = xval;
+        return xval;
+    }
 
-	drawPredecessorConnections(ctx) {
-		for (i = 0; i < this.predecessors.length; i++) {
-			var predx = this.predecessors[i].start_x;
-			var predy = this.predecessors[i].arrow_y;
-			TaskSet.drawLineArrow(ctx, predx, predy, this.start_x, this.arrow_y);
+    drawPredecessorConnections(ctx) {
+        for (i = 0; i < this.predecessors.length; i++) {
+	    var predx = this.predecessors[i].start_x;
+	    var predy = this.predecessors[i].arrow_y;
+	    TaskSet.drawLineArrow(ctx, predx, predy, this.start_x, this.arrow_y);
 /*
 1. Arrows from its predecessors to it
 a. if in same row, straight horizontal arrow (y is same)
@@ -204,8 +197,8 @@ b. if in another row, a segmented arrow (what should be mid-x?)
 3. Must know the end x positions of predecessor in row
 4. Must know start and end y positions of predecessors in other rows
 */
-		}
-	}
+        }
+    }
 }
 
 export { Task, TaskSet };
