@@ -7,6 +7,7 @@ var taskgraph = [];
 function drawTaskGraph() {
     // load the graph
     var gphobj = JSON.parse(jsonstr);
+    var i = 0;
     for (i = 0; i < gphobj.length; i++) {
         taskgraph.push(new TaskSet(gphobj[i]));
     }
