@@ -14,7 +14,7 @@ class Task {
 	// calculate rectangle width based on text width
 	var totallen = 0;
 	var width = 0;
-	for (i = 0; i < nlines; i++) {
+	for (var i = 0; i < nlines; i++) {
 	    var currw = txtlines[i].length * 8;
 	    if (width < currw) {
 		width = currw;
@@ -52,7 +52,7 @@ class Task {
 	ctx.fillStyle = "black";
 	ctx.font = "10pt sans-serif";
 	var ypos = starty;
-	for (i = 0; i < nlines; i++) {
+	for (var i = 0; i < nlines; i++) {
 	    ctx.fillText(txtlines[i], startx, ypos);
 	    ypos += 15;
 	}
@@ -68,12 +68,13 @@ class TaskSet {
 	if (jsonobj.hasOwnProperty('timeline')) {
 	    this.timeline_text = jsonobj.timeline;
         }
-	this.ntasks = jsonobj.tasks.length;
-	this.tasks = [];
-	for (i = 0; i < this.ntasks; i++) {
-	    var atask = new Task(jsonobj.tasks[i].name, jsonobj.tasks[i].textlines);
-	    this.tasks.push(atask);
-	}
+        this.ntasks = jsonobj.tasks.length;
+        this.tasks = [];
+        var i = 0;
+        for (i = 0; i < this.ntasks; i++) {
+            var atask = new Task(jsonobj.tasks[i].name, jsonobj.tasks[i].textlines);
+            this.tasks.push(atask);
+        }
 	var npreds = jsonobj.predecessors.length;
 	this.predecessors = [];
 	if (jsonobj.hasOwnProperty('predecessors')) {
@@ -172,7 +173,7 @@ class TaskSet {
     drawTaskSet(ctx, basex, basey) {
 	var xval = basex;
 	defcoords(xval, basey);
-	for (i = 0; i < this.ntasks; i++) {
+	for (var i = 0; i < this.ntasks; i++) {
 	    if (i != 0) {
 		TaskSet.drawLineArrow(ctx, xval, this.arrow_y, xval+10, this.arrow_y);
 		xval += 10;
@@ -186,7 +187,7 @@ class TaskSet {
     }
 
     drawPredecessorConnections(ctx) {
-        for (i = 0; i < this.predecessors.length; i++) {
+        for (var i = 0; i < this.predecessors.length; i++) {
 	    var predx = this.predecessors[i].start_x;
 	    var predy = this.predecessors[i].arrow_y;
 	    TaskSet.drawLineArrow(ctx, predx, predy, this.start_x, this.arrow_y);
