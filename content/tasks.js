@@ -1,4 +1,4 @@
-tasksmap = new Map();
+var tasksmap = new Map();
 
 class Task {
     constructor(name, txtlines) {
