@@ -12,15 +12,14 @@ function loadTaskGraph() {
 }
 
 function drawTaskGraph() {
-	// create the canvas
-	var cv = document.getElementById("mycanvas");
-	var ctx = cv.getContext("2d");
-	var basey = 10;
-	var basex = 10;
-	var nextx = basex;
-	for (i = 0; i < taskgraph.length; i++) {
-		taskgraph[i].drawTaskSet(ctx, nextx, basey);
-		taskgraph[i].drawPredecessorConnections(ctx);
-		nextx = taskgraph[i].end_x;
-	}
+    // create the canvas
+    var cv = document.getElementById("mycanvas");
+    var ctx = cv.getContext("2d");
+    var basey = 10;
+    var basex = 10;
+    var nextx = basex;
+    for (i = 0; i < taskgraph.length; i++) {
+        nextx = taskgraph[i].drawTaskSet(ctx, nextx, basey);
+        taskgraph[i].drawPredecessorConnections(ctx);
+    }
 }
