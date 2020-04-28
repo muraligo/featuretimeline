@@ -75,10 +75,10 @@ class TaskSet {
             var atask = new Task(jsonobj.tasks[i].name, jsonobj.tasks[i].textlines);
             this.tasks.push(atask);
         }
-	var npreds = jsonobj.predecessors.length;
+	var npreds = 0;
 	this.predecessors = [];
 	if (jsonobj.hasOwnProperty('predecessors')) {
-	    this.timeline_text = jsonobj.timeline;
+            npreds = jsonobj.predecessors.length;
             for (i = 0; i < npreds; i++) {
                 this.predecessors.push(tasksmap.get(jsonobj.predecessors[i]));
             }
