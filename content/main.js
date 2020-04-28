@@ -1,4 +1,4 @@
-import { Task, TaskSet } from ./modules/tasks.js
+import { Task, TaskSet } from './modules/tasks.js';
 
 var jsonstr = '[{"name":"ElabFeat","row":1,"kind": "SERVICE","timeline_text":"BLAH","tasks":[{"name":"ElabFeatI","textlines":["Elaborate", "Feature"]}], "predecessors": [] }, {"name": "CreateSPR0", "row": 1, "kind": "ARCHITECTURE", "timeline_text": "BLAH", "tasks": [ { "name": "CreateSPR1", "textlines": ["Create", "SPR"] } ], "predecessors": ["ElabFeat"]}, {"name": "CreateDoc0", "row": 0, "kind": "SERVICE", "timeline_text": "BLAH", "tasks": [ { "name": "CreateDoc1", "textlines": ["Create Docs", "(architecture", "feature defn", "jump page)"] } ], "predecessors": ["CreateSPR0"]}, {"name": "ECAR", "row": 0, "kind": "SECURITY", "timeline_text": "2 weeks", "tasks": [ { "name": "SchedECAR", "textlines": ["Schedule", "ECAR", "Review"] }, { "name": "PerfECAR", "textlines": ["Perform", "ECAR", "Review"] } ], "predecessors": ["CreateDoc0"]} ]';
 
