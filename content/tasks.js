@@ -190,7 +190,7 @@ class TaskSet {
 
     drawPredecessorConnections(ctx) {
         for (var i = 0; i < this.predecessors.length; i++) {
-	    var predx = this.predecessors[i].start_x;
+	    var predx = this.predecessors[i].end_x;
 	    var predy = this.predecessors[i].arrow_y;
 	    TaskSet.drawLineArrow(ctx, predx, predy, this.start_x, this.arrow_y);
 /*
