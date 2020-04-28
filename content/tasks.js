@@ -41,14 +41,6 @@ class Task {
         }
         ctx.lineWidth = "1";
 //		ctx.strokeRect(startx, starty, task.width, task.height);
-        Task.drawBox(ctx, startx, starty, task.width, task.height);
-		// draw text now
-		var xpos = startx + 5;
-		var ypos = starty + 15;
-		Task.drawUnboxedText(ctx, task.txtlines, task.nlines, xpos, ypos);
-    }
-
-    static drawBox(ctx, startx, starty, width, height) {
         var xpos = startx + width, ypos = starty + height;
         ctx.moveTo(startx, starty);
         ctx.lineTo(xpos, starty);
@@ -59,6 +51,10 @@ class Task {
         ctx.stroke();
         ctx.lineTo(startx, starty);
         ctx.stroke();
+        // draw text now
+        var xpos = startx + 5;
+        var ypos = starty + 15;
+        Task.drawUnboxedText(ctx, task.txtlines, task.nlines, xpos, ypos);
     }
 
     static drawUnboxedText(ctx, txtlines, nlines, startx, starty) {
