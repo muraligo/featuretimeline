@@ -65,7 +65,7 @@ class TaskSet {
 	this.myrow = jsonobj.row;
 	this.kind = jsonobj.kind;
 	this.timeline_text = null;
-	if (jsonobj.hasOwnProperty('timeline') {
+	if (jsonobj.hasOwnProperty('timeline')) {
 	    this.timeline_text = jsonobj.timeline;
         }
 	this.ntasks = jsonobj.tasks.length;
@@ -76,7 +76,7 @@ class TaskSet {
 	}
 	var npreds = jsonobj.predecessors.length;
 	this.predecessors = [];
-	if (jsonobj.hasOwnProperty('predecessors') {
+	if (jsonobj.hasOwnProperty('predecessors')) {
 	    this.timeline_text = jsonobj.timeline;
             for (i = 0; i < npreds; i++) {
                 this.predecessors.push(tasksmap.get(jsonobj.predecessors[i]));
