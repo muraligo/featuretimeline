@@ -101,16 +101,16 @@ class TaskSet {
 	this.arrow_y = this.start_y + 10;
     }
 
-	static drawArrowHead(ctx, endx, endy) {
-		var arrowx = endx - 5;
-		var arrowy1 = endy - 3;
-		var arrowy2 = endy + 3;
-		ctx.moveTo(arrowx, arrowy1);
-		ctx.lineTo(endx, endy);
-		ctx.stroke();
-		ctx.lineTo(arrowx, arrowy2);
-		ctx.stroke();
-	}
+    static drawArrowHead(ctx, endx, endy) {
+        var arrowx = endx - 5;
+        var arrowy1 = endy - 3;
+        var arrowy2 = endy + 3;
+        ctx.moveTo(arrowx, arrowy1);
+        ctx.lineTo(endx, endy);
+        ctx.stroke();
+        ctx.lineTo(arrowx, arrowy2);
+        ctx.stroke();
+    }
 
 	static drawLineArrow(ctx, startx, starty, endx, endy) {
 		ctx.strokeStyle = "black";
@@ -158,8 +158,8 @@ class TaskSet {
 		ctx.moveTo(midx2, posy);
 		ctx.lineTo(endx, posy);
 		ctx.stroke();
-		drawMarkerDelim(ctx, startx, posy);
-		drawMarkerDelim(ctx, endx, posy);
+		TaskSet.drawMarkerDelim(ctx, startx, posy);
+		TaskSet.drawMarkerDelim(ctx, endx, posy);
 	}
 
 	static drawMarkerDelim(ctx, posx, posy) {
