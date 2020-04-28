@@ -41,7 +41,7 @@ class Task {
         }
         ctx.lineWidth = "1";
 //		ctx.strokeRect(startx, starty, task.width, task.height);
-        var xpos = startx + width, ypos = starty + height;
+        var xpos = startx + task.width, ypos = starty + task.height;
         ctx.moveTo(startx, starty);
         ctx.lineTo(xpos, starty);
         ctx.stroke();
