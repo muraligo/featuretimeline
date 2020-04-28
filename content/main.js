@@ -4,14 +4,12 @@ var jsonstr = '[{"name":"ElabFeat","row":1,"kind": "SERVICE","tasks":[{"name":"E
 
 var taskgraph = [];
 
-function loadTaskGraph() {
-	var gphobj = JSON.parse(jsonstr);
-	for (i = 0; i < gphobj.length; i++) {
-		taskgraph.push(new TaskSet(gphobj[i]));
-	}
-}
-
 function drawTaskGraph() {
+    // load the graph
+    var gphobj = JSON.parse(jsonstr);
+    for (i = 0; i < gphobj.length; i++) {
+        taskgraph.push(new TaskSet(gphobj[i]));
+    }
     // create the canvas
     var cv = document.getElementById("mycanvas");
     var ctx = cv.getContext("2d");
@@ -23,3 +21,6 @@ function drawTaskGraph() {
         taskgraph[i].drawPredecessorConnections(ctx);
     }
 }
+
+drawTaskGraph();
+
