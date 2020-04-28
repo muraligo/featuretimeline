@@ -182,7 +182,7 @@ class TaskSet {
             xval += this.tasks[i].maxwidth;
         }
         if (this.timeline_text != null) {
-            TaskSet.drawTimeMarker(ctx, this.timeline_text, basex, this.timeline_y, xval, this.timeline_y);
+            TaskSet.drawTimeMarker(ctx, this.timeline_text, basex, xval, this.timeline_y);
 	}
         this.end_x = xval;
         return xval;
