@@ -23,29 +23,43 @@ class Task {
 	return width;
     }
 
-	static drawTextBox(ctx, task, startx, starty) {
-		ctx.fillStyle = "white";
-		switch (task.kind) {
-		case "SECURITY":
-			ctx.strokeStyle = "red";
-			break;
-		case "COMPLIANCE":
-			ctx.strokeStyle = "blue";
-			break;
-		case "ARCHITECTURE":
-			ctx.strokeStyle = "green";
-			break;
-		default:
-			ctx.strokeStyle = "black";
-			break;
-		}
-		ctx.lineWidth = "1";
-		ctx.strokeRect(startx, starty, task.width, task.height);
+    static drawTextBox(ctx, task, startx, starty) {
+        ctx.fillStyle = "white";
+        switch (task.kind) {
+        case "SECURITY":
+            ctx.strokeStyle = "red";
+            break;
+        case "COMPLIANCE":
+            ctx.strokeStyle = "blue";
+            break;
+        case "ARCHITECTURE":
+            ctx.strokeStyle = "green";
+            break;
+        default:
+            ctx.strokeStyle = "black";
+            break;
+        }
+        ctx.lineWidth = "1";
+//		ctx.strokeRect(startx, starty, task.width, task.height);
+        Task.drawBox(ctx, startx, starty, task.width, task.height);
 		// draw text now
 		var xpos = startx + 5;
 		var ypos = starty + 15;
 		Task.drawUnboxedText(ctx, task.txtlines, task.nlines, xpos, ypos);
-	}
+    }
+
+    static drawBox(ctx, startx, starty, width, height) {
+        var xpos = startx + width, ypos = starty + height;
+        ctx.moveTo(startx, starty);
+        ctx.lineTo(xpos, starty);
+        ctx.stroke();
+        ctx.lineTo(xpos, ypos);
+        ctx.stroke();
+        ctx.lineTo(startx, ypos);
+        ctx.stroke();
+        ctx.lineTo(startx, starty);
+        ctx.stroke();
+    }
 
     static drawUnboxedText(ctx, txtlines, nlines, startx, starty) {
 	// do a for loop to draw text snippets line by line
