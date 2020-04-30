@@ -54,7 +54,7 @@ class Task {
         // draw text now
         xpos = startx + 5;
         ypos = starty + 15;
-        Task.drawUnboxedText(ctx, task.txtlines, task.nlines, xpos, ypos);
+        Task.drawUnboxedText(ctx, this.txtlines, this.nlines, xpos, ypos);
     }
 
     static drawUnboxedText(ctx, txtlines, nlines, startx, starty) {
