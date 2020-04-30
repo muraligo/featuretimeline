@@ -25,22 +25,23 @@ class Task {
 
     drawTextBox(ctx, startx, starty) {
         ctx.fillStyle = "white";
+        ctx.strokeStyle = "black";
         switch (this.kind) {
         case "SECURITY":
-            ctx.strokeStyle = "red";
+            ctx.fillStyle = "red";
             break;
         case "COMPLIANCE":
-            ctx.strokeStyle = "blue";
+            ctx.fillStyle = "blue";
             break;
         case "ARCHITECTURE":
-            ctx.strokeStyle = "green";
+            ctx.fillStyle = "green";
             break;
         default:
-            ctx.strokeStyle = "black";
+            ctx.fillStyle = "white";
             break;
         }
         ctx.lineWidth = "1";
-        ctx.strokeRect(startx, starty, this.maxwidth, this.height);
+        ctx.fillRect(startx, starty, this.maxwidth, this.height);
         var xpos = startx + this.maxwidth, ypos = starty + this.height;
 //        ctx.moveTo(startx, starty);
 //        ctx.lineTo(xpos, starty);
