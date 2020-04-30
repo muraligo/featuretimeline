@@ -23,9 +23,9 @@ class Task {
 	return width;
     }
 
-    static drawTextBox(ctx, task, startx, starty) {
+    drawTextBox(ctx, startx, starty) {
         ctx.fillStyle = "white";
-        switch (task.kind) {
+        switch (this.kind) {
         case "SECURITY":
             ctx.strokeStyle = "red";
             break;
@@ -40,8 +40,8 @@ class Task {
             break;
         }
         ctx.lineWidth = "1";
-//		ctx.strokeRect(startx, starty, task.width, task.height);
-        var xpos = startx + task.width, ypos = starty + task.height;
+//		ctx.strokeRect(startx, starty, this.maxwidth, task.height);
+        var xpos = startx + this.maxwidth, ypos = starty + this.height;
         ctx.moveTo(startx, starty);
         ctx.lineTo(xpos, starty);
         ctx.stroke();
@@ -52,8 +52,8 @@ class Task {
         ctx.lineTo(startx, starty);
         ctx.stroke();
         // draw text now
-        var xpos = startx + 5;
-        var ypos = starty + 15;
+        xpos = startx + 5;
+        ypos = starty + 15;
         Task.drawUnboxedText(ctx, task.txtlines, task.nlines, xpos, ypos);
     }
 
@@ -188,7 +188,7 @@ class TaskSet {
                 TaskSet.drawLineArrow(ctx, xval, this.arrow_y, xval+10, this.arrow_y);
                 xval += 10;
             }
-            Task.drawTextBox(ctx, this.tasks[i], xval, this.start_y);
+            this.tasks[i].drawTextBox(ctx, xval, this.start_y);
             xval += this.tasks[i].maxwidth;
         }
         if (this.timeline_text != null) {
