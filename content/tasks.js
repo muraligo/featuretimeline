@@ -23,11 +23,11 @@ class Task {
 	return width;
     }
 
-    drawTextBox(ctx, startx, starty) {
+    drawTextBox(ctx, startx, starty, mykind) {
         ctx.fillStyle = "white";
         ctx.strokeStyle = "black";
         var thecolor = 'black'; // or white if it is fill
-        switch (this.kind) {
+        switch (mykind) {
         case "SECURITY":
             thecolor = "red";
             break;
@@ -193,7 +193,7 @@ class TaskSet {
                 TaskSet.drawLineArrow(ctx, xval, this.arrow_y, xval+10, this.arrow_y);
                 xval += 10;
             }
-            this.tasks[i].drawTextBox(ctx, xval, this.start_y);
+            this.tasks[i].drawTextBox(ctx, xval, this.start_y, this.kind);
             xval += this.tasks[i].maxwidth;
         }
         if (this.timeline_text != null) {
