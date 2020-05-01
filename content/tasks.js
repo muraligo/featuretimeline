@@ -185,7 +185,7 @@ class TaskSet {
                     predx = this.predecessors[i].end_x;
 		}
 	    }
-            xval = predx + 20;
+            xval = basex = predx + 20;
 	}
         this.defcoords(xval, basey);
         for (var i = 0; i < this.ntasks; i++) {
