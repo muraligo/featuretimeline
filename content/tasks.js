@@ -41,17 +41,17 @@ class Task {
             break;
         }
         ctx.lineWidth = "1";
-        ctx.strokeRect(startx, starty, this.maxwidth, this.height);
+//        ctx.strokeRect(startx, starty, this.maxwidth, this.height);
         var xpos = startx + this.maxwidth, ypos = starty + this.height;
-//        ctx.moveTo(startx, starty);
-//        ctx.lineTo(xpos, starty);
-//        ctx.stroke();
-//        ctx.lineTo(xpos, ypos);
-//        ctx.stroke();
-//        ctx.lineTo(startx, ypos);
-//        ctx.stroke();
-//        ctx.lineTo(startx, starty);
-//        ctx.stroke();
+        ctx.moveTo(startx, starty);
+        ctx.lineTo(xpos, starty);
+        ctx.stroke();
+        ctx.lineTo(xpos, ypos);
+        ctx.stroke();
+        ctx.lineTo(startx, ypos);
+        ctx.stroke();
+        ctx.lineTo(startx, starty);
+        ctx.stroke();
         // draw text now
         xpos = startx + 5;
         ypos = starty + 15;
