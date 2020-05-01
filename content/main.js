@@ -19,15 +19,23 @@ var jsonstr = '[{"name":"ElabFeat","row":2,"kind": "SERVICE","tasks":[{"name":"E
             '{"name": "UXDesign", "row": 4, "kind": "SERVICE", "timeline": "2-3 weeks", "tasks": [ { "name": "CreateUX", "textlines": ["Work with", "UX Designer"] } ], "predecessors": ["CreateSPR0"]}, ' + 
             '{"name": "UXRB1", "row": 4, "kind": "ARCHITECTURE", "timeline": "2-4 weeks", "tasks": [ { "name": "SchedUXRB1", "textlines": ["Schedule", "UXRB1"] }, { "name": "PerfUXRB1", "textlines": ["Get UXRB1", "Approval"] } ], "predecessors": ["UXDesign"]}, ' + 
             '{"name": "ImplConsole", "row": 4, "kind": "SERVICE", "tasks": [ { "name": "ImplConsol1", "textlines": ["Implement", "Console", "(deploy to", "Prod)"] } ], "predecessors": ["UXRB1"]}, ' + 
-            '{"name": "UXRB2", "row": 4, "kind": "ARCHITECTURE", "timeline": "2-4 weeks", "tasks": [ { "name": "SchedUXRB2", "textlines": ["Schedule", "UXRB2"] }, { "name": "PerfUXRB2", "textlines": ["Get UXRB2", "Approval"] } ], "predecessors": ["ImplConsole"]} ' + 
+            '{"name": "UXRB2", "row": 4, "kind": "ARCHITECTURE", "timeline": "2-4 weeks", "tasks": [ { "name": "SchedUXRB2", "textlines": ["Schedule", "UXRB2"] }, { "name": "PerfUXRB2", "textlines": ["Get UXRB2", "Approval"] } ], "predecessors": ["ImplConsole"]}, ' + 
+            '{"name": "ContentReview", "row": 5, "kind": "ARCHITECTURE", "timeline": "2-4 weeks", "tasks": [ { "name": "TechContentReview", "textlines": ["Engage with", "Technical", "Content team"] }, { "name": "CmpltTCReview", "textlines": ["Technical", "Content", "Done"] } ], "predecessors": ["CreateSPR0"]}, ' + 
+            '{"name": "TrainReview", "row": 6, "kind": "SERVICE", "timeline": "4-5 weeks", "tasks": [ { "name": "SchedTraining", "textlines": ["Schedule Customer", "Support Training"] }, { "name": "PerfTraining", "textlines": ["Train", "Customer Support"] } ], "predecessors": ["CreateSPR0"]}, ' + 
+            '{"name": "ComplyOpsReady", "row": 7, "kind": "SERVICE", "tasks": [ { "name": "OpsReadiness", "textlines": ["Work on Ops", "Readiness", "Requirements"] }, { "name": "Compliance", "textlines": ["Work on", "Compliance", "Requirements"] } ], "predecessors": ["CreateSPR0"]}, ' + 
+            '{"name": "PlatformBarApproval", "row": 7, "kind": "COMPLIANCE", "timeline": "3-4 weeks (incl RQS impact)", "tasks": [ { "name": "PerfPlatformBar", "textlines": ["Work on", "Platform Bar", "Requirements"] }, { "name":"GetPlatformBar", "textlines":["Platform Bar", "Validated"] } ], "predecessors": ["ComplyOpsReady"]}, ' + 
             ']';
 /*
-		// right side at end
-		drawTextBox(ctx, 'ARCHITECTURE', ['File Public SDK/CLI', 'release DEXREQ ticket', '(by Monday before GA)'], 920, 130);
+		// right side at end; separate timeline above row2; separate arrow from SAR PEN Test Approval to File Public SDK/CLI
 		drawTimeMarker(ctx, '1-5 weeks', 915, 1265, 115);
 		drawVertSegArrow(ctx, 1235, 70, 90, 1000, 130);
-		drawLineArrow(ctx, 550, 230, 580, 145);
-		drawTextBox(ctx, 'ARCHITECTURE', ['SDK/CLI', 'released', '(Tuesday)'], 1195, 220);
+            '{"name": "SDKCLIRelease1", "row": 2, "kind": "ARCHITECTURE", "tasks": [ { "name": "SchedSDKCLIRelease", "textlines": ["File Public SDK/CLI", "release DEXREQ ticket", "(by Mon b/f GA)"] } ], "predecessors": ["SDKCLIExamples"]}, ' + 
+            '{"name": "GARMApproval", "row": 3, "kind": "ARCHITECTURE", "tasks": [ { "name": "UDXGAApprove", "textlines": ["UDX GA Approval", "Decision made (by", "Thursday before GA)", "(must GA after this)"] }, { "name": "RMApprove", "textlines": ["Get OCI RM", "Approval"] } ], "predecessors": ["SDKCLIRelease1", "TFReview", "UXRB2", "PABReview", "ContentReview"]}, ' + 
+            '{"name": "SDKCLIRelease2", "row": 2, "kind": "ARCHITECTURE", "tasks": [ { "name": "PerfSDKCLIRelease", "textlines": ["SDK/CLI", "released", "(Tuesday)"] } ], "predecessors": ["GARMApproval"]}, ' + 
+            '{"name": "TFRelease", "row": 3, "kind": "ARCHITECTURE", "tasks": [ { "name": "PerfTFRelease", "textlines": ["Terraform", "released", "(Wednesday)"] } ], "predecessors": ["GARMApproval"]}, ' + 
+            '{"name": "ConsoleRelease", "row": 5, "kind": "ARCHITECTURE", "tasks": [ { "name": "TechConsoleRelease", "textlines": ["Console", "Technical", "Content", "released", "(Tuesday)"] } ], "predecessors": ["GARMApproval"]}, ' + 
+            '{"name": "FeatureGA", "row": 3, "kind": "SERVICE", "tasks": [ { "name": "PerfGA", "textlines": ["Feature", "GA""] } ], "predecessors": ["TFRelease", "SDKCLIRelease2", "ConsoleRelease"]} ' + 
+	    // draw bent vertical arrows from Customer Support down all to OCI RM Approval
 */
 
 var taskgraph = [];
