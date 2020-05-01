@@ -28,20 +28,20 @@ class Task {
         ctx.strokeStyle = "black";
         switch (this.kind) {
         case "SECURITY":
-            ctx.fillStyle = "red";
+            ctx.strokeStyle = "red";
             break;
         case "COMPLIANCE":
-            ctx.fillStyle = "blue";
+            ctx.strokeStyle = "blue";
             break;
         case "ARCHITECTURE":
-            ctx.fillStyle = "green";
+            ctx.strokeStyle = "green";
             break;
         default:
-            ctx.fillStyle = "white";
+            ctx.strokeStyle = "white";
             break;
         }
         ctx.lineWidth = "1";
-        ctx.fillRect(startx, starty, this.maxwidth, this.height);
+        ctx.strokeRect(startx, starty, this.maxwidth, this.height);
         var xpos = startx + this.maxwidth, ypos = starty + this.height;
 //        ctx.moveTo(startx, starty);
 //        ctx.lineTo(xpos, starty);
