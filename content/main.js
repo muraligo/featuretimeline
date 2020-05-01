@@ -15,35 +15,18 @@ var jsonstr = '[{"name":"ElabFeat","row":2,"kind": "SERVICE","tasks":[{"name":"E
             '{"name": "SDKCLIExamples", "row": 2, "kind": "SERVICE", "tasks": [ { "name": "SDKCLITests", "textlines": ["Create", "SDK/CLI", "tests and", "examples"] } ], "predecessors": ["SDKCLIReview"]}, ' + 
             '{"name": "ImplFeature", "row": 3, "kind": "SERVICE", "tasks": [ { "name": "ImplFeat1", "textlines": ["Implement", "Feature", "(deploy to", " PHX and IAD)"] } ], "predecessors": ["APIReview"]}, ' + 
             '{"name": "TFReview", "row": 3, "kind": "ARCHITECTURE", "timeline": "2-4 weeks", "tasks": [ { "name": "PerfTFReview", "textlines": ["Work on TER", "ticket to start", "TF Preview", "(Monday)"] }, { "name": "TestTF", "textlines": ["TF tests", "pass"] } ], "predecessors": ["ImplFeature"]}, ' + 
-            '{"name": "PABReview", "row": 3, "kind": "ARCHITECTURE", "timeline": "4-6 weeks", "tasks": [ { "name": "SchedPABReview", "textlines": ["Schedule", "PAB", "Review"] }, { "name": "PerfPABReview", "textlines": ["PAB", "Review", "Done"] } ], "predecessors": ["CreateSPR0"]} ' + 
+            '{"name": "PABReview", "row": 3, "kind": "ARCHITECTURE", "timeline": "4-6 weeks", "tasks": [ { "name": "SchedPABReview", "textlines": ["Schedule", "PAB", "Review"] }, { "name": "PerfPABReview", "textlines": ["PAB", "Review", "Done"] } ], "predecessors": ["CreateSPR0"]}, ' + 
+            '{"name": "UXDesign", "row": 4, "kind": "SERVICE", "timeline": "2-3 weeks", "tasks": [ { "name": "CreateUX", "textlines": ["Work with", "UX Designer"] } ], "predecessors": ["CreateSPR0"]}, ' + 
+            '{"name": "UXRB1", "row": 4, "kind": "ARCHITECTURE", "timeline": "2-4 weeks", "tasks": [ { "name": "SchedUXRB1", "textlines": ["Schedule", "UXRB1"] }, { "name": "PerfUXRB1", "textlines": ["Get UXRB1", "Approval"] } ], "predecessors": ["UXDesign"]}, ' + 
+            '{"name": "ImplConsole", "row": 4, "kind": "SERVICE", "tasks": [ { "name": "ImplConsol1", "textlines": ["Implement", "Console", "(deploy to", "Prod)"] } ], "predecessors": ["UXRB1"]}, ' + 
+            '{"name": "UXRB2", "row": 4, "kind": "ARCHITECTURE", "timeline": "2-4 weeks", "tasks": [ { "name": "SchedUXRB2", "textlines": ["Schedule", "UXRB2"] }, { "name": "PerfUXRB2", "textlines": ["Get UXRB2", "Approval"] } ], "predecessors": ["ImplConsole"]} ' + 
             ']';
 /*
-		drawTextBox(ctx, 'SERVICE', ['Create', 'SDK/CLI', 'tests and', 'examples'], 580, 130);
-		drawLineArrow(ctx, 650, 145, 660, 145);
-		drawTextBox(ctx, 'ARCHITECTURE', ['File DEXREQ ticket', 'for Preview SDK/CLI', '(by Thursday)'], 660, 130);
-		drawLineArrow(ctx, 810, 145, 820, 145);
-		drawTextBox(ctx, 'ARCHITECTURE', ['Get Preview', 'SDK/CLI'], 820, 130);
-		drawTimeMarker(ctx, '1 week', 660, 905, 115);
-		drawLineArrow(ctx, 908, 145, 920, 145);
+		// right side at end
 		drawTextBox(ctx, 'ARCHITECTURE', ['File Public SDK/CLI', 'release DEXREQ ticket', '(by Monday before GA)'], 920, 130);
 		drawTimeMarker(ctx, '1-5 weeks', 915, 1265, 115);
 		drawVertSegArrow(ctx, 1235, 70, 90, 1000, 130);
-		drawRightVertArrow(ctx, 170, 115, 200, 230);
-		drawTextBox(ctx, 'SERVICE', ['Create Control', 'Plane API', 'changes PR'], 200, 210);
-		drawTimeMarker(ctx, '1-3 weeks', 200, 310, 195);
-		drawLineArrow(ctx, 310, 230, 330, 230);
-		drawTextBox(ctx, 'ARCHITECTURE', ['Kick off', 'API Review'], 330, 210);
-		drawLineArrow(ctx, 410, 230, 430, 230);
-		drawTextBox(ctx, 'ARCHITECTURE', ['API Approved', 'by Review Board'], 430, 210);
-		drawTimeMarker(ctx, '1-4 wks fast 2-8 wks slow', 330, 550, 195);
-		drawLineArrow(ctx, 550, 230, 590, 230);
 		drawLineArrow(ctx, 550, 230, 580, 145);
-		drawTextBox(ctx, 'SERVICE', ['Implement', 'Feature', '(deploy to', ' PHX and IAD)'], 590, 210);
-		drawLineArrow(ctx, 695, 230, 715, 230);
-		drawTextBox(ctx, 'ARCHITECTURE', ['Work on TER', 'ticket to get', 'Preview TF', 'started'], 715, 210);
-		drawLineArrow(ctx, 820, 230, 840, 230);
-		drawTextBox(ctx, 'ARCHITECTURE', ['TF tests', 'pass'], 840, 210);
-		drawTimeMarker(ctx, '2-4 weeks', 715, 905, 195);
 		drawTextBox(ctx, 'ARCHITECTURE', ['SDK/CLI', 'released', '(Tuesday)'], 1195, 220);
 */
 
