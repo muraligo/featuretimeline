@@ -74,9 +74,11 @@ class Task {
 
 class TaskSet {
     constructor(jsonobj) {
+        console.log(jsonobj);
 	this.name = jsonobj.name;
 	this.myrow = jsonobj.row;
 	this.kind = jsonobj.kind;
+        console.log(this.kind);
 	this.timeline_text = null;
 	if (jsonobj.hasOwnProperty('timeline')) {
 	    this.timeline_text = jsonobj.timeline;
