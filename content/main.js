@@ -15,7 +15,7 @@ var jsonstr = '[{"name":"ElabFeat","row":2,"kind": "SERVICE","tasks":[{"name":"E
             '{"name": "SDKCLIExamples", "row": 2, "kind": "SERVICE", "tasks": [ { "name": "SDKCLITests", "textlines": ["Create", "SDK/CLI", "tests and", "examples"] } ], "predecessors": ["SDKCLIReview"]}, ' + 
             '{"name": "ImplFeature", "row": 3, "kind": "SERVICE", "tasks": [ { "name": "ImplFeat1", "textlines": ["Implement", "Feature", "(deploy to", " PHX and IAD)"] } ], "predecessors": ["APIReview"]}, ' + 
             '{"name": "TFReview", "row": 3, "kind": "ARCHITECTURE", "timeline": "2-4 weeks", "tasks": [ { "name": "PerfTFReview", "textlines": ["Work on TER", "ticket to start", "TF Preview", "(Monday)"] }, { "name": "TestTF", "textlines": ["TF tests", "pass"] } ], "predecessors": ["ImplFeature"]}, ' + 
-            '{"name": "PABReview", "row": 2, "kind": "ARCHITECTURE", "timeline": "4-6 weeks", "tasks": [ { "name": "SchedPABReview", "textlines": ["Schedule", "PAB", "Review"] }, { "name": "PerfPABReview", "textlines": ["PAB", "Review", "Done"] } ], "predecessors": ["CreateSPR0"]} ' + 
+            '{"name": "PABReview", "row": 3, "kind": "ARCHITECTURE", "timeline": "4-6 weeks", "tasks": [ { "name": "SchedPABReview", "textlines": ["Schedule", "PAB", "Review"] }, { "name": "PerfPABReview", "textlines": ["PAB", "Review", "Done"] } ], "predecessors": ["CreateSPR0"]} ' + 
             ']';
 /*
 		drawTextBox(ctx, 'SERVICE', ['Create', 'SDK/CLI', 'tests and', 'examples'], 580, 130);
