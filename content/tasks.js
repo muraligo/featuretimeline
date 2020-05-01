@@ -45,15 +45,6 @@ class Task {
         ctx.strokeStyle = thecolor;
         ctx.strokeRect(startx, starty, this.maxwidth, this.height);
         var xpos = startx + this.maxwidth, ypos = starty + this.height;
-//        ctx.moveTo(startx, starty);
-//        ctx.lineTo(xpos, starty);
-//        ctx.stroke();
-//        ctx.lineTo(xpos, ypos);
-//        ctx.stroke();
-//        ctx.lineTo(startx, ypos);
-//        ctx.stroke();
-//        ctx.lineTo(startx, starty);
-//        ctx.stroke();
         // draw text now
         xpos = startx + 5;
         ypos = starty + 15;
@@ -78,7 +69,6 @@ class TaskSet {
 	this.name = jsonobj.name;
 	this.myrow = jsonobj.row;
 	this.kind = jsonobj.kind;
-        console.log(this.kind);
 	this.timeline_text = null;
 	if (jsonobj.hasOwnProperty('timeline')) {
 	    this.timeline_text = jsonobj.timeline;
