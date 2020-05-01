@@ -177,6 +177,16 @@ class TaskSet {
 
     drawTaskSet(ctx, basex, basey) {
         var xval = basex;
+        // if predecessors exist, use largest pred end_x as xval instead
+        if (this.predecessors.length > 0) {
+            var predx = 0;
+            for (var i = 0; i < this.predecessors.length; i++) {
+	        if (predx < this.predecessors[i].end_x) {
+                    predx = this.predecessors[i].end_x;
+		}
+	    }
+            xval = predx + 20;
+	}
         this.defcoords(xval, basey);
         for (var i = 0; i < this.ntasks; i++) {
             if (i != 0) {
@@ -197,7 +207,12 @@ class TaskSet {
         for (var i = 0; i < this.predecessors.length; i++) {
 	    var predx = this.predecessors[i].end_x;
 	    var predy = this.predecessors[i].arrow_y;
-	    TaskSet.drawLineArrow(ctx, predx, predy, this.start_x, this.arrow_y);
+            if ((this.start_x - predx) > 20) {
+                var midx = this.start_x - 10;
+	        TaskSet.drawSegmentArrow(ctx, predx, predy, midx, this.start_x, this.arrow_y);
+	    } else {
+	        TaskSet.drawLineArrow(ctx, predx, predy, this.start_x, this.arrow_y);
+	    }
 /*
 1. Arrows from its predecessors to it
 a. if in same row, straight horizontal arrow (y is same)
