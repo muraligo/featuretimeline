@@ -40,6 +40,32 @@ var jsonstr = '[{"name":"ElabFeat","row":2,"kind": "SERVICE","tasks":[{"name":"E
 	    // draw bent vertical arrows from Customer Support down all to OCI RM Approval
 */
 
+function drawVertArrowHead(ctx, dirn, endx, endy) {
+    var arrowy = endy;
+    if (dirn < 0) { // UP
+        arrowy += 5;
+    } else {
+        arrowy -= 5;
+    }
+    var arrowx1 = endx - 3;
+    var arrowx2 = endx + 3;
+    ctx.moveTo(arrowx1, arrowy);
+    ctx.lineTo(endx, endy);
+    ctx.stroke();
+    ctx.lineTo(arrowx2, arrowy);
+    ctx.stroke();
+}
+
+function drawUpVertArrow(ctx, startx, starty, endx, endy) {
+    ctx.strokeStyle = "black";
+    ctx.moveTo(startx, starty);
+    ctx.lineTo(endx, starty);
+    ctx.stroke();
+    ctx.lineTo(endx, endy);
+    ctx.stroke();
+    drawVertArrowHead(ctx, (endy - starty), endx, endy);
+}
+
 var taskgraph = [];
 
 function drawTaskGraph() {
