@@ -25,18 +25,18 @@ var jsonstr = '[{"name":"ElabFeat","row":2,"kind": "SERVICE","tasks":[{"name":"E
             '{"name": "ComplyOpsReady", "row": 7, "kind": "SERVICE", "tasks": [ { "name": "OpsReadiness", "textlines": ["Work on Ops", "Readiness", "Requirements"] }, { "name": "Compliance", "textlines": ["Work on", "Compliance", "Requirements"] } ], "predecessors": ["CreateSPR0"]}, ' + 
             '{"name": "PlatformBarApproval", "row": 7, "kind": "COMPLIANCE", "timeline": "3-4 weeks (incl RQS impact)", "tasks": [ { "name": "PerfPlatformBar", "textlines": ["Work on", "Platform Bar", "Requirements"] }, { "name":"GetPlatformBar", "textlines":["Platform Bar", "Validated"] } ], "predecessors": ["ComplyOpsReady"]}, ' + 
             '{"name": "3rdpartyApproval", "row": 8, "kind": "COMPLIANCE", "timeline": "1-8 weeks", "tasks": [ { "name": "File3rdPartyApprove", "textlines": ["File 3rd Party", "Approvals"] }, { "name":"GetFile3rdPartyApprove", "textlines":["Get 3rd Party", "Approvals"] } ], "predecessors": ["CreateSPR0"]}, ' + 
-            '{"name": "SecurityUpdates", "row": 8, "kind": "COMPLIANCE", "timeline": "1-2 weeks", "tasks": [ { "name": "SecUpdate1", "textlines": ["Security Updates -", "Static Code Analysis", "DASS, Malware scan,", "Sonatype scan"] } ], "predecessors": ["3rdpartyApproval"]} ' + 
-            ']';
-/*
-		// right side at end; separate timeline above row2; separate arrow from SAR PEN Test Approval to File Public SDK/CLI
-		drawTimeMarker(ctx, '1-5 weeks', 915, 1265, 115);
-		drawVertSegArrow(ctx, 1235, 70, 90, 1000, 130);
+            '{"name": "SecurityUpdates", "row": 8, "kind": "COMPLIANCE", "timeline": "1-2 weeks", "tasks": [ { "name": "SecUpdate1", "textlines": ["Security Updates -", "Static Code Analysis", "DASS, Malware scan,", "Sonatype scan"] } ], "predecessors": ["3rdpartyApproval"]}, ' + 
             '{"name": "SDKCLIRelease1", "row": 2, "kind": "ARCHITECTURE", "tasks": [ { "name": "SchedSDKCLIRelease", "textlines": ["File Public SDK/CLI", "release DEXREQ ticket", "(by Mon b/f GA)"] } ], "predecessors": ["SDKCLIExamples"]}, ' + 
             '{"name": "GARMApproval", "row": 3, "kind": "ARCHITECTURE", "tasks": [ { "name": "UDXGAApprove", "textlines": ["UDX GA Approval", "Decision made (by", "Thursday before GA)", "(must GA after this)"] }, { "name": "RMApprove", "textlines": ["Get OCI RM", "Approval"] } ], "predecessors": ["SDKCLIRelease1", "TFReview", "UXRB2", "PABReview", "ContentReview"]}, ' + 
             '{"name": "SDKCLIRelease2", "row": 2, "kind": "ARCHITECTURE", "tasks": [ { "name": "PerfSDKCLIRelease", "textlines": ["SDK/CLI", "released", "(Tuesday)"] } ], "predecessors": ["GARMApproval"]}, ' + 
             '{"name": "TFRelease", "row": 3, "kind": "ARCHITECTURE", "tasks": [ { "name": "PerfTFRelease", "textlines": ["Terraform", "released", "(Wednesday)"] } ], "predecessors": ["GARMApproval"]}, ' + 
             '{"name": "ConsoleRelease", "row": 5, "kind": "ARCHITECTURE", "tasks": [ { "name": "TechConsoleRelease", "textlines": ["Console", "Technical", "Content", "released", "(Tuesday)"] } ], "predecessors": ["GARMApproval"]}, ' + 
             '{"name": "FeatureGA", "row": 3, "kind": "SERVICE", "tasks": [ { "name": "PerfGA", "textlines": ["Feature", "GA""] } ], "predecessors": ["TFRelease", "SDKCLIRelease2", "ConsoleRelease"]} ' + 
+            ']';
+/*
+		// right side at end; separate timeline above row2; separate arrow from SAR PEN Test Approval to File Public SDK/CLI
+		drawTimeMarker(ctx, '1-5 weeks', 915, 1265, 115);
+		drawVertSegArrow(ctx, 1235, 70, 90, 1000, 130);
 	    // draw bent vertical arrows from Customer Support down all to OCI RM Approval
 */
 
@@ -49,7 +49,7 @@ function drawTaskGraph() {
     for (i = 0; i < gphobj.length; i++) {
         taskgraph.push(new TaskSet(gphobj[i]));
     }
-    // draw in the canvas
+    // draw legend in the canvas
     var cv = document.getElementById("mycanvas");
     var ctx = cv.getContext("2d");
     ctx.fillStyle = "white";
@@ -61,25 +61,20 @@ function drawTaskGraph() {
     ctx.fillText('General', 15, 25);
     ctx.fillStyle = "white";
     ctx.strokeStyle = "green";
-//    ctx.lineWidth = "1";
     ctx.strokeRect(10, 35, 96, 20);
     ctx.fillStyle = "black";
-//    ctx.font = "10pt sans-serif";
     ctx.fillText('Architecture', 15, 50);
     ctx.fillStyle = "white";
     ctx.strokeStyle = "blue";
-//    ctx.lineWidth = "1";
     ctx.strokeRect(10, 60, 80, 20);
     ctx.fillStyle = "black";
-//    ctx.font = "10pt sans-serif";
     ctx.fillText('Compliance', 15, 75);
     ctx.fillStyle = "white";
     ctx.strokeStyle = "red";
-//    ctx.lineWidth = "1";
     ctx.strokeRect(10, 85, 64, 20);
     ctx.fillStyle = "black";
-//    ctx.font = "10pt sans-serif";
     ctx.fillText('Security', 15, 100);
+    // draw graph in the canvas
     var basey = 40;
     var basex = 10;
     var nextx = basex;
