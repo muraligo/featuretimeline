@@ -83,6 +83,7 @@ function drawTaskGraph() {
         taskgraph[i].drawPredecessorConnections(ctx);
         nextx += 20;
     }
+    TaskSet.drawSeparateTimeMarker(ctx, '1.5 weeks', "SDKCLIRelease1", "SDKCLIRelease2", 2);
 }
 
 drawTaskGraph();
