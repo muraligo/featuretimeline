@@ -203,6 +203,13 @@ class TaskSet {
         return xval;
     }
 
+/*
+1. Arrows from its predecessors to it
+a. if in same row, straight horizontal arrow (y is same)
+b. if in another row, a segmented arrow (what should be mid-x?)
+3. Must know the end x positions of predecessor in row
+4. Must know start and end y positions of predecessors in other rows
+*/
     drawPredecessorConnections(ctx) {
         for (var i = 0; i < this.predecessors.length; i++) {
 	    var predx = this.predecessors[i].end_x;
@@ -213,14 +220,11 @@ class TaskSet {
 	    } else {
 	        TaskSet.drawLineArrow(ctx, predx, predy, this.start_x, this.arrow_y);
 	    }
-/*
-1. Arrows from its predecessors to it
-a. if in same row, straight horizontal arrow (y is same)
-b. if in another row, a segmented arrow (what should be mid-x?)
-3. Must know the end x positions of predecessor in row
-4. Must know start and end y positions of predecessors in other rows
-*/
         }
+    }
+
+    static getTaskSetByName(tsname) {
+        return tasksmap.get(tsname);
     }
 
     static drawSeparateTimeMarker(ctx, text, fromtsnm, totsnm, therow, basey) {
