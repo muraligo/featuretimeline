@@ -40,6 +40,29 @@ var jsonstr = '[{"name":"ElabFeat","row":2,"kind": "SERVICE","tasks":[{"name":"E
 	    // draw bent vertical arrows from Customer Support down all to OCI RM Approval
 */
 
+function drawLegend(ctx) {
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "black";
+    ctx.strokeRect(10, 10, 56, 20);
+    ctx.fillStyle = "black";
+    ctx.fillText('General', 15, 25);
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "green";
+    ctx.strokeRect(10, 35, 96, 20);
+    ctx.fillStyle = "black";
+    ctx.fillText('Architecture', 15, 50);
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "blue";
+    ctx.strokeRect(10, 60, 80, 20);
+    ctx.fillStyle = "black";
+    ctx.fillText('Compliance', 15, 75);
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "red";
+    ctx.strokeRect(10, 85, 64, 20);
+    ctx.fillStyle = "black";
+    ctx.fillText('Security', 15, 100);
+}
+
 function drawVertArrowHead(ctx, dirn, endx, endy) {
     var arrowy = endy;
     if (dirn < 0) { // UP
@@ -78,28 +101,9 @@ function drawTaskGraph() {
     // draw legend in the canvas
     var cv = document.getElementById("mycanvas");
     var ctx = cv.getContext("2d");
-    ctx.fillStyle = "white";
-    ctx.strokeStyle = "black";
     ctx.lineWidth = "1";
-    ctx.strokeRect(10, 10, 56, 20);
-    ctx.fillStyle = "black";
     ctx.font = "10pt sans-serif";
-    ctx.fillText('General', 15, 25);
-    ctx.fillStyle = "white";
-    ctx.strokeStyle = "green";
-    ctx.strokeRect(10, 35, 96, 20);
-    ctx.fillStyle = "black";
-    ctx.fillText('Architecture', 15, 50);
-    ctx.fillStyle = "white";
-    ctx.strokeStyle = "blue";
-    ctx.strokeRect(10, 60, 80, 20);
-    ctx.fillStyle = "black";
-    ctx.fillText('Compliance', 15, 75);
-    ctx.fillStyle = "white";
-    ctx.strokeStyle = "red";
-    ctx.strokeRect(10, 85, 64, 20);
-    ctx.fillStyle = "black";
-    ctx.fillText('Security', 15, 100);
+    drawLegend(ctx);
     // draw graph in the canvas
     var basey = 40;
     var basex = 10;
@@ -110,6 +114,7 @@ function drawTaskGraph() {
         nextx += 20;
     }
     TaskSet.drawSeparateTimeMarker(ctx, '1.5 weeks', "SDKCLIRelease1", "SDKCLIRelease2", 2, basey);
+    var taskset = TaskSet.getTaskSetByName("TrainReview");
 }
 
 drawTaskGraph();
