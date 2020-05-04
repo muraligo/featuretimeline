@@ -47,10 +47,17 @@ function drawTaskGraph() {
     for (i = 0; i < gphobj.length; i++) {
         taskgraph.push(new TaskSet(gphobj[i]));
     }
-    // create the canvas
+    // draw in the canvas
     var cv = document.getElementById("mycanvas");
     var ctx = cv.getContext("2d");
-    var basey = 10;
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = "1";
+    ctx.strokeRect(10, 10, 56, 20);
+    ctx.fillStyle = "black";
+    ctx.font = "10pt sans-serif";
+    ctx.fillText('General', 15, 25);
+    var basey = 40;
     var basex = 10;
     var nextx = basex;
     for (i = 0; i < taskgraph.length; i++) {
