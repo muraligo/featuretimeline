@@ -148,24 +148,24 @@ class TaskSet {
 		TaskSet.drawArrowHead(ctx, endx, endy);
 	}
 
-	static drawTimeMarker(ctx, text, startx, endx, posy) {
-		var totallen = text.length * 8;
-		var linelen = (endx - startx - totallen) / 2;
-		var midx1 = startx + linelen;
-		var midx2 = endx - linelen;
-		ctx.strokeStyle = "black";
-		ctx.moveTo(startx, posy);
-		ctx.lineTo(midx1, posy);
-		ctx.stroke();
-		ctx.fillStyle = "black";
-		ctx.font = "10pt sans-serif";
-		ctx.fillText(text, midx1 + 5, posy);
-		ctx.moveTo(midx2, posy);
-		ctx.lineTo(endx, posy);
-		ctx.stroke();
-		TaskSet.drawMarkerDelim(ctx, startx, posy);
-		TaskSet.drawMarkerDelim(ctx, endx, posy);
-	}
+    static drawTimeMarker(ctx, text, startx, endx, posy) {
+        var totallen = text.length * 8;
+        var linelen = (endx - startx - totallen) / 2;
+        var midx1 = startx + linelen;
+        var midx2 = endx - linelen;
+        ctx.strokeStyle = "black";
+        ctx.moveTo(startx, posy);
+        ctx.lineTo(midx1, posy);
+        ctx.stroke();
+        ctx.fillStyle = "black";
+        ctx.font = "10pt sans-serif";
+        ctx.fillText(text, midx1 + 5, posy);
+        ctx.moveTo(midx2, posy);
+        ctx.lineTo(endx, posy);
+        ctx.stroke();
+        TaskSet.drawMarkerDelim(ctx, startx, posy);
+        TaskSet.drawMarkerDelim(ctx, endx, posy);
+    }
 
 	static drawMarkerDelim(ctx, posx, posy) {
 		var mystrty1 = posy - 3;
@@ -221,6 +221,13 @@ b. if in another row, a segmented arrow (what should be mid-x?)
 4. Must know start and end y positions of predecessors in other rows
 */
         }
+    }
+
+    static drawSeparateTimeMarker(ctx, text, fromtsnm, totsnm, therow, basey) {
+        var fromtaskset = tasksmap.get(fromtsnm);
+        var totaskset = tasksmap.get(totsnm);
+        var septly = basey + therow * 100;
+        TaskSet.drawTimeMarker(ctx, text, fromtaskset.start_x, totaskset.end_x, septly);
     }
 }
 
