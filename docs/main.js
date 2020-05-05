@@ -109,7 +109,7 @@ function drawPabToGarm(ctx) {
     var pabx1 = taskset.end_x;
     var paby1 = taskset.arrow_y;
     var pabx2 = pabx1 + 20;
-    var paby2 = taskset.start_y - 20;
+    var paby2 = taskset.start_y - 25;
     var pabx3 = garmx1 - 20;
     ctx.strokeStyle = "black";
     ctx.moveTo(pabx1, paby1);
@@ -118,6 +118,8 @@ function drawPabToGarm(ctx) {
     ctx.lineTo(pabx2, paby2);
     ctx.stroke();
     ctx.lineTo(pabx3, paby2);
+    ctx.stroke();
+    ctx.lineTo(pabx3, paby1);
     ctx.stroke();
     ctx.lineTo(garmx1, paby1);
     ctx.stroke();
