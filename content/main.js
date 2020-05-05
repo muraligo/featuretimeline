@@ -83,6 +83,25 @@ function drawUpVertArrow(ctx, startx, starty, endx, endy) {
     drawVertArrowHead(ctx, (endy - starty), endx, endy);
 }
 
+function drawSarToSDKCLIRel(ctx) {
+    var taskset = TaskSet.getTaskSetByName("SARPenTest");
+    var sarx1 = taskset.start_x + 20;
+    var sary1 = taskset.start_y + taskset.tasks[1].height;
+    var sary2 = sary1 + 20;
+    taskset = TaskSet.getTaskSetByName("SDKCLIRelease1");
+    var sdkx1 = taskset.start_x + 40;
+    var sdky1 = taskset.start_y;
+    ctx.strokeStyle = "black";
+    ctx.moveTo(sarx1, sary1);
+    ctx.lineTo(sarx1, sary2);
+    ctx.stroke();
+    ctx.lineTo(sdkx1, sary2);
+    ctx.stroke();
+    ctx.lineTo(sdkx1, sdky1);
+    ctx.stroke();
+    drawVertArrowHead(ctx, (sdky1 - sary1), sdkx1, sdky1);
+}
+
 function drawPabToGarm(ctx) {
     var taskset = TaskSet.getTaskSetByName("GARMApproval");
     var garmx1 = taskset.start_x;
@@ -130,6 +149,7 @@ function drawTaskGraph() {
         nextx += 20;
     }
     TaskSet.drawSeparateTimeMarker(ctx, '1.5 weeks', "SDKCLIRelease1", "SDKCLIRelease2", 2, basey);
+    drawSarToSDKCLIRel(ctx);
     drawPabToGarm(ctx);
     var taskset = TaskSet.getTaskSetByName("GARMApproval");
     var garmx1 = taskset.end_x;
