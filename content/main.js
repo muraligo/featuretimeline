@@ -27,18 +27,12 @@ var jsonstr = '[{"name":"ElabFeat","row":2,"kind": "SERVICE","tasks":[{"name":"E
             '{"name": "3rdpartyApproval", "row": 8, "kind": "COMPLIANCE", "timeline": "1-8 weeks", "tasks": [ { "name": "File3rdPartyApprove", "textlines": ["File 3rd Party", "Approvals"] }, { "name":"GetFile3rdPartyApprove", "textlines":["Get 3rd Party", "Approvals"] } ], "predecessors": ["CreateSPR0"]}, ' + 
             '{"name": "SecurityUpdates", "row": 8, "kind": "COMPLIANCE", "timeline": "1-2 weeks", "tasks": [ { "name": "SecUpdate1", "textlines": ["Security Updates -", "Static Code Analysis", "DASS, Malware scan,", "Sonatype scan"] } ], "predecessors": ["3rdpartyApproval"]}, ' + 
             '{"name": "SDKCLIRelease1", "row": 2, "kind": "ARCHITECTURE", "tasks": [ { "name": "SchedSDKCLIRelease", "textlines": ["File Public SDK/CLI", "release DEXREQ ticket", "(by Mon b/f GA)"] } ], "predecessors": ["SDKCLIExamples"]}, ' + 
-            '{"name": "GARMApproval", "row": 3, "kind": "ARCHITECTURE", "tasks": [ { "name": "UDXGAApprove", "textlines": ["UDX GA Approval", "Decision made (by", "Thursday before GA)", "(must GA after this)"] }, { "name": "RMApprove", "textlines": ["Get OCI RM", "Approval"] } ], "predecessors": ["SDKCLIRelease1", "TFReview", "UXRB2", "PABReview", "ContentReview"]}, ' + 
+            '{"name": "GARMApproval", "row": 3, "kind": "ARCHITECTURE", "tasks": [ { "name": "UDXGAApprove", "textlines": ["UDX GA Approval", "Decision made (by", "Thursday before GA)", "(must GA after this)"] }, { "name": "RMApprove", "textlines": ["Get OCI RM", "Approval"] } ], "predecessors": ["SDKCLIRelease1", "TFReview", "UXRB2", "ContentReview"]}, ' + 
             '{"name": "SDKCLIRelease2", "row": 2, "kind": "ARCHITECTURE", "tasks": [ { "name": "PerfSDKCLIRelease", "textlines": ["SDK/CLI", "released", "(Tuesday)"] } ], "predecessors": ["GARMApproval"]}, ' + 
             '{"name": "TFRelease", "row": 3, "kind": "ARCHITECTURE", "tasks": [ { "name": "PerfTFRelease", "textlines": ["Terraform", "released", "(Wednesday)"] } ], "predecessors": ["GARMApproval"]}, ' + 
             '{"name": "ConsoleRelease", "row": 5, "kind": "ARCHITECTURE", "tasks": [ { "name": "TechConsoleRelease", "textlines": ["Console", "Technical", "Content", "released", "(Tuesday)"] } ], "predecessors": ["GARMApproval"]}, ' + 
             '{"name": "FeatureGA", "row": 3, "kind": "SERVICE", "tasks": [ { "name": "PerfGA", "textlines": ["Feature", "GA"] } ], "predecessors": ["TFRelease", "SDKCLIRelease2", "ConsoleRelease"]} ' + 
             ']';
-/*
-		// right side at end; separate timeline above row2; separate arrow from SAR PEN Test Approval to File Public SDK/CLI
-		drawTimeMarker(ctx, '1-5 weeks', 915, 1265, 115);
-		drawVertSegArrow(ctx, 1235, 70, 90, 1000, 130);
-	    // draw bent vertical arrows from Customer Support down all to OCI RM Approval
-*/
 
 function drawLegend(ctx) {
     ctx.fillStyle = "white";
@@ -89,6 +83,28 @@ function drawUpVertArrow(ctx, startx, starty, endx, endy) {
     drawVertArrowHead(ctx, (endy - starty), endx, endy);
 }
 
+function drawPabToGarm(ctx) {
+    var taskset = TaskSet.getTaskSetByName("GARMApproval");
+    var garmx1 = taskset.start_x;
+    taskset = TaskSet.getTaskSetByName("PABReview");
+    var pabx1 = taskset.end_x;
+    var paby1 = taskset.arrow_y;
+    var pabx2 = pabx1 + 20;
+    var paby2 = taskset.start_y - 20;
+    var pabx3 = garmx1 - 20;
+    ctx.strokeStyle = "black";
+    ctx.moveTo(pabx1, paby1);
+    ctx.lineTo(pabx2, paby1);
+    ctx.stroke();
+    ctx.lineTo(pabx2, paby2);
+    ctx.stroke();
+    ctx.lineTo(pabx3, paby2);
+    ctx.stroke();
+    ctx.lineTo(garmx1, paby1);
+    ctx.stroke();
+    TaskSet.drawArrowHead(ctx, garmx1, paby1)
+}
+
 var taskgraph = [];
 
 function drawTaskGraph() {
@@ -114,7 +130,18 @@ function drawTaskGraph() {
         nextx += 20;
     }
     TaskSet.drawSeparateTimeMarker(ctx, '1.5 weeks', "SDKCLIRelease1", "SDKCLIRelease2", 2, basey);
-    var taskset = TaskSet.getTaskSetByName("TrainReview");
+    drawPabToGarm(ctx);
+    var taskset = TaskSet.getTaskSetByName("GARMApproval");
+    var garmx1 = taskset.end_x;
+    var garmy1 = taskset.start_y + taskset.tasks[1].height;
+//    taskset = TaskSet.getTaskSetByName("TrainReview");
+/*
+		// right side at end; separate timeline above row2; separate arrow from SAR PEN Test Approval to File Public SDK/CLI
+		drawTimeMarker(ctx, '1-5 weeks', 915, 1265, 115);
+		drawVertSegArrow(ctx, 1235, 70, 90, 1000, 130);
+	    // draw bent vertical arrows from Customer Support down all to OCI RM Approval
+*/
+
 }
 
 drawTaskGraph();
