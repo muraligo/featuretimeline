@@ -152,16 +152,20 @@ function drawTaskGraph() {
     drawSarToSDKCLIRel(ctx);
     drawPabToGarm(ctx);
     var taskset = TaskSet.getTaskSetByName("GARMApproval");
-    var garmx1 = taskset.end_x;
-    var garmy1 = taskset.start_y + taskset.tasks[1].height;
-//    taskset = TaskSet.getTaskSetByName("TrainReview");
-/*
-		// right side at end; separate timeline above row2; separate arrow from SAR PEN Test Approval to File Public SDK/CLI
-		drawTimeMarker(ctx, '1-5 weeks', 915, 1265, 115);
-		drawVertSegArrow(ctx, 1235, 70, 90, 1000, 130);
-	    // draw bent vertical arrows from Customer Support down all to OCI RM Approval
-*/
-
+    var endx = taskset.end_x - 20;
+    var endy = taskset.start_y + taskset.tasks[1].height;
+    taskset = TaskSet.getTaskSetByName("TrainReview");
+    var startx = taskset.end_x;
+    var starty = taskset.arrow_y;
+    drawUpVertArrow(ctx, startx, starty, endx, endy);
+    taskset = TaskSet.getTaskSetByName("PlatformBarApproval");
+    startx = taskset.end_x;
+    starty = taskset.arrow_y;
+    drawUpVertArrow(ctx, startx, starty, endx, endy);
+    taskset = TaskSet.getTaskSetByName("SecurityUpdates");
+    startx = taskset.end_x;
+    starty = taskset.arrow_y;
+    drawUpVertArrow(ctx, startx, starty, endx, endy);
 }
 
 drawTaskGraph();
