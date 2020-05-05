@@ -1,7 +1,7 @@
 #
 
 import os
-from . import helpers, task_consts, task_helper, service_helper
+from . import helpers, task_consts, task_helper
 from .log import setup_logging
 from .jira_lib import initforenv, Jira
 from .oci_helpers import OciApiHandler
@@ -22,7 +22,7 @@ appconfig = helpers.from_envvar('SAASCS_CHOREO_CONFIG', silent=True)
 databasepath = None
 if not appconfig and app_env == 'local':
     appconfig = dict()
-    appconfig['BASEPATH'] = '/users/mugopala/AllDocs/dev/regionbuild/saascs_choreo/data'
+    appconfig['BASEPATH'] = '/users/mugopala/AllDocs/dev/regionbuild/featuretimeline/data'
 
 databasepath = appconfig['BASEPATH']
 cfgfilename = environments[app_env] + '.json'
@@ -40,37 +40,6 @@ initforenv(appconfig['ENVNAME'], appconfig['JIRA_CONFIG'], databasepath, applogg
 # jirahelper = Jira('gbucs')
 # jirahelper.getrequest('project', 's')
 
-
-def print_children0(svcarr, indnt2):
-    for svc2 in svcarr:
-        strind = ' ' * indnt2
-        print("%s%s" % (strind, svc2))
-        if len(svc2.children) > 0:
-            indnt2 = indnt2 + 2
-            print_children0(svc2.children, indnt2)
-            indnt2 = indnt2 - 2
-
-
-def print_children(svcarr):
-    for svc2 in svcarr:
-        print("  %s" % (svc2))
-        if len(svc2.children) > 0:
-            print_children(svc2.children)
-
-
-def load_print_services():
-    services = service_helper.load_services(applogger, basepath=appconfig['BASEPATH'])
-    # print(services)
-    for svckey in services:
-        svc1 = services[svckey]
-        print("%s:%s" % (svckey, svc1))
-        # indent = 0
-        if len(svc1.children) > 0:
-            print_children(svc1.children)
-            # indent = indent + 2
-            # print_children0(svc1.children, indent)
-            # indent = indent - 2
-    return services
 
 
 ossconfig = appconfig['OSS_CONFIG']
@@ -143,7 +112,6 @@ task_helper.print_task(tasksbystage[currstg])
 task_helper.choreograph_tasks(applogger, tasksbystage, appconfig)
 
 # TODO Comment all this when testing above
-# load_print_services()
 # list_oci_oss_namespace()
 # bucket_contents = try_put_file_in_ocioss()
 # file_contents = get_oci_oss_file_data()

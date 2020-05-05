@@ -1,6 +1,6 @@
 {
     "ENVNAME": "local",
-    "BASEPATH": "/users/mugopala/AllDocs/dev/regionbuild/saascs_choreo/data",
+    "BASEPATH": "/users/mugopala/AllDocs/dev/regionbuild/featuretimeline/data",
     "LOGGING": {
         "log_level": "DEBUG",
         "log_format": "%(asctime)s.%(msecs)d:%(levelname)s:%(name)s:%(message)s:%(thread)d-%(threadName)s-%(process)d:%(pathname)s-%(lineno)d",
