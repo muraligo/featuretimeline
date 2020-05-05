@@ -8,8 +8,7 @@
         "app_log_file": "/users/mugopala/logs/saascs/choreographer.txt"
     },
     "JIRA_CONFIG": {
-        "gbucs_username": "jira-gbu/username",
-        "gbucs_password": "jira-gbu/password",
+        "gbucs_user": "jira-gbu",
         "jira-gbucs": "https://gbujira.us.oracle.com", 
         "jira-prefix": "[GRBWS TEST] "
     },
@@ -18,6 +17,13 @@
         "base_url": "https://objectstorage.us-phoenix-1.oraclecloud.com",
         "namespace": "oraclegbudevcorp",
         "compartmentId": "ocid1.compartment.oc1..aaaaaaaacjqtqcqxtxu5zizm63pc7qwahnr5ch5rayihwvsv5i2czvwv6kzq"
+    },
+    "SECRETS_CONFIG": {
+        "manage_url": "https://vaults.ap-sydney-1.oci.oraclecloud.com",
+        "bundle_url": "https://secrets.vaults.ap-sydney-1.oci.oraclecloud.com",
+        "manage_apiversion": "20180608",
+        "bundle_apiversion": "20190301",
+        "compartmentId": "ocid1.compartment.oc1..aaaaaaaawuys6k2zgbwikbctqkgnrnzea5xbtpenbuh4s5azdaeklhtnonba"
     }
 }
 

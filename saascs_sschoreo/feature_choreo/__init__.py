@@ -36,7 +36,7 @@ for (cfgit2key, cfgit2val) in _appcfg2.items():
 
 applogger = setup_logging(appconfig['LOGGING'])
 
-initforenv(appconfig['ENVNAME'], appconfig['JIRA_CONFIG'], databasepath, applogger)
+initforenv(appconfig['ENVNAME'], appconfig, databasepath, applogger)
 # jirahelper = Jira('gbucs')
 # jirahelper.getrequest('project', 's')
 

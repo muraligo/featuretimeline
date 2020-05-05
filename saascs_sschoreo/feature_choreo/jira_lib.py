@@ -20,11 +20,12 @@ from html.entities import name2codepoint
 def initforenv(envnm, appcfg, basepth, apploggr):
     print('In JIRA environment initialization')
     global config
+    global secretcfg
     global envname
     global basepath
-    global ticket_prefix
     global logger
-    config = appcfg
+    config = appcfg['JIRA_CONFIG']
+    secretcfg = appcfg['SECRETS_CONFIG']
     envname = envnm
     basepath = basepth
     ticket_prefix = config['jira-prefix']
@@ -47,12 +48,14 @@ class Jira:
         self.url = None
         self.username = None
         self.password = None
+        self.ticket_prefix = None
         print('Env {}, basepath {}. Issue prefix is {}'.format(
                     envname, basepath, ticket_prefix))
         if jiratype == 'gbucs':
             _propurl = config['jira-gbucs']
-            _unloc = config['gbucs_username']
-            _pwloc = config['gbucs_password']
+            _userpfx = config['gbucs_user']
+            _unloc = _userpfx + '/username'
+            _pwloc = _userpfx + '/password'
             if _propurl.startswith("http"):
                 _protoix = _propurl.find('://')
                 if _protoix > 0: # it should be
@@ -63,7 +66,8 @@ class Jira:
             else:
                 self.protocol = None
                 self.url = _propurl
-            
+
+            # change below to get from Secrets Service irrespective of env
             if envname == 'local':
                 print("Handling LOCAL env")
                 self.username = get_secret(envname, _unloc, basepath=basepath)
