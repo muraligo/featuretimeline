@@ -36,7 +36,10 @@ for (cfgit2key, cfgit2val) in _appcfg2.items():
 
 applogger = setup_logging(appconfig['LOGGING'])
 
-initforenv(appconfig['ENVNAME'], appconfig, databasepath, applogger)
+# myapihandler = OciApiHandler('/Users/mugopala/.oci/gbucs_nopw_devcorp_config.json')
+myapihandler = OciApiHandler(appconfig['OCI_CONFIG'])
+
+initforenv(appconfig['ENVNAME'], appconfig, databasepath, myapihandler, applogger)
 # jirahelper = Jira('gbucs')
 # jirahelper.getrequest('project', 's')
 
@@ -104,7 +107,6 @@ def try_put_file_in_ocioss():
         return result.text
 
 
-myapihandler = OciApiHandler('/Users/mugopala/.oci/gbucs_nopw_devcorp_config.json')
 tasksbystage = task_helper.cs_load_tasks(applogger, myapihandler, appconfig, basepath=appconfig['BASEPATH'])
 currstg = task_consts.SaasCsTaskStage.PRIMORDIAL
 print("%s" % currstg)

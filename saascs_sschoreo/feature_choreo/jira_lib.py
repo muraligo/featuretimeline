@@ -11,13 +11,14 @@ called as Jira('gbucs')
 
 import sys
 from .helpers import get_secret
+from .secrets_helper import get_oci_secret_by_name
 from jira import JIRA
 from http import client as httpclient, HTTPStatus
 from html.parser import HTMLParser
 from html.entities import name2codepoint
 
 
-def initforenv(envnm, appcfg, basepth, apploggr):
+def initforenv(envnm, appcfg, basepth, apihandler, apploggr):
     print('In JIRA environment initialization')
     global config
     global secretcfg
@@ -49,8 +50,7 @@ class Jira:
         self.username = None
         self.password = None
         self.ticket_prefix = None
-        print('Env {}, basepath {}. Issue prefix is {}'.format(
-                    envname, basepath, ticket_prefix))
+        print('Env {}, basepath {}.'.format(envname, basepath))
         if jiratype == 'gbucs':
             _propurl = config['jira-gbucs']
             _userpfx = config['gbucs_user']
@@ -68,14 +68,14 @@ class Jira:
                 self.url = _propurl
 
             # change below to get from Secrets Service irrespective of env
-            if envname == 'local':
-                print("Handling LOCAL env")
-                self.username = get_secret(envname, _unloc, basepath=basepath)
-                self.password = get_secret(envname, _pwloc, basepath=basepath)
-            else:
-                print("Handling OTHER env")
-                self.username = get_secret(envname, _unloc)
-                self.password = get_secret(envname, _pwloc)
+#            if envname == 'local':
+#                print("Handling LOCAL env")
+#                self.username = get_secret(envname, _unloc, basepath=basepath)
+#                self.password = get_secret(envname, _pwloc, basepath=basepath)
+#            else:
+#                print("Handling OTHER env")
+            self.username = get_secret(envname, _unloc)
+            self.password = get_secret(envname, _pwloc)
         else:
             raise Exception('Invalid JIRA option: {} not in ["gbucs"]'
                             .format(type))
