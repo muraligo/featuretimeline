@@ -1,0 +1,23 @@
+{
+    "ENVNAME": "local",
+    "BASEPATH": "/users/mugopala/AllDocs/dev/regionbuild/saascs_choreo/data",
+    "LOGGING": {
+        "log_level": "DEBUG",
+        "log_format": "%(asctime)s.%(msecs)d:%(levelname)s:%(name)s:%(message)s:%(thread)d-%(threadName)s-%(process)d:%(pathname)s-%(lineno)d",
+        "root_log_file": "/users/mugopala/logs/saascs/root.txt",
+        "app_log_file": "/users/mugopala/logs/saascs/choreographer.txt"
+    },
+    "JIRA_CONFIG": {
+        "gbucs_username": "jira-gbu/username",
+        "gbucs_password": "jira-gbu/password",
+        "jira-gbucs": "https://gbujira.us.oracle.com", 
+        "jira-prefix": "[GRBWS TEST] "
+    },
+    "OCI_CONFIG": "/Users/mugopala/.oci/gbucs_nopw_devcorp_config.json",
+    "OSS_CONFIG": {
+        "base_url": "https://objectstorage.us-phoenix-1.oraclecloud.com",
+        "namespace": "oraclegbudevcorp",
+        "compartmentId": "ocid1.compartment.oc1..aaaaaaaacjqtqcqxtxu5zizm63pc7qwahnr5ch5rayihwvsv5i2czvwv6kzq"
+    }
+}
+

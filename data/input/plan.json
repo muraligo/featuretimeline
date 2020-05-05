@@ -1,0 +1,746 @@
+{
+    "tasks": [
+        {
+            "name": "Assess Shared Services capacity needs",
+            "task": "perform",
+            "order": 0,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "GPDG3",
+                "issuetype": "STORY",
+                "components": [ "Capacity" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Request capacity in new region",
+            "task": "perform",
+            "order": 1,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "GPDG3",
+                "issuetype": "STORY",
+                "components": [ "Capacity" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Update init scripts for new region",
+            "task": "perform",
+            "order": 2,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "SS",
+                "issuetype": "STORY",
+                "components": [ "Automation" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Update other init bash scripts for new region",
+            "task": "perform",
+            "order": 2,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "GPDAF",
+                "issuetype": "STORY",
+                "components": [ "Automation" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Update Environment and Role files",
+            "task": "perform",
+            "order": 2,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "GPDAF",
+                "issuetype": "STORY",
+                "components": [ "Automation" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Update platform JSON files",
+            "task": "perform",
+            "order": 2,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "GPDAF",
+                "issuetype": "STORY",
+                "components": [ "Automation" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Allocate IP space",
+            "task": "perform",
+            "order": 3,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "Network", "IP" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Build VCNs for Infrastructure",
+            "task": "perform",
+            "order": 4,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "VCN" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Complete Subnet Allocation",
+            "task": "perform",
+            "order": 5,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "Subnet" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Update IP Management and IPControl",
+            "task": "perform",
+            "order": 6,
+            "stage": "foundation",
+            "note": "from IP space and subnet allocations",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "IPControl" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Enable Peering Configurations",
+            "task": "perform",
+            "order": 7,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "Peering" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Enable Corporate Connectivity",
+            "task": "perform",
+            "order": 8,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "CorporateNet" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Enable Legacy Data Center Connectivity",
+            "task": "perform",
+            "order": 9,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "BackhaulNet" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Configure routes and firewall rules",
+            "task": "perform",
+            "order": 10,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "VCN" ],
+                "labels": [ "GBUCS3", "route", "firewall" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Enable cross region connectivity",
+            "task": "perform",
+            "order": 11,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "CrossRegion" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Add reverse zone to AC and FI DNS resolvers",
+            "task": "perform",
+            "order": 12,
+            "stage": "foundation",
+            "note": "OPAM and OEM Automation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "DNS" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Configure IPsec tunnels",
+            "task": "perform",
+            "order": 13,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "IPsec" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Whitelist new VCN CIDR and GBUCS proxy",
+            "task": "perform",
+            "order": 14,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "Firewall" ],
+                "labels": [ "GBUCS3", "CIDR", "proxy" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Enable connectivity with OCI Service",
+            "task": "perform",
+            "order": 15,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "OCIConnect" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "Configure legacy DNS to allow queries from HDNS",
+            "task": "perform",
+            "order": 16,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "DNS" ],
+                "labels": [ "GBUCS3", "HDNS" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "update routes with new VCN CIDR",
+            "task": "perform",
+            "order": 17,
+            "stage": "foundation",
+            "note": "related to Corp connectivity",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "NetRoute" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "validate Foundation Work complete",
+            "task": "perform",
+            "order": 18,
+            "stage": "foundation",
+            "jiraspec": {
+                "project": "GPDG3",
+                "issuetype": "STORY",
+                "components": [ "Validation" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "install F5VE",
+            "task": "install",
+            "service": "F5VE",
+            "order": 0,
+            "terraformspec": {
+                "location": "NEED_TO_PROVIDE and add other attributes"
+            }
+        },
+        {
+            "name": "create subnets and apply seclists",
+            "task": "configure",
+            "service": "F5VE",
+            "order": 1,
+            "scriptspec": {
+                "location": {
+                    "type": "file",
+                    "target": "tests/testscript.sh"
+                }
+            }
+        },
+        {
+            "name": "install appliance",
+            "task": "configure",
+            "service": "F5VE",
+            "order": 2,
+            "scriptspec": {
+                "location": {
+                    "type": "NONE",
+                    "target": "NEED_TO_PROVIDE and add other attributes"
+                }
+            }
+        },
+        {
+            "name": "apply license",
+            "task": "configure",
+            "service": "F5VE",
+            "order": 3,
+            "scriptspec": {
+                "location": {
+                    "type": "object",
+                    "target": "testscript"
+                }
+            }
+        },
+        {
+            "name": "validate F5VE functionality",
+            "task": "perform",
+            "order": 4,
+            "service": "F5VE",
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "F5VE" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "install Proxy",
+            "task": "install",
+            "service": "Proxy",
+            "order": 5,
+            "terraformspec": {
+                "location": "NEED_TO_PROVIDE and add other attributes"
+            }
+        },
+        {
+            "name": "enable proxy protocol",
+            "note": "ticket to OCI",
+            "task": "link",
+            "service": "Proxy",
+            "order": 6,
+            "jiraspec": {
+                "project": "SS",
+                "issuetype": "STORY",
+                "components": [ "Proxy" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "register Proxy LB DNS records",
+            "task": "link",
+            "service": "Proxy",
+            "order": 7,
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "Proxy" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "install proxy application",
+            "task": "configure",
+            "service": "Proxy",
+            "order": 8,
+            "scriptspec": {
+                "location": {
+                    "type": "NONE",
+                    "target": "NEED_TO_PROVIDE and add other attributes"
+                }
+            }
+        },
+        {
+            "name": "update GSLB record",
+            "note": "for proxyhost.int.oracleindustry.com",
+            "task": "link",
+            "service": "Proxy",
+            "order": 9,
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "Proxy" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "update whereami_sh",
+            "task": "perform",
+            "service": "Proxy",
+            "order": 10,
+            "jiraspec": {
+                "project": "SS",
+                "issuetype": "STORY",
+                "components": [ "Proxy" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "install LDAP",
+            "task": "install",
+            "service": "LDAP",
+            "order": 11,
+            "terraformspec": {
+                "location": "NEED_TO_PROVIDE and add other attributes"
+            }
+        },
+        {
+            "name": "LDAP OIM integration",
+            "note": "ticket to OIM",
+            "task": "link",
+            "service": "LDAP",
+            "order": 12,
+            "jiraspec": {
+                "project": "SS",
+                "issuetype": "STORY",
+                "components": [ "LDAP" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "register LDAP LB DNS records",
+            "task": "link",
+            "service": "LDAP",
+            "order": 13,
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "LDAP" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "install LDAP Server application",
+            "note": "(DSEE)",
+            "task": "configure",
+            "service": "LDAP",
+            "order": 14,
+            "scriptspec": {
+                "location": {
+                    "type": "NONE",
+                    "target": "NEED_TO_PROVIDE and add other attributes"
+                }
+            }
+        },
+        {
+            "name": "install Linux Bastion",
+            "task": "install",
+            "service": "Linux Bastion Server",
+            "order": 15,
+            "terraformspec": {
+                "location": "NEED_TO_PROVIDE and add other attributes"
+            }
+        },
+        {
+            "name": "provision Linux Bastion load balancer",
+            "task": "install",
+            "service": "Linux Bastion Server",
+            "order": 16,
+            "terraformspec": {
+                "location": "NEED_TO_PROVIDE and add other attributes"
+            }
+        },
+        {
+            "name": "register Linux Bastion LB DNS records",
+            "task": "link",
+            "service": "Linux Bastion Server",
+            "order": 17,
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "Linux_Bastion" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "install Linux Bastion application",
+            "task": "configure",
+            "service": "Linux Bastion Server",
+            "order": 18,
+            "scriptspec": {
+                "location": {
+                    "type": "NONE",
+                    "target": "NEED_TO_PROVIDE and add other attributes"
+                }
+            }
+        },
+        {
+            "name": "install Linux Jump Server",
+            "task": "install",
+            "service": "Linux Jump Server",
+            "order": 19,
+            "terraformspec": {
+                "location": "NEED_TO_PROVIDE and add other attributes"
+            }
+        },
+        {
+            "name": "provision Linux Jump load balancer",
+            "task": "install",
+            "service": "Linux Jump Server",
+            "order": 20,
+            "terraformspec": {
+                "location": "NEED_TO_PROVIDE and add other attributes"
+            }
+        },
+        {
+            "name": "register Linux Jump LB DNS records",
+            "task": "link",
+            "service": "Linux Jump Server",
+            "order": 21,
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "Linux_Jump" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "install Linux Jump application",
+            "task": "configure",
+            "service": "Linux Jump Server",
+            "order": 22,
+            "scriptspec": {
+                "location": {
+                    "type": "NONE",
+                    "target": "NEED_TO_PROVIDE and add other attributes"
+                }
+            }
+        },
+        {
+            "name": "install Chef Server",
+            "task": "install",
+            "service": "Chef Server",
+            "order": 23,
+            "terraformspec": {
+                "location": "NEED_TO_PROVIDE and add other attributes"
+            }
+        },
+        {
+            "name": "install Depot",
+            "task": "install",
+            "service": "Depot",
+            "order": 23,
+            "terraformspec": {
+                "location": "NEED_TO_PROVIDE and add other attributes"
+            }
+        },
+        {
+            "name": "configure Chef Server",
+            "note": "also update data bags on Depot master FS and update env files",
+            "task": "configure",
+            "service": "Chef Server",
+            "order": 24,
+            "scriptspec": {
+                "location": {
+                    "type": "NONE",
+                    "target": "NEED_TO_PROVIDE and add other attributes"
+                }
+            }
+        },
+        {
+            "name": "register Depot LB DNS records",
+            "task": "link",
+            "service": "Depot",
+            "order": 24,
+            "jiraspec": {
+                "project": "Network",
+                "issuetype": "STORY",
+                "components": [ "Depot" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "configure Depot",
+            "note": "install application and load replicated data",
+            "task": "configure",
+            "service": "Depot",
+            "order": 25,
+            "scriptspec": {
+                "location": {
+                    "type": "NONE",
+                    "target": "NEED_TO_PROVIDE and add other attributes"
+                }
+            }
+        },
+        {
+            "name": "validate Chef Server functionality",
+            "task": "perform",
+            "service": "Chef Server",
+            "order": 26,
+            "jiraspec": {
+                "project": "GPDAF",
+                "issuetype": "STORY",
+                "components": [ "Chef" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        },
+        {
+            "name": "validate Depot functionality",
+            "task": "perform",
+            "service": "Depot",
+            "order": 26,
+            "jiraspec": {
+                "project": "GPDAF",
+                "issuetype": "STORY",
+                "components": [ "Depot" ],
+                "labels": [ "GBUCS3" ],
+                "parent": {
+                    "issuetype": "EPIC",
+                    "issueid": "NEED_TO_PROVIDE"
+                }
+            }
+        }
+    ]
+}
