@@ -66,7 +66,7 @@ def perform_terraform(conn, lggr, tskspec):
     lggr.debug("    %s" % tskspec)
 
 
-class SaasCsTaskPerformer(threading.Thread):
+class M3TaskPerformer(threading.Thread):
 
     def __init__(self, task_queue, result_queue, lggr, appconfig):
         super(SaasCsTaskPerformer, self).__init__()
@@ -108,10 +108,10 @@ class SaasCsTaskPerformer(threading.Thread):
             self.result_queue.put(taskval)
 
 
-class SaasCsTaskStateManager(threading.Thread):
+class M3TaskStateManager(threading.Thread):
 
     def __init__(self, task_queue, result_queue, lggr, tskstage, firsttask, appconfig):
-        super(SaasCsTaskStateManager, self).__init__()
+        super(M3TaskStateManager, self).__init__()
         # TODO implement any environment initialization
         self.task_queue = task_queue
         self.result_queue = result_queue
@@ -122,7 +122,7 @@ class SaasCsTaskStateManager(threading.Thread):
         q.put(firsttask)
         while (not q.empty):
             taskval = q.get()
-            taskval.state = task_consts.SaasCsTaskState.READY
+            taskval.state = task_consts.M3TaskState.READY
             self.tasksinstage[taskval.name] = taskval
             for tskinst in taskval.successors:
                 q.put(tskinst)
@@ -137,11 +137,11 @@ class SaasCsTaskStateManager(threading.Thread):
                 self.logger.debug('{}: Exiting'.format(proc_name))
                 break
             self.logger.debug('{}: Completing {}'.format(proc_name, taskval))
-            taskval.state = task_consts.SaasCsTaskState.DONE
+            taskval.state = task_consts.M3TaskState.DONE
             _alldone = True
             if len(taskval.successors) <= 0:
                 for tsknm in self.tasksinstage:
-                    if self.tasksinstage[tsknm].state == task_consts.SaasCsTaskState.DONE:
+                    if self.tasksinstage[tsknm].state == task_consts.M3TaskState.DONE:
                         continue
                     else:
                         _alldone = False
@@ -154,12 +154,12 @@ class SaasCsTaskStateManager(threading.Thread):
                 _tskready = True
                 if len(tskinst.predecessors) > 0:
                     for tskpred in tskinst.predecessors:
-                        if tskpred.state == task_consts.SaasCsTaskState.DONE:
+                        if tskpred.state == task_consts.M3TaskState.DONE:
                             continue
                         _tskready = False
                         break
                 if _tskready == True:
-                    tskinst.state = task_consts.SaasCsTaskState.RUNNING
+                    tskinst.state = task_consts.M3TaskState.RUNNING
                     self.task_queue.put(tskinst)
 
 
@@ -169,10 +169,10 @@ def cs_load_tasks(lggr, myapihandler, config, filename='tasks2.json', basepath=N
     lggr.debug(_fullpath)
     jshash = json.loads(file_reader(_fullpath))
     if jshash and 'tasks' in jshash and len(jshash['tasks']) > 0:
-        stages = { task_consts.SaasCsTaskStage.FOUNDATION:None, 
-                    task_consts.SaasCsTaskStage.PRIMORDIAL:None,
-                    task_consts.SaasCsTaskStage.CORE:None,
-                    task_consts.SaasCsTaskStage.HIGHER:None
+        stages = { task_consts.M3TaskStage.FOUNDATION:None, 
+                    task_consts.M3TaskStage.PRIMORDIAL:None,
+                    task_consts.M3TaskStage.CORE:None,
+                    task_consts.M3TaskStage.HIGHER:None
                 }
         _alltasks = {}
         for tskdict in jshash['tasks']:
@@ -187,11 +187,11 @@ def cs_load_tasks(lggr, myapihandler, config, filename='tasks2.json', basepath=N
             if 'type' not in tskdict:
                 raise common_entities.SaasCsGeneralChoreographyException('Missing vital property in task specification')
             else:
-                tsktype = task_consts.SaasCsTaskType.from_name(tskdict['type'])
+                tsktype = task_consts.M3TaskType.from_name(tskdict['type'])
             if 'stage' not in tskdict:
                 raise common_entities.SaasCsGeneralChoreographyException('Missing vital property in task specification')
             else:
-                tskstage = task_consts.SaasCsTaskStage.from_name(tskdict['stage'])
+                tskstage = task_consts.M3TaskStage.from_name(tskdict['stage'])
             if 'team' not in tskdict:
                 raise common_entities.SaasCsGeneralChoreographyException('Missing vital property in task specification')
             else:
@@ -201,23 +201,23 @@ def cs_load_tasks(lggr, myapihandler, config, filename='tasks2.json', basepath=N
             else:
                 tskname = tskdict['name']
             if 'failure' in tskdict:
-                tskfailure = task_consts.SaasCsTaskExecutor.from_name(tskdict['failure'])
+                tskfailure = task_consts.M3TaskExecutor.from_name(tskdict['failure'])
             else:
-                tskfailure = task_consts.SaasCsTaskExecutor.MANUAL
-            if tsktype == task_consts.SaasCsTaskType.CHECK:
-                tskexec = task_consts.SaasCsTaskExecutor.CHECK
+                tskfailure = task_consts.M3TaskExecutor.MANUAL
+            if tsktype == task_consts.M3TaskType.CHECK:
+                tskexec = task_consts.M3TaskExecutor.CHECK
             else:
                 if 'mode' not in tskdict:
                     raise common_entities.SaasCsGeneralChoreographyException('Missing vital property in task specification')
                 else:
-                    tskexec = task_consts.SaasCsTaskExecutor.from_name(tskdict['mode'])
+                    tskexec = task_consts.M3TaskExecutor.from_name(tskdict['mode'])
             tskexekey = tskexec.section_name
             taskval = None
             if tsknote is None:
-                taskval = task_consts.SaasCsBootstrapTask(tskname, tsktype, tskexec, tskexekey, 
+                taskval = task_consts.M3Task(tskname, tsktype, tskexec, tskexekey, 
                                 tskteam, tskfailure, tskdict[tskexekey])
             else:
-                taskval = task_consts.SaasCsBootstrapTask(tskname, tsktype, tskexec, tskexekey, 
+                taskval = task_consts.M3Task(tskname, tsktype, tskexec, tskexekey, 
                                 tskteam, tskfailure, tskdict[tskexekey], tsknote)
             if tskexekey == 'scriptspec':
                 taskval.specification.resolve_location(myapihandler, config)
@@ -237,6 +237,12 @@ def cs_load_tasks(lggr, myapihandler, config, filename='tasks2.json', basepath=N
     else:
         raise common_entities.SaasCsReferenceDataException('Tasks', 'Empty')
 
+
+def cs_load_tasks_fromcsv(lggr, myapihandler, config, filename='tasks2.csv', basepath=None):
+    _fullpath = './input/{}'.format(filename) if basepath is None else '{}/input/{}'.format(basepath, filename)
+    lggr.debug(_fullpath)
+
+
 def choreograph_tasks(lggr, tasksbystage, appcfg):
     # Establish communication queues
     exeQ = stdq.Queue()
@@ -251,14 +257,14 @@ def choreograph_tasks(lggr, tasksbystage, appcfg):
 #    ]
 #    for w in consumers:
 #        w.start()
-    consumer = SaasCsTaskPerformer(exeQ, resultQ, lggr, appcfg)
+    consumer = M3TaskPerformer(exeQ, resultQ, lggr, appcfg)
     consumer.start()
 
-    currstg = task_consts.SaasCsTaskStage.PRIMORDIAL
+    currstg = task_consts.M3TaskStage.PRIMORDIAL
     stgstr = "%s" % currstg
     print(stgstr)
 
-    producer = SaasCsTaskStateManager(exeQ, resultQ, lggr, currstg, tasksbystage[currstg], appcfg)
+    producer = M3TaskStateManager(exeQ, resultQ, lggr, currstg, tasksbystage[currstg], appcfg)
     producer.start()
 
     exeQ.put(tasksbystage[currstg])

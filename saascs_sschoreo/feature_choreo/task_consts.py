@@ -13,7 +13,7 @@ from .common_entities import SaasCsReferenceDataException, \
     SaasCsTextFileLocation, SaasCsTextOSSLocation
 
 @unique
-class SaasCsTaskType(Enum):
+class M3TaskType(Enum):
     PERFORM = ('perform', 1)
     CHECK = ('check', 2)
     LINK = ('link', 3)
@@ -24,14 +24,14 @@ class SaasCsTaskType(Enum):
 
     @staticmethod
     def from_name(datname):
-        for name, member in SaasCsTaskType.__members__.items():
+        for name, member in M3TaskType.__members__.items():
             if datname == member.dataname:
                 return member
         raise ValueError("Unknown task type value [%s]." % datname)
 
 
 @unique
-class SaasCsTaskStage(Enum):
+class M3TaskStage(Enum):
     FOUNDATION = ('foundation', 1)
     PRIMORDIAL = ('primordial', 2)
     CORE = ('core', 3)
@@ -43,14 +43,14 @@ class SaasCsTaskStage(Enum):
 
     @staticmethod
     def from_name(datname):
-        for name, member in SaasCsTaskStage.__members__.items():
+        for name, member in M3TaskStage.__members__.items():
             if datname == member.dataname:
                 return member
         raise ValueError("Unknown stage value [%s]." % datname)
 
 
 @unique
-class SaasCsTaskExecutor(Enum):
+class M3TaskExecutor(Enum):
     MANUAL = ('manual', 'jiraspec', 1)
     SHELL = ('shell', 'scriptspec', 2)
     TERRAFORM = ('terraform', 'terraformspec', 3)
@@ -64,14 +64,14 @@ class SaasCsTaskExecutor(Enum):
 
     @staticmethod
     def from_name(datname):
-        for name, member in SaasCsTaskExecutor.__members__.items():
+        for name, member in M3TaskExecutor.__members__.items():
             if datname == member.dataname:
                 return member
         raise ValueError("Unknown executor value [%s]." % datname)
 
 
 @unique
-class SaasCsTaskState(Enum):
+class M3TaskState(Enum):
     NEW = ('new', 1)
     READY = ('ready', 2)
     RUNNING = ('running', 3)
@@ -83,13 +83,13 @@ class SaasCsTaskState(Enum):
 
     @staticmethod
     def from_name(datname):
-        for name, member in SaasCsTaskState.__members__.items():
+        for name, member in M3TaskState.__members__.items():
             if datname == member.dataname:
                 return member
         raise ValueError("Unknown state value [%s]." % datname)
 
 
-class SaasCsSpecification:
+class M3Specification:
 
     def __init__(self):
         pass
@@ -97,7 +97,7 @@ class SaasCsSpecification:
     def resolve_location(self, myapihandler, config):
         pass
 
-class SaasCsTerraformSpecification(SaasCsSpecification):
+class M3TerraformSpecification(M3Specification):
 
     def __init__(self, tflocation):
         self.location = tflocation
@@ -107,10 +107,10 @@ class SaasCsTerraformSpecification(SaasCsSpecification):
 
     @staticmethod
     def from_kvstruct(tskspecval):
-        return SaasCsTerraformSpecification(tskspecval['location'])
+        return M3TerraformSpecification(tskspecval['location'])
 
 
-class SaasCsChefSpecification(SaasCsSpecification):
+class M3ChefSpecification(M3Specification):
 
     def __init__(self, recipelocation):
         self.location = recipelocation
@@ -120,10 +120,10 @@ class SaasCsChefSpecification(SaasCsSpecification):
 
     @staticmethod
     def from_kvstruct(tskspecval):
-        return SaasCsChefSpecification(tskspecval['location'])
+        return M3ChefSpecification(tskspecval['location'])
 
 
-class SaasCsScriptSpecification(SaasCsSpecification):
+class M3ScriptSpecification(SaasCsSpecification):
 
     def __init__(self, scriptlocation):
         self.locatespec = scriptlocation
@@ -132,19 +132,19 @@ class SaasCsScriptSpecification(SaasCsSpecification):
     def resolve_location(self, myapihandler, config):
         print("resolve location called for spec %s" % self.locatespec)
         if self.locatespec['type'] == 'file':
-            self.location = SaasCsTextFileLocation(config, self.locatespec)
+            self.location = M3TextFileLocation(config, self.locatespec)
         elif self.locatespec['type'] == 'object':
-            self.location = SaasCsTextOSSLocation(myapihandler, config, self.locatespec)
+            self.location = M3TextOSSLocation(myapihandler, config, self.locatespec)
 
     def __str__(self):
         return 'Shell{at %s}' % (self.locatespec)
 
     @staticmethod
     def from_kvstruct(tskspecval):
-        return SaasCsScriptSpecification(tskspecval['location'])
+        return M3ScriptSpecification(tskspecval['location'])
 
 
-class SaasCsJiraSpecification(SaasCsSpecification):
+class M3JiraSpecification(SaasCsSpecification):
 
     def __init__(self, issproject, isstype, isslabels=None, isscomponents=None, 
                     parentisstype=None, parentissid=None):
@@ -166,12 +166,12 @@ class SaasCsJiraSpecification(SaasCsSpecification):
             parentspec = tskspecval['parent']
             parent_type = parentspec['issuetype']
             parent_id = parentspec['issueid']
-        return SaasCsJiraSpecification(tskspecval['project'], tskspecval['issuetype'], 
+        return M3JiraSpecification(tskspecval['project'], tskspecval['issuetype'], 
                 isslabels=tskspecval['labels'], isscomponents=tskspecval['components'], 
                 parentisstype=parent_type, parentissid=parent_id)
 
 
-class SaasCsBootstrapTask:
+class M3Task:
 
     def __init__(self, tskname, tsktype, tskexec, tskspectype, tskteam, tskfailact, tskspecval, tsknote=None):
         self.name = tskname
@@ -182,13 +182,13 @@ class SaasCsBootstrapTask:
         self.team = tskteam
         self.onfailure = tskfailact
         self.priority = 1
-        self.state = SaasCsTaskState.NEW
+        self.state = M3TaskState.NEW
         if tskspectype == 'jiraspec':
-            self.specification = SaasCsJiraSpecification.from_kvstruct(tskspecval)
+            self.specification = M3JiraSpecification.from_kvstruct(tskspecval)
         elif tskspectype == 'terraformspec':
-            self.specification = SaasCsTerraformSpecification.from_kvstruct(tskspecval)
+            self.specification = M3TerraformSpecification.from_kvstruct(tskspecval)
         elif tskspectype == 'scriptspec':
-            self.specification = SaasCsScriptSpecification.from_kvstruct(tskspecval)
+            self.specification = M3ScriptSpecification.from_kvstruct(tskspecval)
         else:
             self.specification = None
         if tsknote:

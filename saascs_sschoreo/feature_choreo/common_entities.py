@@ -10,7 +10,7 @@ Various entities common to many projects
 
 from abc import ABC, abstractmethod
 
-class AbstractSaasCsLocation(ABC):
+class AbstractM3Location(ABC):
  
     def __init__(self, locspec):
         self.specification = locspec
@@ -74,7 +74,7 @@ class SaasCsReferenceDataException(SaasCsChoreographyException):
         return "%sReference Data [%s] %s" % (self.prefix, self.reference_data_name, self.caller_message)
 
 
-class SaasCsTextFileLocation(AbstractSaasCsLocation):
+class M3TextFileLocation(AbstractSaasCsLocation):
 
     def __init__(self, config, locspec):
         super().__init__(locspec)
@@ -106,7 +106,7 @@ class SaasCsTextFileLocation(AbstractSaasCsLocation):
         pass # as this is a general one
 
 
-class SaasCsTextOSSLocation(AbstractSaasCsLocation):
+class M3TextOSSLocation(AbstractSaasCsLocation):
 
     def __init__(self, myapihandler, config, locspec):
         if 'OSS_CONFIG' not in config:
