@@ -33,7 +33,7 @@ class AbstractM3Location(ABC):
         pass
 
 
-class SaasCsChoreographyException(Exception):
+class M3ChoreographyException(Exception):
     """
     Base class for exceptions in this module
     """
@@ -41,7 +41,7 @@ class SaasCsChoreographyException(Exception):
         self.prefix = 'SaaS Cloud Service Choreographer: '
 
 
-class SaasCsGeneralChoreographyException(SaasCsChoreographyException):
+class M3GeneralChoreographyException(M3ChoreographyException):
     """
     Any exceptional condition relating to SaaS Cloud Service Choreographer.
 
@@ -56,7 +56,7 @@ class SaasCsGeneralChoreographyException(SaasCsChoreographyException):
         return super.__str__ + "%sGeneral Error %s" % (self.prefix, self.caller_message)
 
 
-class SaasCsReferenceDataException(SaasCsChoreographyException):
+class M3ReferenceDataException(M3ChoreographyException):
     """
     Any exceptional condition relating to Reference Data required 
     for SaaS Cloud Service Choreographer.
@@ -74,7 +74,7 @@ class SaasCsReferenceDataException(SaasCsChoreographyException):
         return "%sReference Data [%s] %s" % (self.prefix, self.reference_data_name, self.caller_message)
 
 
-class M3TextFileLocation(AbstractSaasCsLocation):
+class M3TextFileLocation(AbstractM3Location):
 
     def __init__(self, config, locspec):
         super().__init__(locspec)
@@ -94,7 +94,7 @@ class M3TextFileLocation(AbstractSaasCsLocation):
             with open(_fullpath, 'r') as f:
                 self.textdata = f.read().strip()
         except Exception as err:
-            raise SaasCsGeneralChoreographyException('Could not read {}'.format(_fullpath)).with_traceback(err.__traceback__)
+            raise M3GeneralChoreographyException('Could not read {}'.format(_fullpath)).with_traceback(err.__traceback__)
 
     def byte_content(self):
         pass # as this is for text one
@@ -106,7 +106,7 @@ class M3TextFileLocation(AbstractSaasCsLocation):
         pass # as this is a general one
 
 
-class M3TextOSSLocation(AbstractSaasCsLocation):
+class M3TextOSSLocation(AbstractM3Location):
 
     def __init__(self, myapihandler, config, locspec):
         if 'OSS_CONFIG' not in config:
@@ -139,7 +139,7 @@ class M3TextOSSLocation(AbstractSaasCsLocation):
             if _result is not None and _result.status_code == 200:
                 self.textdata = _result.text
         except Exception as err:
-            raise SaasCsGeneralChoreographyException('Could not read {}'.format(_fullpath)).with_traceback(err.__traceback__)
+            raise M3GeneralChoreographyException('Could not read {}'.format(_fullpath)).with_traceback(err.__traceback__)
 
     def byte_content(self):
         pass # as this is for text one

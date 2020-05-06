@@ -9,8 +9,7 @@ Constants, types, etc for task and related objects
 """
 
 from enum import Enum, unique
-from .common_entities import SaasCsReferenceDataException, \
-    SaasCsTextFileLocation, SaasCsTextOSSLocation
+from .common_entities import M3TextFileLocation, M3TextOSSLocation
 
 @unique
 class M3TaskType(Enum):
@@ -89,6 +88,25 @@ class M3TaskState(Enum):
         raise ValueError("Unknown state value [%s]." % datname)
 
 
+@unique
+class M3TaskArea(Enum):
+    BUILD = ('build', 1)
+    ARCHITECTURE = ('architecture', 2)
+    SECURITY = ('security', 3)
+    COMPLIANCE = ('compliance', 4)
+
+    def __init__(self, datname, intval):
+        self.dataname = datname
+        self.intvalue = intval
+
+    @staticmethod
+    def from_name(datname):
+        for name, member in M3TaskArea.__members__.items():
+            if datname == member.dataname:
+                return member
+        raise ValueError("Unknown area value [%s]." % datname)
+
+
 class M3Specification:
 
     def __init__(self):
@@ -123,7 +141,7 @@ class M3ChefSpecification(M3Specification):
         return M3ChefSpecification(tskspecval['location'])
 
 
-class M3ScriptSpecification(SaasCsSpecification):
+class M3ScriptSpecification(M3Specification):
 
     def __init__(self, scriptlocation):
         self.locatespec = scriptlocation
@@ -144,7 +162,7 @@ class M3ScriptSpecification(SaasCsSpecification):
         return M3ScriptSpecification(tskspecval['location'])
 
 
-class M3JiraSpecification(SaasCsSpecification):
+class M3JiraSpecification(M3Specification):
 
     def __init__(self, issproject, isstype, isslabels=None, isscomponents=None, 
                     parentisstype=None, parentissid=None):
@@ -171,8 +189,29 @@ class M3JiraSpecification(SaasCsSpecification):
                 parentisstype=parent_type, parentissid=parent_id)
 
 
+class M3TaskSet:
+
+    def __init__(self, tskname, tskarea, tskstg, tskteam):
+        self.name = tskname
+        self.area = tskarea
+        self.team = tskteam
+        self.stage = tskstg
+        self.tasks = []
+        self.successors = []
+        self.predecessors = []
+        self.priority = 1
+        self.state = M3TaskState.NEW
+
+    def __str__(self):
+        return 'TaskSet{[%s] of area %s at priority %02d}' % (self.name, self.area, self.priority)
+
+
 class M3Task:
 
+    # TODO drop successors and predecessors (infer based on order in list)
+    # TODO add txtlines[] and in JSON define as a list and make name short and unique
+    # TODO create a Status enum NONE, PASS, FAIL and include other fields for error details
+    # TODO have a status field initialized to NONE which should be set to PASS or FAIL on exec
     def __init__(self, tskname, tsktype, tskexec, tskspectype, tskteam, tskfailact, tskspecval, tsknote=None):
         self.name = tskname
         self.task_type = tsktype
