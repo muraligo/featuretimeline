@@ -23,3 +23,43 @@
 
 type is file or object or ocir
 target is a path to where it is in reference to a base for that type
+
+## Differences between Timeline and Choreo
+
+| Feature Timeline                              | Choreo                                        |
+| :-------------------------------------------- | :-------------------------------------------- |
+|                                               |                                               |
+| TaskSet                                       | TaskSet *NEED TO HAVE*                        |
+| - name (direct from JSON)                     | - name (direct from JSON)                     |
+| - kind (direct from JSON)                     |                                               |
+| 		{build,architecture,security,compliance}  |                                               |
+| *NICE TO HAVE*                                | - stage {foundation,primordial,core,higher} (direct from JSON) |
+| - tasks = [] (built from JSON)                | *NEED TO HAVE*                                |
+| *NICE TO HAVE*                                | - team (direct from JSON)                     |
+| - predecessors = [] (built from JSON)         | - predecessors = [] (built from JSON)         |
+| *NICE TO HAVE*                                | - successors = [] (set on build)              |
+| - timeline_text (direct from JSON)            |                                               |
+| - myrow (direct from JSON)                    |                                               |
+| - start_x (set on build)                      |                                               |
+| - start_y (derived)                           |                                               |
+| - arrow_y (derived)                           |                                               |
+| - timeline_y (derived)                        |                                               |
+| - maxtxtlen (derived)                         |                                               |
+| - end_x (set on build)                        |                                               |
+| - end_y (set on build)                        |                                               |
+|                                               |                                               |
+| Task                                          | Task                                          |
+| - name (direct from JSON)                     | - name (direct from JSON)                     |
+| - txtlines = [] (direct from JSON)            | *NEED TO CHANGE*                              |
+| *NEED TO HAVE*                                | - type {perform,check,configure,link} (direct from JSON) |
+| *NEED TO HAVE*                                | - executor (built from exec_type in JSON {manual,shell,terraform,chef,check} and specification) |
+| *NEED TO HAVE*                                | - specification (direct from JSON; based on executor) |
+| *NICE TO HAVE*                                | - onfailure (direct from JSON)                |
+| *NEED TO HAVE*                                | - note (Optional) (direct from JSON)          |
+| - start_x (set on build)                      |                                               |
+| - start_y (derived)                           |                                               |
+| - maxwidth (derived)                          |                                               |
+| - height (derived)                            |                                               |
+| *NICE TO HAVE*                                | - successors (set on build)                   |
+| *NEED TO HAVE*                                | - status (set on exec)                        |
+
