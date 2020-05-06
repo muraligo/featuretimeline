@@ -18,18 +18,20 @@ from html.parser import HTMLParser
 from html.entities import name2codepoint
 
 
-def initforenv(envnm, appcfg, basepth, apihandler, apploggr):
+def initforenv(envnm, appcfg, basepth, theapihandler, apploggr):
     print('In JIRA environment initialization')
     global config
     global secretcfg
     global envname
     global basepath
+    global apihandler
     global logger
     config = appcfg['JIRA_CONFIG']
     secretcfg = appcfg['SECRETS_CONFIG']
     envname = envnm
     basepath = basepth
     ticket_prefix = config['jira-prefix']
+    apihandler = theapihandler
     logger = apploggr
     if envname == 'local':
         logger.debug('Jira initialized for env {}, basepath {}. Issue prefix is {}'.format(
@@ -74,15 +76,18 @@ class Jira:
 #                self.password = get_secret(envname, _pwloc, basepath=basepath)
 #            else:
 #                print("Handling OTHER env")
-            self.username = get_secret(envname, _unloc)
-            self.password = get_secret(envname, _pwloc)
+#             self.username = get_secret(envname, _unloc)
+            self.username = get_oci_secret_by_name(_unloc, apihandler, logger, secretcfg)
+#             self.password = get_secret(envname, _pwloc)
+            self.password = get_oci_secret_by_name(_pwloc, apihandler, logger, secretcfg)
+#             self.account_name = 'GBUCS-GBUJIRA-PD' # TODO what is this needed for?
         else:
             raise Exception('Invalid JIRA option: {} not in ["gbucs"]'
                             .format(type))
 
         self.__connection = httpclient.HTTPSConnection(self.url, 443)
         self.__connection.set_debuglevel(3)
-#        self.__connection = self.__jira_connect()
+        self.__connection = self.__jira_connect()
         self._formparser = _OraSSOFormParser()
 
 
