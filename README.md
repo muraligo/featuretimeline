@@ -1,4 +1,12 @@
-## Entities
+# Feature Release Process
+
+This service builds a task list to build and deploy a feature. It is more like a graph with dependencies.
+
+It also builds a task list to deploy all services into a new region.
+
+It allows for the visualization of the task graphs along with timelines.
+
+## Task Graph Entities
 
 ### Task
 
