@@ -206,12 +206,8 @@ class M3TaskSet:
         return 'TaskSet{[%s] of area %s at priority %02d}' % (self.name, self.area, self.priority)
 
 
-class M3Task:
+class M3FlatTask:
 
-    # TODO drop successors and predecessors (infer based on order in list)
-    # TODO add txtlines[] and in JSON define as a list and make name short and unique
-    # TODO create a Status enum NONE, PASS, FAIL and include other fields for error details
-    # TODO have a status field initialized to NONE which should be set to PASS or FAIL on exec
     def __init__(self, tskname, tsktype, tskexec, tskspectype, tskteam, tskfailact, tskspecval, tsknote=None):
         self.name = tskname
         self.task_type = tsktype
@@ -222,6 +218,38 @@ class M3Task:
         self.onfailure = tskfailact
         self.priority = 1
         self.state = M3TaskState.NEW
+        if tskspectype == 'jiraspec':
+            self.specification = M3JiraSpecification.from_kvstruct(tskspecval)
+        elif tskspectype == 'terraformspec':
+            self.specification = M3TerraformSpecification.from_kvstruct(tskspecval)
+        elif tskspectype == 'scriptspec':
+            self.specification = M3ScriptSpecification.from_kvstruct(tskspecval)
+        else:
+            self.specification = None
+        if tsknote:
+            self.note = tsknote
+
+    def __str__(self):
+        return 'Task{[%s] of type %s and executor %s at priority %02d}' % (self.name, self.task_type, self.executor, self.priority)
+
+
+class M3Task:
+
+    # TODO drop successors and predecessors (infer based on order in list)
+    # TODO add txtlines[] and in JSON define as a list and make name short and unique
+    # TODO create a Status enum NONE, PASS, FAIL and include other fields for error details
+    # TODO have a status field initialized to NONE which should be set to PASS or FAIL on exec
+    def __init__(self, tskname, tsktype, tskexec, tskspectype, tsktext, tskfailact, tskspecval, tsknote=None):
+        self.name = tskname
+        self.group_name = None
+        self.task_type = tsktype
+        self.successors = []
+        self.predecessors = []
+        self.executor = tskexec
+        self.onfailure = tskfailact
+        self.priority = 1
+        self.state = M3TaskState.NEW
+        # TODO Split text into lines of a max width
         if tskspectype == 'jiraspec':
             self.specification = M3JiraSpecification.from_kvstruct(tskspecval)
         elif tskspectype == 'terraformspec':

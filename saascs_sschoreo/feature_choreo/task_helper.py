@@ -215,10 +215,10 @@ def cs_load_tasks(lggr, myapihandler, config, filename='tasks2.json', basepath=N
             tskexekey = tskexec.section_name
             taskval = None
             if tsknote is None:
-                taskval = task_consts.M3Task(tskname, tsktype, tskexec, tskexekey, 
+                taskval = task_consts.M3FlatTask(tskname, tsktype, tskexec, tskexekey, 
                                 tskteam, tskfailure, tskdict[tskexekey])
             else:
-                taskval = task_consts.M3Task(tskname, tsktype, tskexec, tskexekey, 
+                taskval = task_consts.M3FlatTask(tskname, tsktype, tskexec, tskexekey, 
                                 tskteam, tskfailure, tskdict[tskexekey], tsknote)
             if tskexekey == 'scriptspec':
                 taskval.specification.resolve_location(myapihandler, config)
@@ -239,7 +239,7 @@ def cs_load_tasks(lggr, myapihandler, config, filename='tasks2.json', basepath=N
         raise common_entities.M3ReferenceDataException('Tasks', 'Empty')
 
 
-def cs_parse_task(lggr, myapihandler, config, tskdict):
+def cs_parse_json_task(lggr, myapihandler, config, tskdict):
     tsknote = tskdict['note'] if 'note' in tskdict else None
     tskgrpstr = None
     tskname = None
@@ -301,6 +301,94 @@ def cs_parse_task(lggr, myapihandler, config, tskdict):
     return (tskgrpstr, tskstage, tskarea, tskteam, taskval)
 
 
+def create_task_group(tskstage, lggr, tskdict):
+    tskarea = None
+    tskteam = None
+    _tskgrpstr = tskdict['Task Name'].strip()
+    if 'Team' not in tskdict:
+        raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
+    else:
+        tskteam = tskdict['Team']
+        if tskteam.isspace():
+            tskteam = None
+    if tskteam is None:
+        raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
+    _tskarestr = None
+    if 'Area' in tskdict:
+        _tskarestr = tskdict['Area']
+        if _tskarestr.isspace():
+            _tskarestr = None
+    if _tskarestr is None:
+        tskarea = task_consts.M3TaskArea.BUILD
+    else:
+        tskarea = task_consts.M3TaskArea.from_name(_tskarestr.strip())
+    return task_consts.M3TaskSet(_tskgrpstr, tskarea, tskstage, tskteam)
+
+
+"""
+Fields in export of MPP into Excel
+- ID
+- Project (Env - Region)
+- Task Name (Task outline Level is 3, outline level of 4 are steps within a Check Spec, 
+		outline level 2 is a TaskSet, outline level 1 is a stage if followed by other outlines,
+		otherwise generate a name from ID and use the name as the text)
+- Duration (For timelines; 0 duration tasks are markers NEED TO IMPLEMENT CONCEPT)
+- Predecessors (outside group or phase should be changed to the whole group, inside could be to omitted as it is in sequence)
+- Outline Level
+Add
+- type
+- mode (any level 3 task with level 4 is of mode CHECK and so can be left blank)
+- team (only for outline level 2)
+- failure
+- area (only for outline level 2)
+"""
+def cs_parse_csv_task(lggr, myapihandler, config, tskdict):
+    tsknote = tskdict['note'] if 'note' in tskdict else None
+    tskname = None
+    tsktext = None
+    tskexec = None
+    tsktype = None
+    tskexekey = None
+    tskfailure = None
+    tsktimeline = None
+    tskid = -1
+    tskoutline = -1
+    if 'type' not in tskdict:
+        raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
+    else:
+        tsktype = task_consts.M3TaskType.from_name(tskdict['type'])
+    if 'Task Name' not in tskdict:
+        raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
+    else:
+        tskname = tskdict['Task Name'] # TODO need to generate Name from ID
+        tsktext = tskdict['Task Name']
+    if 'failure' in tskdict:
+        tskfailure = task_consts.M3TaskExecutor.from_name(tskdict['failure'])
+    else:
+        tskfailure = task_consts.M3TaskExecutor.MANUAL
+    if tsktype == task_consts.M3TaskType.CHECK:
+        tskexec = task_consts.M3TaskExecutor.CHECK
+    else:
+        if 'mode' not in tskdict:
+            raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
+        else:
+            tskexec = task_consts.M3TaskExecutor.from_name(tskdict['mode'])
+    tskexekey = tskexec.section_name
+    tskid = tskdict['ID']
+    tskoutline = tskdict['Outline Level']
+    tsktimeline = tskdict['Duration']
+    taskval = None
+    if tsknote is None:
+        taskval = task_consts.M3Task(tskname, tsktype, tskexec, tskexekey, tsktext, 
+                                tskfailure, tskdict[tskexekey])
+    else:
+        taskval = task_consts.M3Task(tskname, tsktype, tskexec, tskexekey, tsktext, 
+                                tskfailure, tskdict[tskexekey], tsknote)
+    if tskexekey == 'scriptspec':
+        taskval.specification.resolve_location(myapihandler, config)
+    return (tskid, tskoutline, tsktimeline, taskval)
+
+
 def cs_load_tasks_fromcsv(lggr, myapihandler, config, filename='tasks2.csv', basepath=None):
     _fullpath = './input/{}'.format(filename) if basepath is None else '{}/input/{}'.format(basepath, filename)
     lggr.debug(_fullpath)
@@ -313,33 +401,43 @@ def cs_load_tasks_fromcsv(lggr, myapihandler, config, filename='tasks2.csv', bas
                 }
         _alltasks = []
         _allgroups = {}
-#        self.name = tskname
-#        self.area = tskarea
-#        self.team = tskteam
-#        self.stage = tskstg
-#        self.tasks = []
-#        self.successors = []
-#        self.predecessors = []
+        tskstage = None
+        tskgroup = None
         for tskdict in csvrdr:
             tskgrpstr = None
-            tskstage = None
-            tskgroup = None
-            tskarea = None
-            tskteam = None
+            tskstgstr = None
+            _tsknum = None
+            tsktimeline = None
+            _timevalue = -1 # 0 value tasks are markers
+            tskchkcondstr = None
             taskval = None
-            (tskgrpstr, tskstage, tskarea, tskteam, taskval) = cs_parse_task(lggr, myapihandler, config, tskdict)
+            _outlinelevel = -1
+            (_tsknum, _outlinelevel, tsktimeline, taskval) = cs_parse_csv_task(lggr, myapihandler, config, tskdict)
             _tskgrpcreated = False
-            if tskgrpstr not in _allgroups:
-                tskgroup = task_consts.M3TaskSet(tskgrpstr, tskarea, tskstage, tskteam)
+            if _outlinelevel == 1:
+                # stage if followed by other outlines
+                tskstgstr = tskdict['Task Name'].strip()
+                # TODO Determine when it is a stage and when it is just a level 1 task
+                tskstage = task_consts.M3TaskStage.from_name(tskstgstr)
+            elif _outlinelevel == 2:
+                # TaskSet
+                tskgrpstr = tskdict['Task Name'].strip()
+                tskgroup = create_task_group(tskstage, lggr, tskdict)
                 _allgroups[tskgrpstr] = tskgroup
                 _tskgrpcreated = True
+                if stages[tskstage] is None:
+                    stages[tskstage] = tskgroup
+            elif _outlinelevel == 3:
+                pass # vanilla task, name is task text, task name is generated from ID
+            elif _outlinelevel == 4:
+                tskchkcondstr = tskdict['Task Name'].strip() # steps within a Check Spec
             else:
-                tskgroup = _allgroups[tskgrpstr]
-            if stages[tskstage] is None:
-                stages[tskstage] = tskgroup
+                raise common_entities.M3GeneralChoreographyException('Error unknown value in task specification')
+            # TODO Parse and handle timelines (timeline should be for whole group)
             _prival = 0
-            _tsknum = tskdict['taskid']
+            # Duration (For timelines; 0 duration tasks are markers NEED TO IMPLEMENT CONCEPT)
             # predecessors are task numbers or ids in MS Project exported CSV
+            # Predecessors (outside group or phase should be changed to the whole group, inside could be to omitted as it is in sequence)
             if len(tskdict['predecessor']) > 0:
                 for tskpred in tskdict['predecessor']:
                     _predtsk = _alltasks[tskpred]
@@ -353,6 +451,7 @@ def cs_load_tasks_fromcsv(lggr, myapihandler, config, filename='tasks2.csv', bas
                 taskval.priority = _prival
             _alltasks[_tsknum] = taskval
             tskgroup.tasks.append(taskval)
+            taskval.group_name = tskgroup.name
         return stages
 
 
