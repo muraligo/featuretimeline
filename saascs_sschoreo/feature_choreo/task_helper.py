@@ -395,14 +395,10 @@ def write_close_task(ischecktask, tasksjson, predecessors):
         # close out CHECK task
         tasksjson.write('] }}')
         ischecktask = False
-    # TODO Close out current task
+    # Close out current task
     tasksjson.write(', "failure": "manual", "predecessors": [')
-    _firstpred = True
-    for _predval in predecessors:
-        _outstr = '{}'.format(_predval) if _firstpred else ', {}'.format(_predval)
-        if _firstpred:
-            _firstpred = False
-        tasksjson.write(_outstr)
+    _outstr = ','.join(predecessors)
+    tasksjson.write(_outstr)
     tasksjson.write('] }}')
     return ischecktask
 
@@ -420,7 +416,7 @@ def load_convert_tasks_fromcsv(lggr, input='tasks2.csv', tmppath='/Users/mugopal
         _tsksetidmap = {}
         _tsksetrevidmap = {}
         _checkidmap = []
-        _taskparentidmap = []
+        _taskparentidmap = {}
         _currstgname = None
         _currsetname = None
         _currtskname = None
@@ -484,6 +480,7 @@ def load_convert_tasks_fromcsv(lggr, input='tasks2.csv', tmppath='/Users/mugopal
                 _outstr = None
                 _tasksjson.write('"tasks": [')
                 _isnewtskset = True
+                _taskparentidmap[_tskid] = _tskid # put self also in there
             elif _outlinelevel == 3:
                 _ischecktask = write_close_task(_ischecktask, _tasksjson, _predecessors)
                 _predecessors.clear()
@@ -515,6 +512,7 @@ def load_convert_tasks_fromcsv(lggr, input='tasks2.csv', tmppath='/Users/mugopal
                         _outstr = '"mode": "{}", '.format(_mode)
                 _tasksjson.write(_outstr)
                 _outstr = None
+                _taskparentidmap[_tskid] = _tsksetrevidmap[_currsetname]
                 if _mode == 'check':
                     _outstr = '"checkspec": {{ "action": "ALL TRUE", "conditions": [ '
                 elif _mode == 'terraform':
@@ -527,7 +525,11 @@ def load_convert_tasks_fromcsv(lggr, input='tasks2.csv', tmppath='/Users/mugopal
                     _tgtparts = _tsktarget.split('.')
                     _outstr = '"jiraspec": {{ "project": "{}", "issuetype": "STORY", "components": ["{}"], "labels": ["{}"], "parent": {{ "issuetype": "EPIC", "issueid": "{}" }} }}'.format(_tgtparts[0], _tgtparts[2], _tgtparts[1], _tgtparts[3])
                 _tasksjson.write(_outstr)
-                # TODO if predecessors exist, look up the id and find the nearest task set and use its name instead
+                _tgtparts = None
+                # if predecessors exist, look up the id and find the nearest task set and use its name instead
+                if 'Predecessors' in _tskdict and not _tskdict['Predecessors'].isspace():
+                    _tgtparts = _tskdict['Predecessors'].split(',')
+                    _predecessors = [_tsksetidmap[_taskparentidmap[_tgtprt]] for _tgtprt in _tgtparts]
 
         _tsksstr = _tasksjson.getvalue()
 
