@@ -15,6 +15,7 @@ import threading
 import time
 import queue as stdq
 import csv
+from io import StringIO
 from .helpers import file_reader
 from . import task_consts, common_entities
 from fabric2.tasks import task
@@ -49,7 +50,7 @@ def perform_shell(conn, lggr, tskspec):
         with open(scrptspath, 'w') as scrptf:
             scrptf.write(tskspec.location.textdata)
             scrptf.close()
-        # TODO make this file executable
+        # make this file executable
         os.chmod(scrptspath, _FILEPERMS)
 
         result = conn.run(scrptspath)
@@ -387,6 +388,140 @@ def cs_parse_csv_task(lggr, myapihandler, config, tskdict):
     if tskexekey == 'scriptspec':
         taskval.specification.resolve_location(myapihandler, config)
     return (tskid, tskoutline, tsktimeline, taskval)
+
+
+def write_close_task(ischecktask, tasksjson, predecessors):
+    if ischecktask:
+        # close out CHECK task
+        tasksjson.write('] }}')
+        ischecktask = False
+    # TODO Close out current task
+    tasksjson.write(', "failure": "manual", "predecessors": [')
+    _firstpred = True
+    for _predval in predecessors:
+        _outstr = '{}'.format(_predval) if _firstpred else ', {}'.format(_predval)
+        if _firstpred:
+            _firstpred = False
+        tasksjson.write(_outstr)
+    tasksjson.write('] }}')
+    return ischecktask
+
+
+def load_convert_tasks_fromcsv(lggr, input='tasks2.csv', tmppath='/Users/mugopala/tmp', basepath=None):
+    _fullpath = './input/{}'.format(input) if basepath is None else '{}/input/{}'.format(basepath, input)
+    lggr.debug(_fullpath)
+    _outpath = '{}_tmptasks.json'.format(tmppath) if tmppath[-1] == '/' else '{}/_tmptasks.json'.format(tmppath)
+    _tsksstr = None
+    with open(_fullpath, newline='') as csvfile:
+        _csvrdr = csv.DictReader(csvfile)
+        _tasksjson = StringIO()
+        _stagerevidmap = {}
+        _taskidmap = []
+        _tsksetidmap = {}
+        _tsksetrevidmap = {}
+        _checkidmap = []
+        _taskparentidmap = []
+        _currstgname = None
+        _currsetname = None
+        _currtskname = None
+        _predecessors = []
+        _isnewstage = False
+        _isnewtskset = False
+        _ischecktask = False
+        _isnewchecktask = False
+        for _tskdict in _csvrdr:
+            if 'Task Name' not in _tskdict:
+                raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
+            if 'Outline Level' not in _tskdict:
+                raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
+            # ASSUME: ID, Duration, and Predecessor exist as it is a standard MPP field
+            # each output is _tasksjson.write(thestring)
+            _outlinelevel = int(_tskdict['Outline Level'])
+            _tskid = int(_tskdict['ID'])
+            _nametext = _tskdict['Task Name'].strip()
+            _outstr = None
+            if _outlinelevel == 4:
+                 # TODO generalize type; if type exists, create a condition spec to automatically execute check
+                _outstr = '{{"name": "{}", "type": "manual"}}'.format(_nametext) if _isnewchecktask else ', {{"name": "{}", "type": "manual"}}'.format(_nametext)
+                _tasksjson.write(_outstr)
+                _outstr = None
+                if _isnewchecktask:
+                    _isnewchecktask = False
+            elif _outlinelevel == 1:
+                if _nametext == _tskdict['Project'].strip():
+                    continue
+                elif 'Foundation' in _nametext:
+                    _stagerevidmap[task_consts.M3TaskStage.FOUNDATION] = _tskid
+                    _isnewstage = True
+                    _currstgname = task_consts.M3TaskStage.FOUNDATION.name
+                elif 'Primordial' in _nametext:
+                    _stagerevidmap[task_consts.M3TaskStage.PRIMORDIAL] = _tskid
+                    _isnewstage = True
+                    _currstgname = task_consts.M3TaskStage.PRIMORDIAL.name
+                elif 'Agent Based' in _nametext:
+                    _stagerevidmap[task_consts.M3TaskStage.CORE] = _tskid
+                    _isnewstage = True
+                    _currstgname = task_consts.M3TaskStage.CORE.name
+                elif 'All Remaining' in _nametext:
+                    _stagerevidmap[task_consts.M3TaskStage.HIGHER] = _tskid
+                    _isnewstage = True
+                    _currstgname = task_consts.M3TaskStage.HIGHER.name
+                else:
+                    # TODO if 0 duration task it is a check task for all
+                    # TODO: else it is a link task for all
+                    pass
+            elif _outlinelevel == 2:
+                _ischecktask = write_close_task(_ischecktask, _tasksjson, _predecessors)
+                _currtskname = None
+                _predecessors.clear()
+                # Close out tasks in set, task set itself, then start new task set
+                _tasksjson.write('] }}, {{ "name": "{}", "stage": "{}", '.format(_nametext, _currstgname))
+                _currsetname = _nametext
+                _tsksetidmap[_tskid] = _currsetname
+                _tsksetrevidmap[_currsetname] = _tskid
+                _outstr = 'BUILD' if 'Area' in _tskdict or _tskdict['Area'].isspace() else _tskdict['Area']
+                _tasksjson.write(_outstr)
+                _outstr = None
+                _tasksjson.write('"tasks": [')
+                _isnewtskset = True
+            elif _outlinelevel == 3:
+                _ischecktask = write_close_task(_ischecktask, _tasksjson, _predecessors)
+                _predecessors.clear()
+                if _isnewtskset:
+                    _isnewtskset = False
+                _currtskname = _nametext
+                if 'Type' not in _tskdict or _tskdict['Type'].isspace():
+                    raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
+                if 'Team' not in _tskdict or _tskdict['Team'].isspace():
+                    raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
+                _tasksjson.write('{{ "name": "{}", "type": "{}", "team": "{}", '.format(_nametext, _tskdict['Type'].strip().lower(), _tskdict['Team'].strip().upper()))
+                _tsktype = task_consts.M3TaskType.from_name(_tskdict['Type'].strip().lower())
+                if _tsktype == task_consts.M3TaskType.CHECK:
+                    # TODO if check task, output "checkspec": { "action": "ALL TRUE", "conditions": [ 
+                    _outstr = '"mode": "check", '
+                    _mode = 'check'
+                    pass
+                else:
+                    if 'Mode' not in _tskdict or _tskdict['Mode'].isspace():
+	                    # TODO c. if does not exist and type not check, set mode as 'manual' and define a standard JIRA spec for the team
+                        _outstr = ''
+                        raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
+                    else:
+                        _mode = _tskdict['Mode'].strip().lower()
+                        _outstr = '"mode": "{}", '.format(_mode)
+                _tasksjson.write(_outstr)
+                if _mode == 'check':
+	                # TODO b. if does not exist, if it is a check type create a new check spec and add mode as 'check'
+                    pass
+                elif _mode == '':
+	                # TODO a. look for corresponding spec and add
+                    pass
+                # TODO if predecessors exist, look up the id and find the nearest task set and use its name instead
+
+        _tsksstr = _tasksjson.getvalue()
+
+    # TODO output _tsksstr to _outpath
+    return _outpath
 
 
 def cs_load_tasks_fromcsv(lggr, myapihandler, config, filename='tasks2.csv', basepath=None):
