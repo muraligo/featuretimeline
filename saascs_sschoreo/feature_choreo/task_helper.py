@@ -489,15 +489,15 @@ def load_convert_tasks_fromcsv(lggr, input='tasks2.csv', tmppath='/Users/mugopal
                 _predecessors.clear()
                 if _isnewtskset:
                     _isnewtskset = False
-                _currtskname = _nametext
+                _currtskname = 'Task{}'.format(_tskid)
                 if 'Type' not in _tskdict or _tskdict['Type'].isspace():
                     raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
                 if 'Team' not in _tskdict or _tskdict['Team'].isspace():
                     raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
-                _tasksjson.write('{{ "name": "{}", "type": "{}", "team": "{}", '.format(_nametext, _tskdict['Type'].strip().lower(), _tskdict['Team'].strip().upper()))
+                _tasksjson.write('{{ "name": "{}", "type": "{}", "team": "{}", "text": "{}", '.format(_currtskname, _tskdict['Type'].strip().lower(), _tskdict['Team'].strip().upper(), _nametext))
                 _tsktype = task_consts.M3TaskType.from_name(_tskdict['Type'].strip().lower())
+                _tsktarget = None
                 if _tsktype == task_consts.M3TaskType.CHECK:
-                    # TODO if check task, output "checkspec": { "action": "ALL TRUE", "conditions": [ 
                     _outstr = '"mode": "check", '
                     _mode = 'check'
                     pass
@@ -507,15 +507,26 @@ def load_convert_tasks_fromcsv(lggr, input='tasks2.csv', tmppath='/Users/mugopal
                         _outstr = ''
                         raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
                     else:
+                        if 'Target' not in _tskdict or _tskdict['Target'].isspace():
+                            raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
+                        else:
+                            _tsktarget = _tskdict['Target'].strip()
                         _mode = _tskdict['Mode'].strip().lower()
                         _outstr = '"mode": "{}", '.format(_mode)
                 _tasksjson.write(_outstr)
+                _outstr = None
                 if _mode == 'check':
-	                # TODO b. if does not exist, if it is a check type create a new check spec and add mode as 'check'
-                    pass
-                elif _mode == '':
-	                # TODO a. look for corresponding spec and add
-                    pass
+                    _outstr = '"checkspec": {{ "action": "ALL TRUE", "conditions": [ '
+                elif _mode == 'terraform':
+	                _outstr = '"terraformspec": {{ "location": {{ "type": "object", "target": "{}"'.format(_tsktarget)
+                elif _mode == 'chef':
+	                _outstr = '"chefspec": {{ "location": {{ "type": "object", "target": "{}"'.format(_tsktarget)
+                elif _mode == 'shell':
+	                _outstr = '"scriptspec": {{ "location": {{ "type": "object", "target": "{}"'.format(_tsktarget)
+                elif _mode == 'manual':
+                    _tgtparts = _tsktarget.split('.')
+                    _outstr = '"jiraspec": {{ "project": "{}", "issuetype": "STORY", "components": ["{}"], "labels": ["{}"], "parent": {{ "issuetype": "EPIC", "issueid": "{}" }} }}'.format(_tgtparts[0], _tgtparts[2], _tgtparts[1], _tgtparts[3])
+                _tasksjson.write(_outstr)
                 # TODO if predecessors exist, look up the id and find the nearest task set and use its name instead
 
         _tsksstr = _tasksjson.getvalue()
