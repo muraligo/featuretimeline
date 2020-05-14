@@ -191,10 +191,9 @@ class M3JiraSpecification(M3Specification):
 
 class M3TaskSet:
 
-    def __init__(self, tskname, tskarea, tskstg, tskteam):
+    def __init__(self, tskname, tskarea, tskstg):
         self.name = tskname
         self.area = tskarea
-        self.team = tskteam
         self.stage = tskstg
         self.tasks = []
         self.successors = []
@@ -239,10 +238,11 @@ class M3Task:
     # TODO add txtlines[] and in JSON define as a list and make name short and unique
     # TODO create a Status enum NONE, PASS, FAIL and include other fields for error details
     # TODO have a status field initialized to NONE which should be set to PASS or FAIL on exec
-    def __init__(self, tskname, tsktype, tskexec, tskspectype, tsktext, tskfailact, tskspecval, tsknote=None):
+    def __init__(self, tskname, tsktype, tskteam, tskexec, tskspectype, tsktext, tskfailact, tskspecval, tsknote=None):
         self.name = tskname
         self.group_name = None
         self.task_type = tsktype
+        self.team = tskteam
         self.successors = []
         self.predecessors = []
         self.executor = tskexec
