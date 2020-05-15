@@ -202,7 +202,11 @@ class M3TaskSet:
         self.state = M3TaskState.NEW
 
     def __str__(self):
-        return 'TaskSet{[%s] of area %s at priority %02d}' % (self.name, self.area, self.priority)
+        _setval = 'TaskSet{[%s] of area %s at priority %02d}\n' % (self.name, self.area, self.priority)
+        for tskinst in self.tasks:
+            _setval2 = '    { %s }\n' % tskinst
+            _setval = _setval + _setval2
+        return _setval
 
 
 class M3FlatTask:
@@ -243,6 +247,7 @@ class M3Task:
         self.group_name = None
         self.task_type = tsktype
         self.team = tskteam
+        self.description = tsktext
         self.successors = []
         self.predecessors = []
         self.executor = tskexec
@@ -262,6 +267,6 @@ class M3Task:
             self.note = tsknote
 
     def __str__(self):
-        return 'Task{[%s] of type %s and executor %s at priority %02d}' % (self.name, self.task_type, self.executor, self.priority)
+        return 'Task{[%s - %s] of type %s and executor %s at priority %02d}' % (self.name, self.description, self.task_type, self.executor, self.priority)
 
 

@@ -264,7 +264,7 @@ def cs_parse_json_task(lggr, myapihandler, config, tskdict):
     if 'text' not in tskdict:
         raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
     else:
-        tsktext = tskdict['description']
+        tsktext = tskdict['text']
     if 'failure' in tskdict:
         tskfailure = task_consts.M3TaskExecutor.from_name(tskdict['failure'])
     else:
@@ -317,9 +317,10 @@ def load_tasks_fromjson(lggr, myapihandler, config, filename='tasks3.json', base
             else:
                 tsksetarea = task_consts.M3TaskArea.from_name(tsksetdict['area'])
             tsksetval = task_consts.M3TaskSet(tsksetname, tsksetarea, tsksetstage)
+            _setprival = 0
             for tskdict in tsksetdict['tasks']:
                 taskval = cs_parse_json_task(lggr, myapihandler, config, tskdict)
-                _prival = 0
+                _prival = _setprival
                 if 'predecessor' in tskdict and len(tskdict['predecessor']) > 0:
                     for tskpred in tskdict['predecessor']:
                         taskval.predecessors.append(_allsets[tskpred])
@@ -331,6 +332,7 @@ def load_tasks_fromjson(lggr, myapihandler, config, filename='tasks3.json', base
                 _prival = _prival + 1
                 taskval.priority = _prival
                 tsksetval.priority = _prival
+                _setprival = _prival
                 tsksetval.tasks.append(taskval)
             if stages[tsksetstage] is None:
                 stages[tsksetstage] = tsksetval
@@ -548,4 +550,19 @@ def print_task(taskval):
         else:
             for tskinst in taskval.successors:
                 print_task(tskinst)
+
+
+def print_task_set(tsksetval):
+    global tasksinstage
+    if tsksetval is None:
+        print('    No task passed in')
+    else:
+        if len(tasksinstage) <= 0 or tsksetval.name not in tasksinstage:
+            print("    %s" % tsksetval)
+            tasksinstage.append(tsksetval)
+        if len(tsksetval.successors) <= 0:
+            print('    End of line')
+        else:
+            for tskinst in tsksetval.successors:
+                print_task_set(tskinst)
 
