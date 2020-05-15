@@ -1,0 +1,153 @@
+{
+    "tasksets": [
+        {
+            "name": "Primordial Preconditions",
+            "area": "build",
+            "stage": "primordial",
+            "tasks": [
+                {
+                    "name": "Task3",
+                    "type": "check",
+                    "team": "NETWORK",
+                    "text": "validate networks",
+                    "checkspec": {
+                        "action": "ALL TRUE",
+                        "conditions": [
+                            {
+                                "name": "verify DNS",
+                                "type": "manual"
+                            },
+                            {
+                                "name": "verify backhaul",
+                                "type": "manual"
+                            }
+                        ]
+                    },
+                    "failure": "manual",
+                    "predecessor": []
+                }
+            ]
+        },
+        {
+            "name": "Proxyhost",
+            "area": "build",
+            "stage": "primordial",
+            "tasks": [
+                {
+                    "name": "Task7",
+                    "type": "perform",
+                    "mode": "shell",
+                    "team": "TERRAFORM",
+                    "text": "instantiate proxy",
+                    "scriptspec": {
+                        "location": {
+                            "type": "file",
+                            "target": "tests/testscript.sh"
+                        }
+                    },
+                    "failure": "manual",
+                    "predecessor": ["Primordial Preconditions"]
+                },
+                {
+                    "name": "Task8",
+                    "type": "perform",
+                    "mode": "manual",
+                    "team": "TERRAFORM",
+                    "text": "register proxy with DNS",
+                    "note": "map to AV Depot IP",
+                    "jiraspec": {
+                        "project": "GPDAF",
+                        "issuetype": "STORY",
+                        "components": [ "Automation" ],
+                        "labels": [ "GBUCS3" ],
+                        "parent": {
+                            "issuetype": "EPIC",
+                            "issueid": "NEED_TO_PROVIDE"
+                        }
+                    },
+                    "failure": "manual"
+                },
+                {
+                    "name": "Task9",
+                    "type": "check",
+                    "team": "ISS",
+                    "text": "validate proxy service",
+                    "checkspec": {
+                        "action": "ALL TRUE",
+                        "conditions": [
+                            {
+                                "name": "verify service runs correctly",
+                                "type": "manual"
+                            }
+                        ]
+                    },
+                    "failure": "manual"
+                }
+            ]
+        },
+        {
+            "name": "LDAP",
+            "area": "build",
+            "stage": "primordial",
+            "tasks": [
+                {
+                    "name": "Task12",
+                    "type": "perform",
+                    "mode": "shell",
+                    "team": "TERRAFORM",
+                    "text": "instantiate LDAP",
+                    "scriptspec": {
+                        "location": {
+                            "type": "object",
+                            "target": "testscript"
+                        }
+                    },
+                    "failure": "manual",
+                    "predecessor": ["Primordial Preconditions"]
+                },
+                {
+                    "name": "Task13",
+                    "type": "check",
+                    "team": "ISS",
+                    "text": "validate LDAP service",
+                    "checkspec": {
+                        "action": "ALL TRUE",
+                        "conditions": [
+                            {
+                                "name": "verify service runs correctly",
+                                "type": "manual"
+                            }
+                        ]
+                    },
+                    "failure": "manual"
+                }
+            ]
+        },
+        {
+            "name": "LinkLDAPProxy",
+            "area": "build",
+            "stage": "primordial",
+            "tasks": [
+                {
+                    "name": "link proxy and LDAP",
+                    "type": "link",
+                    "mode": "manual",
+                    "team": "TERRAFORM",
+                    "text": "link proxy and LDAP",
+                    "jiraspec": {
+                        "project": "GPDAF",
+                        "issuetype": "STORY",
+                        "components": [ "Automation" ],
+                        "labels": [ "GBUCS3" ],
+                        "parent": {
+                            "issuetype": "EPIC",
+                            "issueid": "NEED_TO_PROVIDE"
+                        }
+                    },
+                    "failure": "manual",
+                    "predecessor": ["Proxyhost", "LDAP"]
+                }
+            ]
+        }
+    ]
+}
