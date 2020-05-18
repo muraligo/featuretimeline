@@ -113,6 +113,7 @@ currstg = task_consts.M3TaskStage.PRIMORDIAL
 print("%s" % currstg)
 task_helper.print_task(tasksbystage[currstg])
 # task_helper.choreograph_tasks(applogger, tasksbystage, appconfig)
+task_helper.choreograph_tasksets(applogger, tasksbystage, appconfig)
 
 # TODO Comment all this when testing above
 # list_oci_oss_namespace()

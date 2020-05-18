@@ -165,6 +165,87 @@ class M3TaskStateManager(threading.Thread):
                     self.task_queue.put(tskinst)
 
 
+class M3TaskSetStateManager(threading.Thread):
+
+    def __init__(self, task_queue, result_queue, lggr, tskstage, firsttaskset, appconfig):
+        super(M3TaskSetStateManager, self).__init__()
+        # TODO implement any environment initialization
+        self.task_queue = task_queue
+        self.result_queue = result_queue
+        self.stage = tskstage
+        self.tasksetsinstage = {}
+        self.taskorderinsets = {}
+        self.tasksinsets = {}
+        self.logger = lggr
+        q = stdq.SimpleQueue()
+        q.put(firsttaskset)
+        while (not q.empty):
+            tasksetval = q.get()
+            tasksetval.state = task_consts.M3TaskState.READY
+            self.tasksetsinstage[tasksetval.name] = tasksetval
+            _tsksinset = {}
+            _ntasks = int(tasksetval.tasks.length)
+            for _ix in range(_ntasks):
+                _tsksinset[tasksetval.tasks[_ix].name] = _ix
+                self.tasksinsets[tasksetval.tasks[_ix].name] = tasksetval
+            self.taskorderinsets[tasksetval.name] = _tsksinset
+            for tsksetinst in tasksetval.successors:
+                q.put(tsksetinst)
+        # print out maps to ensure they are ok
+        print("%s initialized" % self.getName())
+
+    def run(self):
+        proc_name = self.name
+        while True:
+            taskval = self.result_queue.get()
+            if taskval is None:
+                # Poison pill means shutdown
+                self.logger.debug('{}: Exiting'.format(proc_name))
+                break
+            self.logger.debug('{}: Completing {}'.format(proc_name, taskval))
+            taskval.state = task_consts.M3TaskState.DONE
+            _tskset = self.tasksinsets[taskval.name]
+            if not _tskset.alldone():
+                # while tasks in current set are NOT DONE, keep rolling through them
+                _tsksinset = self.taskorderinsets[_tskset.name]
+                _ix1tsk = _tsksinset[taskval.name]
+                _ix1tsk += 1
+                if _ix1tsk < _tskset.tasks.length:
+                    _tskset.tasks[_ix1tsk].state = task_consts.M3TaskState.RUNNING
+                    self.task_queue.put(_tskset.tasks[_ix1tsk])
+                _tskset.state = task_consts.M3TaskState.DONE
+                continue
+            _alldone = True
+            # task set done, look at successors
+            if len(taskval.successors) <= 0:
+                # if we reach a tail task set, check if all task sets are DONE
+                # if so, inject a poison pill
+                for tsksetnm in self.tasksetsinstage:
+                    if self.tasksetsinstage[tsksetnm].state == task_consts.M3TaskState.DONE:
+                        continue
+                    else:
+                        _alldone = False
+                        break
+                if _alldone == True:
+                    # inject poison pill
+                    self.task_queue.put(None)
+                continue
+            # loop thru successors adding any whose predecessors are all done
+            for tsksetinst in _tskset.successors:
+                _tskready = True
+                if len(tsksetinst.predecessors) > 0:
+                    for tskpred in tsksetinst.predecessors:
+                        if tskpred.state == task_consts.M3TaskState.DONE:
+                            continue
+                        _tskready = False
+                        break
+                if _tskready == True:
+                    tsksetinst.state = task_consts.M3TaskState.RUNNING
+                    tskinst = tsksetinst.tasks[0]
+                    tskinst.state = task_consts.M3TaskState.RUNNING
+                    self.task_queue.put(tskinst)
+
+
 
 def cs_load_tasks(lggr, myapihandler, config, filename='tasks2.json', basepath=None):
     _fullpath = './input/{}'.format(filename) if basepath is None else '{}/input/{}'.format(basepath, filename)
@@ -323,10 +404,9 @@ def load_tasks_fromjson(lggr, myapihandler, config, filename='tasks3.json', base
                 _prival = _setprival
                 if 'predecessor' in tskdict and len(tskdict['predecessor']) > 0:
                     for tskpred in tskdict['predecessor']:
-                        taskval.predecessors.append(_allsets[tskpred])
                         if (_allsets[tskpred] not in tsksetval.predecessors):
                             tsksetval.predecessors.append(_allsets[tskpred])
-                        _allsets[tskpred].successors.append(tsksetval)
+                            _allsets[tskpred].successors.append(tsksetval)
                         if _allsets[tskpred].priority > _prival:
                             _prival = _allsets[tskpred].priority
                 _prival = _prival + 1
@@ -533,6 +613,26 @@ def choreograph_tasks(lggr, tasksbystage, appcfg):
     producer.start()
 
     exeQ.put(tasksbystage[currstg])
+
+
+def choreograph_tasksets(lggr, tasksbystage, appcfg):
+    # Establish communication queues
+    exeQ = stdq.Queue()
+    resultQ = stdq.Queue()
+
+    # Start consumers
+    consumer = M3TaskPerformer(exeQ, resultQ, lggr, appcfg)
+    consumer.start()
+
+    currstg = task_consts.M3TaskStage.PRIMORDIAL
+    stgstr = "%s" % currstg
+    print(stgstr)
+
+    producer = M3TaskSetStateManager(exeQ, resultQ, lggr, currstg, tasksbystage[currstg], appcfg)
+    producer.start()
+
+    exeQ.put(tasksbystage[currstg].tasks[0])
+
 
 global tasksinstage
 tasksinstage = []

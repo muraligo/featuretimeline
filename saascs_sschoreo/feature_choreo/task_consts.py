@@ -208,6 +208,15 @@ class M3TaskSet:
             _setval = _setval + _setval2
         return _setval
 
+    def alldone(self):
+        _alldone = True
+        for tskinst in self.tasks:
+            if tskinst.state == M3TaskState.DONE:
+                continue
+            _alldone = False
+            break
+        return _alldone
+
 
 class M3FlatTask:
 
@@ -248,8 +257,6 @@ class M3Task:
         self.task_type = tsktype
         self.team = tskteam
         self.description = tsktext
-        self.successors = []
-        self.predecessors = []
         self.executor = tskexec
         self.onfailure = tskfailact
         self.priority = 1
