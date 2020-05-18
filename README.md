@@ -8,6 +8,25 @@ It allows for the visualization of the task graphs along with timelines.
 
 ## Task Graph Entities
 
+### Task Set
+
+An ordered list of tasks.
+
+Following are the properties of a Task Set:
+
+- name Unique descriptive summary of the purpose of the task set
+- area The organizational area that is responsible
+    1. "build" a regular task set; responsibility of the service owning team
+    2. "architecture" controls task set
+    3. "security" controls task set
+    4. "compliance" task set
+- stage is an enumerated type. See below for values
+- tasks is an ordered list of tasks in this set
+- predecessors list of task sets this task set depends on
+- successors (derived) list of task sets that are dependent on this task set. Primarily to trigger waiting task sets
+
+
+
 ### Task
 
 A task represents the definition of what can be executed.
@@ -27,15 +46,11 @@ Following are the properties of a task:
     4. "chef" with a "chefspec" referencing a chef recipe (see below for attributes)
     5. "check" with a "check spec" with a set of check actions each referencing how to check (see below for attributes)
 - specification to go with the executor
-- stage is an enumerated type. See below for values
 - team is the name of the team assigned to the task
+- description brief, to describe what the task does
 - onfailure action to be taken if the task fails. See below for values
-- predecessors list of tasks this task depends on
-- successors (derived) list of tasks that are dependent on this task. Primarily to trigger waiting tasks
 - note (Optional) note describing the task some more
 
-In addition one of the two should be provided
-- service is the unique name of a service defined in a services definition. Attributes are shown below. If specified, its attributes are used instead of equivalent ones in the task.
 
 
 ### Stage
@@ -94,4 +109,10 @@ Comprises of a type and a location specification. The location specification dep
 - file referring to a file on the local file system where the choreographer is running
 - object referring to an object store service, the bucket, and the object
 
+## Capabilities
 
+1. Graph has Task Sets that have an ordered list of tasks
+2. Only predecessors need to be specified; graph is derived from that.
+3. Links are only between Task Sets
+4. Tasks with specification or script files have a *Location* specification as defined above
+5. Microsoft Projects exported to MS Excel and with some additional fields can also be taken as specifications
