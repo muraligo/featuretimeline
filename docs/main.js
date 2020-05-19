@@ -126,6 +126,18 @@ function drawPabToGarm(ctx) {
     TaskSet.drawArrowHead(ctx, garmx1, paby1)
 }
 
+function loadJson(callback) {
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('GET', '../data/imput/tasks3.json', false);
+    xobj.onreadystatechange = function () {
+        if (xobj.readyState == 4 && xobj.status == "200") {
+            callback(xobj.responseText);
+        }
+    };
+    xobj.send(null);
+}
+
 var taskgraph = [];
 
 function drawTaskGraph(myjsontxt) {
@@ -168,6 +180,12 @@ function drawTaskGraph(myjsontxt) {
     startx = taskset.end_x;
     starty = taskset.arrow_y;
     drawUpVertArrow(ctx, startx, starty, endx, endy);
+}
+
+function init() {
+    loadJson(function(response) {
+        drawTaskGraph(response);
+    });
 }
 
 drawTaskGraph(jsonstr);
