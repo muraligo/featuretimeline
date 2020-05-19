@@ -128,9 +128,9 @@ function drawPabToGarm(ctx) {
 
 var taskgraph = [];
 
-function drawTaskGraph() {
+function drawTaskGraph(myjsontxt) {
     // load the graph
-    var gphobj = JSON.parse(jsonstr);
+    var gphobj = JSON.parse(myjsontxt);
     var i = 0;
     for (i = 0; i < gphobj.length; i++) {
         taskgraph.push(new TaskSet(gphobj[i]));
@@ -170,4 +170,4 @@ function drawTaskGraph() {
     drawUpVertArrow(ctx, startx, starty, endx, endy);
 }
 
-drawTaskGraph();
+drawTaskGraph(jsonstr);
