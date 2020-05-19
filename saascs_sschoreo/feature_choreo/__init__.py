@@ -107,12 +107,10 @@ def try_put_file_in_ocioss():
         return result.text
 
 
-# tasksbystage = task_helper.cs_load_tasks(applogger, myapihandler, appconfig, basepath=appconfig['BASEPATH'])
 tasksbystage = task_helper.load_tasks_fromjson(applogger, myapihandler, appconfig, basepath=appconfig['BASEPATH'])
 currstg = task_consts.M3TaskStage.PRIMORDIAL
 print("%s" % currstg)
-task_helper.print_task(tasksbystage[currstg])
-# task_helper.choreograph_tasks(applogger, tasksbystage, appconfig)
+task_helper.print_task_set(tasksbystage[currstg])
 task_helper.choreograph_tasksets(applogger, tasksbystage, appconfig)
 
 # TODO Comment all this when testing above
