@@ -162,8 +162,7 @@ function drawTaskGraph() {
 
 function drawTaskGraph2(myjsontxt) {
     // load the graph
-    var prsdobj = JSON.parse(myjsontxt);
-    var gphobj = prsdobj.tasksets;
+    var gphobj = JSON.parse(response);
     var i = 0;
     for (i = 0; i < gphobj.length; i++) {
         taskgraph.push(new TaskSet(gphobj[i]));
@@ -192,7 +191,8 @@ function drawTaskGraph2(myjsontxt) {
 function init() {
     loadJson(function(response) {
         // load the graph
-        var gphobj = JSON.parse(response);
+        var prsdobj = JSON.parse(myjsontxt);
+        var gphobj = prsdobj.tasksets;
         var i = 0;
         for (i = 0; i < gphobj.length; i++) {
             taskgraph.push(new TaskSet(gphobj[i]));
