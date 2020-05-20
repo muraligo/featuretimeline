@@ -141,12 +141,7 @@ function loadJson(callback) {
 var taskgraph = [];
 
 function drawTaskGraph(myjsontxt) {
-    // load the graph
-    var gphobj = JSON.parse(myjsontxt);
     var i = 0;
-    for (i = 0; i < gphobj.length; i++) {
-        taskgraph.push(new TaskSet(gphobj[i]));
-    }
     // draw legend in the canvas
     var cv = document.getElementById("mycanvas");
     var ctx = cv.getContext("2d");
@@ -182,10 +177,26 @@ function drawTaskGraph(myjsontxt) {
     drawUpVertArrow(ctx, startx, starty, endx, endy);
 }
 
+function drawTaskGraph2(myjsontxt) {
+    // load the graph
+    var gphobj = JSON.parse(myjsontxt);
+    var i = 0;
+    for (i = 0; i < gphobj.length; i++) {
+        taskgraph.push(new TaskSet(gphobj[i]));
+    }
+    drawTaskGraph();
+}
+
 function init() {
     loadJson(function(response) {
-        drawTaskGraph(response);
+        // load the graph
+        var gphobj = JSON.parse(response);
+        var i = 0;
+        for (i = 0; i < gphobj.length; i++) {
+            taskgraph.push(new TaskSet(gphobj[i]));
+        }
+        drawTaskGraph();
     });
 }
 
-drawTaskGraph(jsonstr);
+drawTaskGraph2(jsonstr);
