@@ -129,7 +129,7 @@ function drawPabToGarm(ctx) {
 function loadJson(callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
-    xobj.open('GET', '../data/imput/tasks3.json', false);
+    xobj.open('GET', '../data/input/tasks3.json', false);
     xobj.onreadystatechange = function () {
         if (xobj.readyState == 4 && xobj.status == "200") {
             callback(xobj.responseText);
