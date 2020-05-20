@@ -140,7 +140,7 @@ function loadJson(callback) {
 
 var taskgraph = [];
 
-function drawTaskGraph(myjsontxt) {
+function drawTaskGraph() {
     var i = 0;
     // draw legend in the canvas
     var cv = document.getElementById("mycanvas");
@@ -162,7 +162,8 @@ function drawTaskGraph(myjsontxt) {
 
 function drawTaskGraph2(myjsontxt) {
     // load the graph
-    var gphobj = JSON.parse(myjsontxt);
+    var prsdobj = JSON.parse(myjsontxt);
+    var gphobj = prsdobj.tasksets;
     var i = 0;
     for (i = 0; i < gphobj.length; i++) {
         taskgraph.push(new TaskSet(gphobj[i]));
