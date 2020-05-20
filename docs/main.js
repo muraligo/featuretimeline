@@ -150,7 +150,7 @@ function drawTaskGraph() {
     drawLegend(ctx);
     // draw graph in the canvas
     var basey = 40;
-    var basex = 20;
+    var basex = 40;
     var nextx = basex;
     for (i = 0; i < taskgraph.length; i++) {
         nextx = taskgraph[i].drawTaskSet(ctx, nextx, basey);
