@@ -1,7 +1,7 @@
 {
     "tasksets": [
         {
-            "name": "Primordial Preconditions", "area": "build", "stage": "primordial",
+            "name": "Primordial Preconditions", "area": "build", "stage": "primordial", "row": 1,
             "tasks": [
                 {
                     "name": "Task3", "type": "check", "team": "NETWORK", "textlines": ["validate", "networks"],
@@ -14,7 +14,7 @@
             ], "predecessors": []
         },
         {
-            "name": "Proxyhost", "area": "build", "stage": "primordial",
+            "name": "Proxyhost", "area": "build", "stage": "primordial", "row": 0,
             "tasks": [
                 {
                     "name": "Task7", "type": "perform", "mode": "shell", "team": "TERRAFORM", "textlines": ["instantiate", "proxy"], 
@@ -38,7 +38,7 @@
             ], "predecessors": ["Primordial Preconditions"]
         },
         {
-            "name": "LDAP", "area": "build", "stage": "primordial",
+            "name": "LDAP", "area": "build", "stage": "primordial", "row": 1,
             "tasks": [
                 {
                     "name": "Task12", "type": "perform", "mode": "shell", "team": "TERRAFORM",  "textlines": ["instantiate", "LDAP"],
@@ -55,7 +55,7 @@
             ], "predecessors": ["Primordial Preconditions"]
         },
         {
-            "name": "LinkLDAPProxy", "area": "build", "stage": "primordial",
+            "name": "LinkLDAPProxy", "area": "build", "stage": "primordial", "row": 1,
             "tasks": [
                 {
                     "name": "link proxy and LDAP", "type": "link", "mode": "manual", "team": "TERRAFORM", "textlines": ["link proxy", "and LDAP"],
