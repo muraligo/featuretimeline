@@ -192,7 +192,7 @@ class M3TaskSetStateManager(threading.Thread):
 def cs_parse_json_task(lggr, myapihandler, config, tskdict):
     tsknote = tskdict['note'] if 'note' in tskdict else None
     tskname = None
-    tsktext = None
+    tsktext = []
     tskexec = None
     tsktype = None
     tskexekey = None
@@ -210,10 +210,11 @@ def cs_parse_json_task(lggr, myapihandler, config, tskdict):
         raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
     else:
         tskteam = tskdict['team']
-    if 'text' not in tskdict:
+    if 'textlines' not in tskdict:
         raise common_entities.M3GeneralChoreographyException('Missing vital property in task specification')
     else:
-        tsktext = tskdict['text']
+        for _tsktxit in tskdict['textlines']:
+            tsktext.append(_tsktxit)
     if 'failure' in tskdict:
         tskfailure = task_consts.M3TaskExecutor.from_name(tskdict['failure'])
     else:
@@ -227,6 +228,7 @@ def cs_parse_json_task(lggr, myapihandler, config, tskdict):
             tskexec = task_consts.M3TaskExecutor.from_name(tskdict['mode'])
     tskexekey = tskexec.section_name
     taskval = None
+    # TODO Constructor for M3Task should take an array for tsktext
     if tsknote is None:
         taskval = task_consts.M3Task(tskname, tsktype, tskteam, tskexec, tskexekey, 
                                 tsktext, tskfailure, tskdict[tskexekey])

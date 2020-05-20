@@ -234,7 +234,6 @@ class M3Task:
         self.onfailure = tskfailact
         self.priority = 1
         self.state = M3TaskState.NEW
-        # TODO Split text into lines of a max width
         if tskspectype == 'jiraspec':
             self.specification = M3JiraSpecification.from_kvstruct(tskspecval)
         elif tskspectype == 'terraformspec':
@@ -247,6 +246,6 @@ class M3Task:
             self.note = tsknote
 
     def __str__(self):
-        return 'Task{[%s - %s] of type %s and executor %s at priority %02d}' % (self.name, self.description, self.task_type, self.executor, self.priority)
+        return 'Task{[%s - %s] of type %s and executor %s at priority %02d}' % (self.name, ' '.join(self.description), self.task_type, self.executor, self.priority)
 
 
