@@ -157,6 +157,17 @@ function drawTaskGraph(myjsontxt) {
         taskgraph[i].drawPredecessorConnections(ctx);
         nextx += 20;
     }
+    return ctx;
+}
+
+function drawTaskGraph2(myjsontxt) {
+    // load the graph
+    var gphobj = JSON.parse(myjsontxt);
+    var i = 0;
+    for (i = 0; i < gphobj.length; i++) {
+        taskgraph.push(new TaskSet(gphobj[i]));
+    }
+    ctx = drawTaskGraph();
     TaskSet.drawSeparateTimeMarker(ctx, '1.5 weeks', "SDKCLIRelease1", "SDKCLIRelease2", 2, basey);
     drawSarToSDKCLIRel(ctx);
     drawPabToGarm(ctx);
@@ -175,16 +186,6 @@ function drawTaskGraph(myjsontxt) {
     startx = taskset.end_x;
     starty = taskset.arrow_y;
     drawUpVertArrow(ctx, startx, starty, endx, endy);
-}
-
-function drawTaskGraph2(myjsontxt) {
-    // load the graph
-    var gphobj = JSON.parse(myjsontxt);
-    var i = 0;
-    for (i = 0; i < gphobj.length; i++) {
-        taskgraph.push(new TaskSet(gphobj[i]));
-    }
-    drawTaskGraph();
 }
 
 function init() {
