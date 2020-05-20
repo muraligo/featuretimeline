@@ -199,4 +199,5 @@ function init() {
     });
 }
 
-drawTaskGraph2(jsonstr);
+// drawTaskGraph2(jsonstr);
+init();
