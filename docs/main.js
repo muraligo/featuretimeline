@@ -191,7 +191,7 @@ function drawTaskGraph2(myjsontxt) {
 function init() {
     loadJson(function(response) {
         // load the graph
-        var prsdobj = JSON.parse(myjsontxt);
+        var prsdobj = JSON.parse(response);
         var gphobj = prsdobj.tasksets;
         var i = 0;
         for (i = 0; i < gphobj.length; i++) {
