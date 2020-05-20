@@ -68,7 +68,7 @@ class TaskSet {
         console.log(jsonobj);
 	this.name = jsonobj.name;
 	this.myrow = jsonobj.row;
-	this.kind = jsonobj.area;
+	this.kind = jsonobj.area.toUpperCase();
 	this.timeline_text = null;
 	if (jsonobj.hasOwnProperty('timeline')) {
 	    this.timeline_text = jsonobj.timeline;
