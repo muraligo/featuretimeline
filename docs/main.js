@@ -140,7 +140,7 @@ function loadJson(callback) {
 
 var taskgraph = [];
 
-function drawTaskGraph() {
+function drawTaskGraph(basex) {
     var i = 0;
     // draw legend in the canvas
     var cv = document.getElementById("mycanvas");
@@ -150,7 +150,7 @@ function drawTaskGraph() {
     drawLegend(ctx);
     // draw graph in the canvas
     var basey = 40;
-    var basex = 40;
+//    var basex = 40;
     var nextx = basex;
     for (i = 0; i < taskgraph.length; i++) {
         nextx = taskgraph[i].drawTaskSet(ctx, nextx, basey);
@@ -167,7 +167,7 @@ function drawTaskGraph2(myjsontxt) {
     for (i = 0; i < gphobj.length; i++) {
         taskgraph.push(new TaskSet(gphobj[i]));
     }
-    ctx = drawTaskGraph();
+    ctx = drawTaskGraph(10);
     TaskSet.drawSeparateTimeMarker(ctx, '1.5 weeks', "SDKCLIRelease1", "SDKCLIRelease2", 2, basey);
     drawSarToSDKCLIRel(ctx);
     drawPabToGarm(ctx);
@@ -197,7 +197,7 @@ function init() {
         for (i = 0; i < gphobj.length; i++) {
             taskgraph.push(new TaskSet(gphobj[i]));
         }
-        drawTaskGraph();
+        drawTaskGraph(40);
     });
 }
 
