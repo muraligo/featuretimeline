@@ -126,10 +126,10 @@ function drawPabToGarm(ctx) {
     TaskSet.drawArrowHead(ctx, garmx1, paby1)
 }
 
-function loadJson(callback) {
+function loadJson(jsonfile, callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'regionbuild.json', false);
+    xobj.open('GET', jsonfile, false);
     xobj.onreadystatechange = function () {
         if (xobj.readyState == 4 && xobj.status == "200") {
             callback(xobj.responseText);
@@ -140,17 +140,18 @@ function loadJson(callback) {
 
 var taskgraph = [];
 
-function drawTaskGraph() {
+function drawTaskGraph(basex) {
     var i = 0;
     // draw legend in the canvas
     var cv = document.getElementById("mycanvas");
     var ctx = cv.getContext("2d");
+    ctx.clearRect(0, 0, cv.width, cv.height);
     ctx.lineWidth = "1";
     ctx.font = "10pt sans-serif";
     drawLegend(ctx);
     // draw graph in the canvas
     var basey = 40;
-    var basex = 40;
+//    var basex = 40;
     var nextx = basex;
     for (i = 0; i < taskgraph.length; i++) {
         nextx = taskgraph[i].drawTaskSet(ctx, nextx, basey);
@@ -167,7 +168,7 @@ function drawTaskGraph2(myjsontxt) {
     for (i = 0; i < gphobj.length; i++) {
         taskgraph.push(new TaskSet(gphobj[i]));
     }
-    ctx = drawTaskGraph();
+    ctx = drawTaskGraph(10);
     TaskSet.drawSeparateTimeMarker(ctx, '1.5 weeks', "SDKCLIRelease1", "SDKCLIRelease2", 2, basey);
     drawSarToSDKCLIRel(ctx);
     drawPabToGarm(ctx);
@@ -189,7 +190,8 @@ function drawTaskGraph2(myjsontxt) {
 }
 
 function init() {
-    loadJson(function(response) {
+    loadJson('featuredelivery.json', function(response) {
+        // 'regionbuild.json'
         // load the graph
         var prsdobj = JSON.parse(response);
         var gphobj = prsdobj.tasksets;
@@ -197,7 +199,7 @@ function init() {
         for (i = 0; i < gphobj.length; i++) {
             taskgraph.push(new TaskSet(gphobj[i]));
         }
-        drawTaskGraph();
+        drawTaskGraph(40);
     });
 }
 
