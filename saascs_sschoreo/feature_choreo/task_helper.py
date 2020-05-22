@@ -268,22 +268,21 @@ def load_tasks_fromjson(lggr, myapihandler, config, filename='tasks3.json', base
             else:
                 tsksetarea = task_consts.M3TaskArea.from_name(tsksetdict['area'])
             tsksetval = task_consts.M3TaskSet(tsksetname, tsksetarea, tsksetstage)
-            _setprival = 0
             for tskdict in tsksetdict['tasks']:
                 taskval = cs_parse_json_task(lggr, myapihandler, config, tskdict)
-                _prival = _setprival
-                if 'predecessor' in tskdict and len(tskdict['predecessor']) > 0:
-                    for tskpred in tskdict['predecessor']:
-                        if (_allsets[tskpred] not in tsksetval.predecessors):
-                            tsksetval.predecessors.append(_allsets[tskpred])
-                            _allsets[tskpred].successors.append(tsksetval)
-                        if _allsets[tskpred].priority > _prival:
-                            _prival = _allsets[tskpred].priority
-                _prival = _prival + 1
-                taskval.priority = _prival
-                tsksetval.priority = _prival
-                _setprival = _prival
                 tsksetval.tasks.append(taskval)
+            # link predecessors
+            _prival = 0
+            if 'predecessors' in tsksetdict and len(tsksetdict['predecessors']) > 0:
+                for tskpred in tsksetdict['predecessors']:
+                    tsksetval.predecessors.append(_allsets[tskpred])
+                    _allsets[tskpred].successors.append(tsksetval)
+                    if _allsets[tskpred].priority > _prival:
+                        _prival = _allsets[tskpred].priority
+            _prival = _prival + 1
+            tsksetval.priority = _prival
+            for taskval in tsksetval.tasks:
+                taskval.priority = _prival
             if stages[tsksetstage] is None:
                 stages[tsksetstage] = tsksetval
             _allsets[tsksetname] = tsksetval
@@ -298,6 +297,7 @@ def write_close_task(ischecktask, tasksjson, predecessors):
         tasksjson.write('] }}')
         ischecktask = False
     # Close out current task
+    # TODO shift predecessors from task to task set
     tasksjson.write(', "failure": "manual", "predecessors": [')
     _outstr = ','.join(predecessors)
     tasksjson.write(_outstr)
@@ -390,6 +390,7 @@ def load_convert_tasks_fromcsv(lggr, input='tasks2.csv', tmppath='/Users/mugopal
                 _currtskname = None
                 _predecessors.clear()
                 # Close out tasks in set, task set itself, then start new task set
+                # TODO shift predecessors from task to task set
                 _tasksjson.write('] }}, {{ "name": "{}", "stage": "{}", '.format(_nametext, _currstgname))
                 _currsetname = _nametext
                 _tsksetidmap[_tskid] = _currsetname

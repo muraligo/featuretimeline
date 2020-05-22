@@ -2,12 +2,15 @@
 
 ## Refactor items
 
-1. Make predecessors and successors be between task sets, not tasks.
-2. Change execution to be for a task set at a time and successors handled at the end of a task set.
-3. Complete execution for Jira.
-4. Complete waits for JIRA completion.
-5. Merge visualization spec and execution spec.
-6. Be able to use multiple thread Consumers to handle parallel processing of tasks.
+1. [x] Make predecessors and successors be between task sets, not tasks.
+2. [x] Change execution to be for a task set at a time and successors handled at the end of a task set.
+3. [ ] Make variable _taskgraph_ a parameter to drawTaskGraph.
+4. [ ] Rename init and have it take a parameter of the JSON file name to load.
+5. [ ] Make tabs with actions to call the renamed init function with appropriate JSON file.
+6. [ ] Complete execution for Jira.
+7. [ ] Complete waits for JIRA completion.
+8. [x] Merge visualization spec and execution spec.
+9. [ ] Be able to use multiple thread Consumers to handle parallel processing of tasks.
 
 ## Further items
 
