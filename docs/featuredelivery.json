@@ -283,7 +283,7 @@
                     {"name": "verify communications","type": "manual"}]},
                     "failure": "manual"
                 }
-            ], "predecessors": ["Release1"]
+            ], "predecessors": ["Release1", "TrainReview"]
         }
     ]
 }
