@@ -30,16 +30,16 @@ target is a path to where it is in reference to a base for that type
 | Feature Timeline                              | Choreo                                        |
 | :-------------------------------------------- | :-------------------------------------------- |
 |                                               |                                               |
-| TaskSet                                       | TaskSet *NEED TO HAVE*                        |
+| TaskSet                                       | TaskSet                        |
 | - name (direct from JSON)                     | - name (direct from JSON)                     |
-| - kind (direct from JSON)                     |                                               |
+| - area (direct from JSON)                     |                                               |
 | 		{build,architecture,security,compliance}  |                                               |
 | *NICE TO HAVE*                                | - stage {foundation,primordial,core,higher} (direct from JSON) |
-| - tasks = [] (built from JSON)                | *NEED TO HAVE*                                |
+| - tasks = [] (built from JSON)                | - tasks = [] (built from JSON)                |
 | *NICE TO HAVE*                                | - team (direct from JSON)                     |
 | - predecessors = [] (built from JSON)         | - predecessors = [] (built from JSON)         |
-| *NICE TO HAVE*                                | - successors = [] (set on build)              |
-| - timeline_text (direct from JSON)            |                                               |
+|                                               | - successors = [] (set on build)              |
+| - timeline_text (direct from JSON)            | *NICE TO HAVE*                                |
 | - myrow (direct from JSON)                    |                                               |
 | - start_x (set on build)                      |                                               |
 | - start_y (derived)                           |                                               |
@@ -51,16 +51,15 @@ target is a path to where it is in reference to a base for that type
 |                                               |                                               |
 | Task                                          | Task                                          |
 | - name (direct from JSON)                     | - name (direct from JSON)                     |
-| - txtlines = [] (direct from JSON)            | *NEED TO CHANGE*                              |
+| - txtlines = [] (direct from JSON)            | - txtlines = [] (direct from JSON)            |
 | *NEED TO HAVE*                                | - type {perform,check,configure,link} (direct from JSON) |
 | *NEED TO HAVE*                                | - executor (built from exec_type in JSON {manual,shell,terraform,chef,check} and specification) |
 | *NEED TO HAVE*                                | - specification (direct from JSON; based on executor) |
-| *NICE TO HAVE*                                | - onfailure (direct from JSON)                |
+|                                               | - onfailure (direct from JSON)                |
 | *NEED TO HAVE*                                | - note (Optional) (direct from JSON)          |
 | - start_x (set on build)                      |                                               |
 | - start_y (derived)                           |                                               |
 | - maxwidth (derived)                          |                                               |
 | - height (derived)                            |                                               |
-| *NICE TO HAVE*                                | - successors (set on build)                   |
 | *NEED TO HAVE*                                | - status (set on exec)                        |
 
