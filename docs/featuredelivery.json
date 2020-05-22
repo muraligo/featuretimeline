@@ -23,7 +23,7 @@
             ], "predecessors": ["Elaborate Feature"]
         },
         {
-            "name": "CARReview", "area": "security", "stage": "primordial", "row": 0, "timeline": "1-2 weeks", ,
+            "name": "CARReview", "area": "security", "stage": "primordial", "row": 0, "timeline": "1-2 weeks",
             "tasks": [
                 {
                     "name": "SchedCAR", "type": "perform", "mode": "manual", "team": "PROJECT",  
@@ -39,7 +39,7 @@
             ], "predecessors": ["CreateArchDocs"]
         },
         {
-            "name": "SecAssmnt", "area": "security", "stage": "primordial", "row": 1, "timeline": "1 week", ,
+            "name": "SecAssmnt", "area": "security", "stage": "primordial", "row": 1, "timeline": "1 week",
             "tasks": [
                 {
                     "name": "CreateCSSAP", "type": "perform", "mode": "manual", "team": "PROJECT",  
@@ -60,7 +60,7 @@
             ], "predecessors": ["Elaborate Feature"]
         },
         {
-            "name": "CSSAPLoBReview", "area": "security", "stage": "primordial", "row": 1, "timeline": "1-2 weeks", ,
+            "name": "CSSAPLoBReview", "area": "security", "stage": "primordial", "row": 1, "timeline": "1-2 weeks",
             "tasks": [
                 {
                     "name": "SchedCSSAPLoB", "type": "perform", "mode": "manual", "team": "PROJECT",  
@@ -76,7 +76,7 @@
             ], "predecessors": ["CARReview", "SecAssmnt"]
         },
         {
-            "name": "CSSAPCorpReview", "area": "security", "stage": "primordial", "row": 1, "timeline": "8-10 weeks", ,
+            "name": "CSSAPCorpReview", "area": "security", "stage": "primordial", "row": 1, "timeline": "8-10 weeks",
             "tasks": [
                 {
                     "name": "SchedCSSAPCorp", "type": "perform", "mode": "manual", "team": "PROJECT",  
@@ -92,7 +92,7 @@
             ], "predecessors": ["CSSAPLoBReview"]
         },
         {
-            "name": "Compliance Review", "area": "compliance", "stage": "primordial", "row": 0, "timeline": "3-4 weeks", ,
+            "name": "Compliance Review", "area": "compliance", "stage": "primordial", "row": 0, "timeline": "3-4 weeks",
             "tasks": [
                 {
                     "name": "ComplyReady", "type": "perform", "mode": "manual", "team": "PROJECT",  
@@ -119,7 +119,7 @@
             ], "predecessors": ["Elaborate Feature"]
         },
         {
-            "name": "APIReview", "area": "architecture", "stage": "primordial", "row": 2, "timeline": "1-2 weeks", ,
+            "name": "APIReview", "area": "architecture", "stage": "primordial", "row": 2, "timeline": "1-2 weeks",
             "tasks": [
                 {
                     "name": "SchedAPIReview", "type": "perform", "mode": "manual", "team": "PROJECT",  
@@ -146,7 +146,7 @@
             ], "predecessors": ["Elaborate Feature"]
         },
         {
-            "name": "UXRB1", "area": "architecture", "stage": "primordial", "row": 4, "timeline": "1-2 weeks", ,
+            "name": "UXRB1", "area": "architecture", "stage": "primordial", "row": 4, "timeline": "1-2 weeks",
             "tasks": [
                 {
                     "name": "SchedUXRB1", "type": "perform", "mode": "manual", "team": "PORTAL",  
@@ -173,7 +173,7 @@
             ], "predecessors": ["CreateAPI0", "UXDesign"]
         },
         {
-            "name": "DeployReview", "area": "architecture", "stage": "primordial", "row": 3, "timeline": "2-4 weeks", ,
+            "name": "DeployReview", "area": "architecture", "stage": "primordial", "row": 3, "timeline": "2-4 weeks",
             "tasks": [
                 {
                     "name": "PerfDepReview", "type": "perform", "mode": "manual", "team": "AUTOMATION",  
@@ -189,7 +189,7 @@
             ], "predecessors": ["ImplFeature", "APIReview", "UXRB1"]
         },
         {
-            "name": "Operability Review", "area": "architecture", "stage": "primordial", "row": 2, "timeline": "2-4 weeks", ,
+            "name": "Operability Review", "area": "architecture", "stage": "primordial", "row": 2, "timeline": "2-4 weeks",
             "tasks": [
                 {
                     "name": "OpsReadiness", "type": "perform", "mode": "manual", "team": "PROJECT",  
@@ -205,7 +205,7 @@
             ], "predecessors": ["DeployReview"]
         },
         {
-            "name": "SARPenTest", "area": "security", "stage": "primordial", "row": 1, "timeline": "2-3 weeks", ,
+            "name": "SARPenTest", "area": "security", "stage": "primordial", "row": 1, "timeline": "2-3 weeks",
             "tasks": [
                 {
                     "name": "SchedSAR", "type": "perform", "mode": "manual", "team": "PROJECT",  
@@ -221,7 +221,7 @@
             ], "predecessors": ["CSSAPCorpReview", "DeployReview"]
         },
         {
-            "name": "ContentReview", "area": "architecture", "stage": "primordial", "row": 5, "timeline": "2-4 weeks", ,
+            "name": "ContentReview", "area": "architecture", "stage": "primordial", "row": 5, "timeline": "2-4 weeks",
             "tasks": [
                 {
                     "name": "TechContReview", "type": "perform", "mode": "manual", "team": "RELEASE_MGMT",  
@@ -237,7 +237,7 @@
             ], "predecessors": ["APIReview", "UXRB1"]
         },
         {
-            "name": "TrainReview", "area": "architecture", "stage": "primordial", "row": 5, "timeline": "4-5 weeks", ,
+            "name": "TrainReview", "area": "architecture", "stage": "primordial", "row": 5, "timeline": "4-5 weeks",
             "tasks": [
                 {
                     "name": "SchedTraining", "type": "perform", "mode": "manual", "team": "RELEASE_MGMT",  
@@ -253,7 +253,7 @@
             ], "predecessors": ["ContentReview"]
         },
         {
-            "name": "Release1", "area": "architecture", "stage": "primordial", "row": 2, "timeline": "2-4 weeks", ,
+            "name": "Release1", "area": "architecture", "stage": "primordial", "row": 2, "timeline": "2-4 weeks",
             "tasks": [
                 {
                     "name": "SchedRelease", "type": "perform", "mode": "manual", "team": "RELEASE_MGMT",  
