@@ -126,10 +126,10 @@ function drawPabToGarm(ctx) {
     TaskSet.drawArrowHead(ctx, garmx1, paby1)
 }
 
-function loadJson(callback) {
+function loadJson(jsonfile, callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'regionbuild.json', false);
+    xobj.open('GET', jsonfile, false);
     xobj.onreadystatechange = function () {
         if (xobj.readyState == 4 && xobj.status == "200") {
             callback(xobj.responseText);
@@ -145,6 +145,7 @@ function drawTaskGraph(basex) {
     // draw legend in the canvas
     var cv = document.getElementById("mycanvas");
     var ctx = cv.getContext("2d");
+    ctx.clearRect(0, 0, cv.width, cv.height);
     ctx.lineWidth = "1";
     ctx.font = "10pt sans-serif";
     drawLegend(ctx);
@@ -189,7 +190,7 @@ function drawTaskGraph2(myjsontxt) {
 }
 
 function init() {
-    loadJson(function(response) {
+    loadJson('regionbuild.json', function(response) {
         // load the graph
         var prsdobj = JSON.parse(response);
         var gphobj = prsdobj.tasksets;
