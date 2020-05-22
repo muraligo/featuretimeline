@@ -173,7 +173,7 @@
             ], "predecessors": ["CreateAPI0", "UXDesign"]
         },
         {
-            "name": "DeployReview", "area": "architecture", "stage": "primordial", "row": 3, "timeline": "2-4 weeks",
+            "name": "DeployReview", "area": "architecture", "stage": "primordial", "row": 2, "timeline": "2-4 weeks",
             "tasks": [
                 {
                     "name": "PerfDepReview", "type": "perform", "mode": "manual", "team": "AUTOMATION",  
@@ -189,7 +189,7 @@
             ], "predecessors": ["ImplFeature", "APIReview", "UXRB1"]
         },
         {
-            "name": "Operability Review", "area": "architecture", "stage": "primordial", "row": 2, "timeline": "2-4 weeks",
+            "name": "Operability Review", "area": "architecture", "stage": "primordial", "row": 3, "timeline": "2-4 weeks",
             "tasks": [
                 {
                     "name": "OpsReadiness", "type": "perform", "mode": "manual", "team": "PROJECT",  
