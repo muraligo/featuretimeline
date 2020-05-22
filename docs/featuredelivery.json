@@ -221,7 +221,7 @@
             ], "predecessors": ["CSSAPCorpReview", "DeployReview"]
         },
         {
-            "name": "ContentReview", "area": "architecture", "stage": "primordial", "row": 5, "timeline": "2-4 weeks",
+            "name": "ContentReview", "area": "architecture", "stage": "primordial", "row": 4, "timeline": "2-4 weeks",
             "tasks": [
                 {
                     "name": "TechContReview", "type": "perform", "mode": "manual", "team": "RELEASE_MGMT",  
@@ -237,7 +237,7 @@
             ], "predecessors": ["APIReview", "UXRB1"]
         },
         {
-            "name": "TrainReview", "area": "architecture", "stage": "primordial", "row": 5, "timeline": "4-5 weeks",
+            "name": "TrainReview", "area": "architecture", "stage": "primordial", "row": 4, "timeline": "4-5 weeks",
             "tasks": [
                 {
                     "name": "SchedTraining", "type": "perform", "mode": "manual", "team": "RELEASE_MGMT",  
