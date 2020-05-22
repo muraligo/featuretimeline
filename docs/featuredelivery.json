@@ -1,0 +1,289 @@
+{
+    "tasksets": [
+        {
+            "name": "Elaborate Feature", "area": "build", "stage": "primordial", "row": 2,
+            "tasks": [
+                {
+                    "name": "ElabFeat", "type": "perform", "mode": "manual", "team": "PROJECT",  
+                    "textlines": ["Elaborate", "Feature"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": []
+        },
+        {
+            "name": "CreateArchDocs", "area": "build", "stage": "primordial", "row": 0, "timeline": "1 week",
+            "tasks": [
+                {
+                    "name": "CreateDocs", "type": "perform", "mode": "manual", "team": "PROJECT", 
+                    "textlines": ["Create Docs", "(architecture", "feature defn", "jump page)"],
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["Elaborate Feature"]
+        },
+        {
+            "name": "CARReview", "area": "security", "stage": "primordial", "row": 0, "timeline": "1-2 weeks", ,
+            "tasks": [
+                {
+                    "name": "SchedCAR", "type": "perform", "mode": "manual", "team": "PROJECT",  
+                    "textlines": ["Schedule", "CAR", "Review"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "PerfCAR", "type": "perform", "mode": "manual", "team": "GBU_SECURITY",  
+                    "textlines": ["Perform", "CAR", "Review"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["CreateArchDocs"]
+        },
+        {
+            "name": "SecAssmnt", "area": "security", "stage": "primordial", "row": 1, "timeline": "1 week", ,
+            "tasks": [
+                {
+                    "name": "CreateCSSAP", "type": "perform", "mode": "manual", "team": "PROJECT",  
+                    "textlines": ["Create CSSAP", "Project or", "Review"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "SubmitAssmnt", "type": "perform", "mode": "manual", "team": "PROJECT",  
+                    "textlines": ["Submit CSSAP", "Qualification", "Document"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "PerformAssmnt", "type": "check", "mode": "manual", "team": "PROJECT",  
+                    "textlines": ["Receive Svc", "Security", "Assessment"], 
+                    "checkspec": { "action": "ALL TRUE", "conditions": [{"name": "determine if CSSAP required","type": "manual"}]},
+                    "failure": "manual"
+                }
+            ], "predecessors": ["Elaborate Feature"]
+        },
+        {
+            "name": "CSSAPLoBReview", "area": "security", "stage": "primordial", "row": 1, "timeline": "1-2 weeks", ,
+            "tasks": [
+                {
+                    "name": "SchedCSSAPLoB", "type": "perform", "mode": "manual", "team": "PROJECT",  
+                    "textlines": ["Schedule", "CSSAP LoB", "Review"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "PerfCSSAPLoB", "type": "perform", "mode": "manual", "team": "GBU_SECURITY",  
+                    "textlines": ["Get", "CSSAP LoB", "Approval"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["CARReview", "SecAssmnt"]
+        },
+        {
+            "name": "CSSAPCorpReview", "area": "security", "stage": "primordial", "row": 1, "timeline": "8-10 weeks", ,
+            "tasks": [
+                {
+                    "name": "SchedCSSAPCorp", "type": "perform", "mode": "manual", "team": "PROJECT",  
+                    "textlines": ["Schedule", "CSSAP Corp", "Review"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "PerfCSSAPCorp", "type": "perform", "mode": "manual", "team": "GBU_SECURITY",  
+                    "textlines": ["Get", "CSSAP Corp", "Approval"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["CSSAPLoBReview"]
+        },
+        {
+            "name": "Compliance Review", "area": "compliance", "stage": "primordial", "row": 0, "timeline": "3-4 weeks", ,
+            "tasks": [
+                {
+                    "name": "ComplyReady", "type": "perform", "mode": "manual", "team": "PROJECT",  
+                    "textlines": ["Work on", "Compliance", "Requirements"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "ComplyReview", "type": "perform", "mode": "manual", "team": "GBU_COMPLIANCE",  
+                    "textlines": ["Get", "Compliance", "Approval"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "STORY", "components": [ "Automation" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["CSSAPCorpReview"]
+        },
+        {
+            "name": "CreateAPI0", "area": "build", "stage": "primordial", "row": 2, "timeline": "1 week",
+            "tasks": [
+                {
+                    "name": "CreateAPI1", "type": "perform", "mode": "manual", "team": "PROJECT", 
+                    "textlines": ["Create", "API", "definition"],
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["Elaborate Feature"]
+        },
+        {
+            "name": "APIReview", "area": "architecture", "stage": "primordial", "row": 2, "timeline": "1-2 weeks", ,
+            "tasks": [
+                {
+                    "name": "SchedAPIReview", "type": "perform", "mode": "manual", "team": "PROJECT",  
+                    "textlines": ["Kick off", "API Review"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "PerfAPIReview", "type": "perform", "mode": "manual", "team": "GBUCS_ARCH",  
+                    "textlines": ["API Approved", "by Review Board"], 
+                    "jiraspec": { "project": "GPDG3", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["CreateAPI0"]
+        },
+        {
+            "name": "UXDesign", "area": "build", "stage": "primordial", "row": 4, "timeline": "2-3 weeks",
+            "tasks": [
+                {
+                    "name": "CreateUX", "type": "perform", "mode": "manual", "team": "PROJECT", 
+                    "textlines": ["Work with", "UX Designer"],
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["Elaborate Feature"]
+        },
+        {
+            "name": "UXRB1", "area": "architecture", "stage": "primordial", "row": 4, "timeline": "1-2 weeks", ,
+            "tasks": [
+                {
+                    "name": "SchedUXRB1", "type": "perform", "mode": "manual", "team": "PORTAL",  
+                    "textlines": ["Schedule", "UX Review"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "PerfUXRB1", "type": "perform", "mode": "manual", "team": "GBUCS_ARCH",  
+                    "textlines": ["Get UX", "Approval"], 
+                    "jiraspec": { "project": "GPDG3", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["UXDesign"]
+        },
+        {
+            "name": "ImplFeature", "area": "build", "stage": "primordial", "row": 3,
+            "tasks": [
+                {
+                    "name": "ImplFeat1", "type": "perform", "mode": "manual", "team": "PROJECT", 
+                    "textlines": ["Implement", "Feature", "(deploy to", " DevCorp)"],
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["CreateAPI0", "UXDesign"]
+        },
+        {
+            "name": "DeployReview", "area": "architecture", "stage": "primordial", "row": 3, "timeline": "2-4 weeks", ,
+            "tasks": [
+                {
+                    "name": "PerfDepReview", "type": "perform", "mode": "manual", "team": "AUTOMATION",  
+                    "textlines": ["Work on Deploy", "for TF, Chef", "Preview"], 
+                    "jiraspec": { "project": "GPDAF", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "TestDeploy", "type": "perform", "mode": "manual", "team": "AUTOMATION",  
+                    "textlines": ["TF, Chef", "tests pass"], 
+                    "jiraspec": { "project": "GPDAF", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["ImplFeature", "APIReview", "UXRB1"]
+        },
+        {
+            "name": "Operability Review", "area": "architecture", "stage": "primordial", "row": 2, "timeline": "2-4 weeks", ,
+            "tasks": [
+                {
+                    "name": "OpsReadiness", "type": "perform", "mode": "manual", "team": "PROJECT",  
+                    "textlines": ["Work on Ops", "Readiness", "Requirements"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "PerfOpsReview", "type": "perform", "mode": "manual", "team": "GBUCS_ARCH",  
+                    "textlines": ["Get", "Operability", "Approval"], 
+                    "jiraspec": { "project": "GPDG3", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["DeployReview"]
+        },
+        {
+            "name": "SARPenTest", "area": "security", "stage": "primordial", "row": 1, "timeline": "2-3 weeks", ,
+            "tasks": [
+                {
+                    "name": "SchedSAR", "type": "perform", "mode": "manual", "team": "PROJECT",  
+                    "textlines": ["Schedule", "SAR PEN", "Review"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "PerfSAR", "type": "perform", "mode": "manual", "team": "GBU_SECURITY",  
+                    "textlines": ["Get SAR", "PEN Test", "Approval"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["CSSAPCorpReview", "DeployReview"]
+        },
+        {
+            "name": "ContentReview", "area": "architecture", "stage": "primordial", "row": 5, "timeline": "2-4 weeks", ,
+            "tasks": [
+                {
+                    "name": "TechContReview", "type": "perform", "mode": "manual", "team": "RELEASE_MGMT",  
+                    "textlines": ["Engage with", "Technical", "Content team"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "CmpltTCReview", "type": "perform", "mode": "manual", "team": "RELEASE_MGMT",  
+                    "textlines": ["Technical", "Content", "Approval"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["APIReview", "UXRB1"]
+        },
+        {
+            "name": "TrainReview", "area": "architecture", "stage": "primordial", "row": 5, "timeline": "4-5 weeks", ,
+            "tasks": [
+                {
+                    "name": "SchedTraining", "type": "perform", "mode": "manual", "team": "RELEASE_MGMT",  
+                    "textlines": ["Schedule Customer", "Support Training"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "PerfTraining", "type": "perform", "mode": "manual", "team": "RELEASE_MGMT",  
+                    "textlines": ["Train", "Customer Support"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["ContentReview"]
+        },
+        {
+            "name": "Release1", "area": "architecture", "stage": "primordial", "row": 2, "timeline": "2-4 weeks", ,
+            "tasks": [
+                {
+                    "name": "SchedRelease", "type": "perform", "mode": "manual", "team": "RELEASE_MGMT",  
+                    "textlines": ["File Public", "release ticket", "(by Mon b/f GA)"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "GAApprove", "type": "perform", "mode": "manual", "team": "RELEASE_MGMT",  
+                    "textlines": ["Get GA Approval", "Decision (by", "Thurs before GA)", "(must GA after this)"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }, {
+                    "name": "PerfRelease", "type": "perform", "mode": "manual", "team": "RELEASE_MGMT",  
+                    "textlines": ["Feature", "released", "(Tuesday)"], 
+                    "jiraspec": { "project": "GPDXX", "issuetype": "EPIC", "components": [ "COMPONENT" ], "labels": [ "GBUCS3" ] },
+                    "failure": "manual"
+                }
+            ], "predecessors": ["SARPenTest", "Compliance Review", "Operability Review"]
+        },
+        {
+            "name": "FeatureGA", "area": "architecture", "stage": "primordial", "row": 2,
+            "tasks": [
+                {
+                    "name": "PerfGA", "type": "check", "team": "RELEASE_MGMT", 
+                    "textlines": ["Feature", "GA"],
+                    "checkspec": { "action": "ALL TRUE", "conditions": [{"name": "verify runs correctly","type": "manual"}, 
+                    {"name": "verify communications","type": "manual"}]},
+                    "failure": "manual"
+                }
+            ], "predecessors": ["Release1"]
+        }
+    ]
+}
