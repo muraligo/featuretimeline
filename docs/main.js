@@ -190,7 +190,8 @@ function drawTaskGraph2(myjsontxt) {
 }
 
 function init() {
-    loadJson('regionbuild.json', function(response) {
+    loadJson('featuredelivery.json', function(response) {
+        // 'regionbuild.json'
         // load the graph
         var prsdobj = JSON.parse(response);
         var gphobj = prsdobj.tasksets;
